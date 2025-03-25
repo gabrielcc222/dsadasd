@@ -1,0 +1,4760 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeBlog - Seu Portal de Animes</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Estilos da sidebar (igual ao Blogger) */
+        .sidebar {
+            width: 250px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .logo span {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .menu {
+            margin-top: 20px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #5f6368;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .menu-item.active {
+            color: #ff6d00;
+        }
+
+        .menu-item i {
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        .menu-item.view-blog {
+            color: #1a73e8;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #eee;
+            margin: 10px 0;
+        }
+
+        .footer {
+            padding: 20px;
+            font-size: 12px;
+            color: #5f6368;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+
+        .footer a {
+            color: #5f6368;
+            text-decoration: none;
+        }
+
+        /* Conteúdo principal */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            margin-bottom: 30px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 24px;
+            padding: 8px 16px;
+            width: 400px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar i {
+            color: #5f6368;
+            margin-right: 10px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .user-profile {
+            cursor: pointer;
+        }
+
+        .avatar img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Popup de perfil */
+        .profile-popup {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .popup-header {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .popup-header span {
+            font-size: 14px;
+            color: #5f6368;
+        }
+
+        .close-popup {
+            cursor: pointer;
+            color: #5f6368;
+        }
+
+        .popup-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .avatar-large {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
+        }
+
+        .avatar-large img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .edit-icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #fff;
+            border-radius: 50%;
+            padding: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .manage-account {
+            background-color: transparent;
+            border: 1px solid #dadce0;
+            border-radius: 24px;
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #1a73e8;
+            cursor: pointer;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .account-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .add-account, .logout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            border: none;
+            padding: 10px;
+            font-size: 14px;
+            color: #5f6368;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .add-account i, .logout i {
+            margin-right: 5px;
+        }
+
+        .popup-footer {
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .popup-footer a {
+            color: #5f6368;
+            text-decoration: none;
+        }
+
+        /* Conteúdo dos animes */
+        .content {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        h1, h2 {
+            margin-bottom: 20px;
+            color: #202124;
+        }
+
+        .anime-grid, .episodes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .anime-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .anime-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .anime-info {
+            padding: 15px;
+        }
+
+        .anime-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .anime-details {
+            font-size: 14px;
+            color: #5f6368;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .episode-card {
+            display: flex;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .episode-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .episode-image {
+            width: 120px;
+            height: 80px;
+            object-fit: cover;
+        }
+
+        .episode-info {
+            padding: 10px;
+            flex: 1;
+        }
+
+        .episode-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .episode-number {
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 20px;
+            color: #5f6368;
+        }
+
+        /* Detalhes do anime */
+        .anime-details-container {
+            display: none;
+        }
+
+        .anime-header {
+            display: flex;
+            padding: 30px;
+            background-color: #f5f5f5;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .anime-cover {
+            flex-shrink: 0;
+            width: 225px;
+            height: 320px;
+            margin-right: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .anime-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .anime-header-info {
+            flex: 1;
+        }
+
+        .anime-header-info h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #202124;
+        }
+
+        .anime-meta {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .anime-meta span {
+            margin-right: 15px;
+            padding: 5px 10px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #5f6368;
+        }
+
+        .anime-genres {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .anime-genres span {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            background-color: #1a73e8;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .anime-synopsis {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #5f6368;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        /* Tabs */
+        .anime-tabs {
+            display: flex;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab-button {
+            padding: 15px 20px;
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-size: 16px;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-button:hover {
+            color: #1a73e8;
+        }
+
+        .tab-button.active {
+            color: #1a73e8;
+            border-bottom-color: #1a73e8;
+        }
+
+        /* Conteúdo das tabs */
+        .tab-content {
+            padding: 20px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        /* Lista de episódios */
+        .episodes-list {
+            margin-bottom: 20px;
+        }
+
+        .episode-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .episode-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .episode-number {
+            width: 50px;
+            font-size: 18px;
+            font-weight: 500;
+            color: #1a73e8;
+        }
+
+        .episode-title {
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .episode-date {
+            font-size: 14px;
+            color: #5f6368;
+        }
+
+        /* Paginação */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination-button {
+            padding: 8px 15px;
+            margin: 0 5px;
+            background-color: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination-button:hover {
+            background-color: #f5f5f5;
+        }
+
+        .pagination-button.active {
+            background-color: #1a73e8;
+            color: #fff;
+            border-color: #1a73e8;
+        }
+
+        .pagination-button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Grid de personagens */
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .character-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .character-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .character-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .character-info {
+            padding: 10px;
+        }
+
+        .character-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .character-role {
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .character-voice {
+            font-size: 11px;
+            color: #1a73e8;
+            margin-top: 5px;
+        }
+
+        /* Avaliações */
+        .reviews-list {
+            margin-bottom: 20px;
+        }
+
+        .review-item {
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .reviewer {
+            font-weight: 500;
+        }
+
+        .review-score {
+            color: #1a73e8;
+            font-weight: 500;
+        }
+
+        .review-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #5f6368;
+        }
+
+        /* Pesquisa */
+        .search-results-container {
+            display: none;
+        }
+
+        .search-header {
+            margin-bottom: 30px;
+        }
+
+        .search-header h1 {
+            font-size: 24px;
+            color: #202124;
+        }
+
+        .search-header h1 span {
+            color: #1a73e8;
+        }
+
+        .search-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .no-results, .error {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #5f6368;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .error {
+            color: #d93025;
+        }
+
+        /* Botão de voltar */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            background-color: #f5f5f5;
+            border: none;
+            border-radius: 4px;
+            color: #5f6368;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .back-button i {
+            margin-right: 5px;
+        }
+
+        /* Modal de Login */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        .login-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            z-index: 1001;
+            display: none;
+        }
+
+        .login-container {
+            padding: 30px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+            border-radius: 50%;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #5f6368;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        #createAccountBtn {
+            background-color: transparent;
+            border: none;
+            color: #1a73e8;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        #loginBtn {
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .google-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #5f6368;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .google-login-btn img {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+        }
+
+        /* Páginas específicas */
+        .trending-page, .seasons-page, .genres-page, .favorites-page, .settings-page, .help-page {
+            display: none;
+        }
+
+        /* Galeria de imagens */
+        .images-tab {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .image-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .anime-gallery-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .image-type {
+            padding: 10px;
+            font-size: 14px;
+            color: #5f6368;
+            text-align: center;
+        }
+
+        /* Filtros de gênero */
+        .genre-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .genre-filter {
+            padding: 8px 16px;
+            background-color: #f5f5f5;
+            border: 1px solid #dadce0;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .genre-filter:hover {
+            background-color: #e0e0e0;
+        }
+
+        .genre-filter.active {
+            background-color: #1a73e8;
+            color: #fff;
+            border-color: #1a73e8;
+        }
+
+        /* Seletor de temporada */
+        .season-selector {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .season-year, .season-name {
+            padding: 10px 20px;
+            background-color: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #5f6368;
+        }
+
+        /* Configurações */
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .settings-section h3 {
+            margin-bottom: 15px;
+            color: #202124;
+        }
+
+        .settings-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .settings-option label {
+            margin-left: 10px;
+            font-size: 16px;
+            color: #5f6368;
+        }
+
+        /* Ajuda */
+        .help-section {
+            margin-bottom: 30px;
+        }
+
+        .help-section h3 {
+            margin-bottom: 15px;
+            color: #202124;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+        }
+
+        .faq-question {
+            font-size: 16px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 10px;
+        }
+
+        .faq-answer {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #5f6368;
+        }
+
+        /* Favoritos */
+        .favorites-empty {
+            text-align: center;
+            padding: 40px;
+            color: #5f6368;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .favorite-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            background-color: #f5f5f5;
+            border: none;
+            border-radius: 4px;
+            color: #5f6368;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .favorite-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .favorite-button i {
+            margin-right: 5px;
+            color: #ff6d00;
+        }
+
+        .favorite-button.active i {
+            color: #ff6d00;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                overflow: hidden;
+            }
+            
+            .sidebar .logo span,
+            .sidebar .menu-item span,
+            .sidebar .footer {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 60px;
+            }
+            
+            .search-bar {
+                width: 200px;
+            }
+            
+            .anime-grid, .episodes-grid, .search-results {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .anime-header {
+                flex-direction: column;
+            }
+            
+            .anime-cover {
+                width: 100%;
+                height: auto;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .anime-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .characters-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+
+        /* Imagem ampliada */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .close-image-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        /* Novos estilos para edição de perfil */
+        .edit-profile-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            z-index: 1001;
+            display: none;
+        }
+
+        .edit-profile-container {
+            padding: 30px;
+        }
+
+        .edit-profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .edit-profile-avatar {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+        }
+
+        .edit-profile-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .change-avatar {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #fff;
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .avatar-input {
+            display: none;
+        }
+
+        .save-profile-btn {
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        /* Botão salvar nas configurações */
+        .save-settings-btn {
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        /* Informações detalhadas do anime */
+        .anime-detailed-info {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .anime-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .anime-info-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .anime-info-label {
+            font-weight: 500;
+            width: 150px;
+            color: #5f6368;
+        }
+
+        .anime-info-value {
+            flex: 1;
+        }
+
+        /* Trailers */
+        .trailers-container {
+            margin-top: 20px;
+        }
+
+        .trailer-item {
+            margin-bottom: 20px;
+        }
+
+        .trailer-video {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Plataformas de streaming */
+        .streaming-platforms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .platform-item {
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #5f6368;
+        }
+
+        /* Modal para adicionar nova conta */
+        .add-account-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            z-index: 1001;
+            display: none;
+        }
+
+        .add-account-container {
+            padding: 30px;
+        }
+
+        .add-account-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Efeito de carregamento do Blogger */
+        .blogger-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #f5f5f5;
+            z-index: 2000;
+        }
+
+        .blogger-loading-bar {
+            height: 100%;
+            width: 0;
+            background-color: #1a73e8;
+            transition: width 0.3s ease-in-out;
+        }
+
+        /* Efeito de pesquisa do Blogger */
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .suggestion-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .search-highlight {
+            color: #1a73e8;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar similar ao Blogger -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png" alt="AnimeBlog Logo" id="logo">
+                <span>AnimeBlog</span>
+            </div>
+            <div class="menu">
+                <a class="menu-item active" data-section="home">
+                    <i class="material-icons">home</i>
+                    <span>Início</span>
+                </a>
+                <a class="menu-item" data-section="trending">
+                    <i class="material-icons">trending_up</i>
+                    <span>Em Alta</span>
+                </a>
+                <a class="menu-item" data-section="seasons">
+                    <i class="material-icons">date_range</i>
+                    <span>Temporadas</span>
+                </a>
+                <a class="menu-item" data-section="genres">
+                    <i class="material-icons">category</i>
+                    <span>Gêneros</span>
+                </a>
+                <a class="menu-item" data-section="favorites">
+                    <i class="material-icons">favorite</i>
+                    <span>Favoritos</span>
+                </a>
+                <div class="divider"></div>
+                <a class="menu-item" data-section="settings">
+                    <i class="material-icons">settings</i>
+                    <span>Configurações</span>
+                </a>
+                <a class="menu-item" data-section="help">
+                    <i class="material-icons">help</i>
+                    <span>Ajuda</span>
+                </a>
+            </div>
+            <div class="footer">
+                <a href="#" id="termsLink">Termos de Serviço</a> · 
+                <a href="#" id="privacyLink">Privacidade</a> ·
+                <a href="#" id="contentPolicyLink">Política de conteúdo</a>
+            </div>
+        </div>
+
+        <!-- Conteúdo principal -->
+        <div class="main-content">
+            <!-- Efeito de carregamento do Blogger -->
+            <div class="blogger-loading" id="bloggerLoading">
+                <div class="blogger-loading-bar" id="bloggerLoadingBar"></div>
+            </div>
+
+            <div class="header">
+                <div class="search-bar">
+                    <i class="material-icons">search</i>
+                    <input type="text" placeholder="Pesquisar animes..." id="searchInput">
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+                <div class="user-profile" id="userProfileBtn">
+                    <div class="avatar">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png" alt="Avatar" id="userAvatar">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popup de perfil (inicialmente oculto) -->
+            <div class="profile-popup" id="profilePopup">
+                <div class="popup-header">
+                    <span id="userEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ff8a8c8a9e8d9690bf98929e9693d19c9092">[email&#160;protected]</a></span>
+                    <i class="material-icons close-popup" id="closePopup">close</i>
+                </div>
+                <div class="popup-content">
+                    <div class="avatar-large">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png" alt="Avatar" id="popupAvatar">
+                        <div class="edit-icon" id="editProfileBtn">
+                            <i class="material-icons">edit</i>
+                        </div>
+                    </div>
+                    <p class="greeting">Olá, <span id="userName">usuário</span>!</p>
+                    <button class="manage-account">Gerenciar sua Conta do AnimeBlog</button>
+                    <div class="account-actions">
+                        <button class="add-account" id="addAccountBtn">
+                            <i class="material-icons">add</i>
+                            Adicionar conta
+                        </button>
+                        <button class="logout" id="logoutBtn">
+                            <i class="material-icons">logout</i>
+                            Sair
+                        </button>
+                    </div>
+                    <div class="popup-footer">
+                        <a href="#" id="popupPrivacyLink">Política de Privacidade</a> · 
+                        <a href="#" id="popupTermsLink">Termos de Serviço</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Página inicial -->
+            <div id="homePage">
+                <!-- Animes em destaque -->
+                <div class="content">
+                    <h1>Animes em Destaque</h1>
+                    <div class="anime-grid" id="featuredAnimes">
+                        <div class="loading">Carregando animes em destaque...</div>
+                    </div>
+                </div>
+
+                <!-- Últimos episódios -->
+                <div class="content">
+                    <h2>Últimos Episódios</h2>
+                    <div class="episodes-grid" id="latestEpisodes">
+                        <div class="loading">Carregando últimos episódios...</div>
+                    </div>
+                </div>
+
+                <!-- Animes da temporada -->
+                <div class="content">
+                    <h2>Temporada Atual</h2>
+                    <div class="anime-grid" id="seasonAnimes">
+                        <div class="loading">Carregando animes da temporada...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Página Em Alta -->
+            <div id="trendingPage" class="trending-page">
+                <div class="content">
+                    <h1>Animes Em Alta</h1>
+                    <div class="anime-grid" id="trendingAnimes">
+                        <div class="loading">Carregando animes em alta...</div>
+                    </div>
+                    <div class="pagination" id="trendingPagination"></div>
+                </div>
+            </div>
+
+            <!-- Página Temporadas -->
+            <div id="seasonsPage" class="seasons-page">
+                <div class="content">
+                    <h1>Animes por Temporada</h1>
+                    <div class="season-selector">
+                        <select class="season-year" id="seasonYear">
+                            <!-- Será preenchido via JavaScript -->
+                        </select>
+                        <select class="season-name" id="seasonName">
+                            <option value="winter">Inverno</option>
+                            <option value="spring">Primavera</option>
+                            <option value="summer">Verão</option>
+                            <option value="fall">Outono</option>
+                        </select>
+                    </div>
+                    <div class="anime-grid" id="seasonalAnimes">
+                        <div class="loading">Carregando animes da temporada...</div>
+                    </div>
+                    <div class="pagination" id="seasonalPagination"></div>
+                </div>
+            </div>
+
+            <!-- Página Gêneros -->
+            <div id="genresPage" class="genres-page">
+                <div class="content">
+                    <h1>Animes por Gênero</h1>
+                    <div class="genre-filters" id="genreFilters">
+                        <!-- Será preenchido via JavaScript -->
+                    </div>
+                    <div class="anime-grid" id="genreAnimes">
+                        <div class="loading">Selecione um gênero para ver os animes...</div>
+                    </div>
+                    <div class="pagination" id="genrePagination"></div>
+                </div>
+            </div>
+
+            <!-- Página Favoritos -->
+            <div id="favoritesPage" class="favorites-page">
+                <div class="content">
+                    <h1>Seus Animes Favoritos</h1>
+                    <div class="anime-grid" id="favoriteAnimes">
+                        <div class="favorites-empty">Você ainda não adicionou nenhum anime aos favoritos.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Página Configurações -->
+            <div id="settingsPage" class="settings-page">
+                <div class="content">
+                    <h1>Configurações</h1>
+                    
+                    <div class="settings-section">
+                        <h3>Aparência</h3>
+                        <div class="settings-option">
+                            <input type="checkbox" id="darkMode">
+                            <label for="darkMode">Modo escuro</label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Idioma</h3>
+                        <div class="settings-option">
+                            <input type="radio" name="language" id="langPt" checked>
+                            <label for="langPt">Português</label>
+                        </div>
+                        <div class="settings-option">
+                            <input type="radio" name="language" id="langEn">
+                            <label for="langEn">English</label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Notificações</h3>
+                        <div class="settings-option">
+                            <input type="checkbox" id="notifyNewEpisodes" checked>
+                            <label for="notifyNewEpisodes">Novos episódios</label>
+                        </div>
+                        <div class="settings-option">
+                            <input type="checkbox" id="notifyNewAnimes" checked>
+                            <label for="notifyNewAnimes">Novos animes</label>
+                        </div>
+                    </div>
+
+                    <button class="save-settings-btn" id="saveSettingsBtn">Salvar</button>
+                </div>
+            </div>
+
+            <!-- Página Ajuda -->
+            <div id="helpPage" class="help-page">
+                <div class="content">
+                    <h1>Ajuda</h1>
+                    
+                    <div class="help-section">
+                        <h3>Perguntas Frequentes</h3>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Como adicionar um anime aos favoritos?</div>
+                            <div class="faq-answer">Para adicionar um anime aos favoritos, acesse a página de detalhes do anime e clique no botão "Adicionar aos Favoritos" com o ícone de coração.</div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Como pesquisar animes?</div>
+                            <div class="faq-answer">Use a barra de pesquisa no topo da página para buscar animes por nome. Digite o termo de pesquisa e pressione Enter.</div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Como filtrar animes por gênero?</div>
+                            <div class="faq-answer">Acesse a seção "Gêneros" no menu lateral e selecione o gênero desejado para ver os animes correspondentes.</div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Como criar uma conta?</div>
+                            <div class="faq-answer">Clique no botão "Criar conta" na tela de login e preencha os campos solicitados, ou use a opção "Entrar com Google".</div>
+                        </div>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h3>Contato</h3>
+                        <p>Se você tiver alguma dúvida ou problema, entre em contato conosco pelo email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4d3e383d223f39280d2c232420282f21222a632e2220">[email&#160;protected]</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detalhes do anime -->
+            <div id="animeDetailsPage" class="anime-details-container">
+                <button class="back-button" id="backToHome">
+                    <i class="material-icons">arrow_back</i>
+                    Voltar
+                </button>
+                
+                <div class="content">
+                    <div class="loading-anime">Carregando detalhes do anime...</div>
+                    
+                    <div class="anime-header" id="animeHeader" style="display: none;">
+                        <div class="anime-cover">
+                            <img src="/placeholder.svg" alt="" id="animeCover">
+                        </div>
+                        <div class="anime-header-info">
+                            <h1 id="animeTitle"></h1>
+                            <div class="anime-meta">
+                                <span id="animeType"></span>
+                                <span id="animeYear"></span>
+                                <span id="animeStatus"></span>
+                                <span id="animeScore"></span>
+                            </div>
+                            <div class="anime-genres" id="animeGenres"></div>
+                            <p class="anime-synopsis" id="animeSynopsis"></p>
+                            <button class="favorite-button" id="favoriteButton">
+                                <i class="material-icons">favorite_border</i>
+                                Adicionar aos Favoritos
+                            </button>
+
+                            <!-- Informações detalhadas do anime -->
+                            <div class="anime-detailed-info">
+                                <div class="anime-info-grid">
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Títulos Alternativos:</div>
+                                        <div class="anime-info-value" id="animeTitlesAlt"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Exibido:</div>
+                                        <div class="anime-info-value" id="animeAired"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Status:</div>
+                                        <div class="anime-info-value" id="animeStatusDetailed"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Transmissão:</div>
+                                        <div class="anime-info-value" id="animeBroadcast"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Estreou:</div>
+                                        <div class="anime-info-value" id="animePremiered"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Temas:</div>
+                                        <div class="anime-info-value" id="animeThemes"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Duração por episódio:</div>
+                                        <div class="anime-info-value" id="animeDuration"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Classificação:</div>
+                                        <div class="anime-info-value" id="animeRating"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Pontuação:</div>
+                                        <div class="anime-info-value" id="animeScoreDetailed"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Popularidade:</div>
+                                        <div class="anime-info-value" id="animePopularity"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Membros:</div>
+                                        <div class="anime-info-value" id="animeMembers"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Favoritos:</div>
+                                        <div class="anime-info-value" id="animeFavorites"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Produtores:</div>
+                                        <div class="anime-info-value" id="animeProducers"></div>
+                                    </div>
+                                    <div class="anime-info-item">
+                                        <div class="anime-info-label">Plataformas de streaming:</div>
+                                        <div class="anime-info-value">
+                                            <div class="streaming-platforms" id="animeStreaming"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="anime-tabs">
+                        <button class="tab-button active" data-tab="episodes">Episódios</button>
+                        <button class="tab-button" data-tab="characters">Personagens</button>
+                        <button class="tab-button" data-tab="images">Imagens</button>
+                        <button class="tab-button" data-tab="related">Relacionados</button>
+                        <button class="tab-button" data-tab="reviews">Avaliações</button>
+                        <button class="tab-button" data-tab="trailers">Trailers</button>
+                    </div>
+                    
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="episodesTab">
+                            <div class="episodes-list" id="episodesList">
+                                <div class="loading">Carregando episódios...</div>
+                            </div>
+                            <div class="pagination" id="episodesPagination"></div>
+                        </div>
+                        
+                        <div class="tab-pane" id="charactersTab">
+                            <div class="characters-grid" id="charactersGrid">
+                                <div class="loading">Carregando personagens...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane" id="imagesTab">
+                            <div class="images-tab" id="imagesGrid">
+                                <div class="loading">Carregando imagens...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane" id="relatedTab">
+                            <div class="anime-grid" id="relatedAnime">
+                                <div class="loading">Carregando animes relacionados...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane" id="reviewsTab">
+                            <div class="reviews-list" id="reviewsList">
+                                <div class="loading">Carregando avaliações...</div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="trailersTab">
+                            <div class="trailers-container" id="trailersContainer">
+                                <div class="loading">Carregando trailers...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resultados da pesquisa -->
+            <div id="searchResultsPage" class="search-results-container">
+                <button class="back-button" id="backFromSearch">
+                    <i class="material-icons">arrow_back</i>
+                    Voltar
+                </button>
+                
+                <div class="content">
+                    <div class="search-header">
+                        <h1>Resultados para: <span id="searchTerm"></span></h1>
+                    </div>
+                    
+                    <div class="search-results" id="searchResults">
+                        <div class="loading">Carregando resultados...</div>
+                    </div>
+                    
+                    <div class="pagination" id="searchPagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Login (inicialmente oculto) -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-container">
+            <div class="login-header">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png" alt="AnimeBlog Logo" class="login-logo">
+                <h2>Entrar no AnimeBlog</h2>
+            </div>
+            <button class="google-login-btn" id="googleLoginBtn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+                Entrar com Google
+            </button>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="createAccountBtn">Criar conta</button>
+                    <button type="submit" id="loginBtn">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Edição de Perfil -->
+    <div class="edit-profile-modal" id="editProfileModal">
+        <div class="edit-profile-container">
+            <div class="edit-profile-header">
+                <h2>Editar Perfil</h2>
+            </div>
+            <div class="edit-profile-avatar">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png" alt="Avatar" id="editAvatarPreview">
+                <div class="change-avatar" id="changeAvatarBtn">
+                    <i class="material-icons">photo_camera</i>
+                </div>
+                <input type="file" id="avatarInput" class="avatar-input" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="profileName">Nome</label>
+                <input type="text" id="profileName">
+            </div>
+            <div class="form-group">
+                <label for="profileEmail">Email</label>
+                <input type="email" id="profileEmail" disabled>
+            </div>
+            <button class="save-profile-btn" id="saveProfileBtn">Salvar</button>
+        </div>
+    </div>
+
+    <!-- Modal para adicionar nova conta -->
+    <div class="add-account-modal" id="addAccountModal">
+        <div class="add-account-container">
+            <div class="add-account-header">
+                <h2>Adicionar Nova Conta</h2>
+            </div>
+            <form id="addAccountForm">
+                <div class="form-group">
+                    <label for="newEmail">Email</label>
+                    <input type="email" id="newEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Senha</label>
+                    <input type="password" id="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="newName">Nome (opcional)</label>
+                    <input type="text" id="newName">
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancelAddAccountBtn">Cancelar</button>
+                    <button type="submit" id="addNewAccountBtn">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Overlay para o modal -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Modal para imagem ampliada -->
+    <div class="image-modal" id="imageModal">
+        <span class="close-image-modal" id="closeImageModal">&times;</span>
+        <img src="/placeholder.svg" alt="Imagem ampliada" class="modal-image" id="modalImage">
+    </div>
+
+    <!-- Modais para políticas -->
+    <div class="login-modal" id="termsModal">
+        <div class="login-container">
+            <div class="login-header">
+                <h2>Termos de Serviço</h2>
+            </div>
+            <div style="max-height: 400px; overflow-y: auto; margin-bottom: 20px;">
+                <p>Estes Termos de Serviço ("Termos") regem seu acesso e uso do AnimeBlog. Ao acessar ou usar nosso serviço, você concorda com estes Termos.</p>
+                <h3>1. Uso do Serviço</h3>
+                <p>O AnimeBlog fornece uma plataforma para descobrir e acompanhar animes. Você concorda em usar o serviço apenas para fins legais e de acordo com estes Termos.</p>
+                
+                <h3>2. Contas</h3>
+                <p>Para acessar alguns recursos do nosso serviço, você pode precisar criar uma conta. Você é responsável por manter a confidencialidade de sua senha e por todas as atividades que ocorrem em sua conta.</p>
+                
+                <h3>3. Conteúdo</h3>
+                <p>Nosso serviço permite que você acesse informações sobre animes. Todo o conteúdo é fornecido apenas para fins informativos e de entretenimento.</p>
+                
+                <h3>4. Propriedade Intelectual</h3>
+                <p>O serviço e seu conteúdo original são propriedade do AnimeBlog e estão protegidos por direitos autorais, marcas registradas e outras leis.</p>
+                
+                <h3>5. Alterações nos Termos</h3>
+                <p>Reservamo-nos o direito de modificar ou substituir estes Termos a qualquer momento. É sua responsabilidade verificar periodicamente os Termos para alterações.</p>
+            </div>
+            <button class="save-profile-btn" id="closeTermsBtn">Fechar</button>
+        </div>
+    </div>
+
+    <div class="login-modal" id="privacyModal">
+        <div class="login-container">
+            <div class="login-header">
+                <h2>Política de Privacidade</h2>
+            </div>
+            <div style="max-height: 400px; overflow-y: auto; margin-bottom: 20px;">
+                <p>Esta Política de Privacidade descreve como suas informações pessoais são coletadas, usadas e compartilhadas quando você visita o AnimeBlog.</p>
+                
+                <h3>1. Informações Coletadas</h3>
+                <p>Quando você cria uma conta, coletamos informações como seu nome, endereço de e-mail e senha. Também coletamos informações sobre suas preferências de animes e interações com o site.</p>
+                
+                <h3>2. Uso de Informações</h3>
+                <p>Usamos as informações que coletamos para fornecer, manter e melhorar nosso serviço, personalizar sua experiência e comunicar-nos com você.</p>
+                
+                <h3>3. Compartilhamento de Informações</h3>
+                <p>Não compartilhamos suas informações pessoais com terceiros, exceto conforme necessário para fornecer nosso serviço ou quando exigido por lei.</p>
+                
+                <h3>4. Segurança</h3>
+                <p>Tomamos medidas razoáveis para proteger suas informações pessoais contra acesso não autorizado ou divulgação.</p>
+                
+                <h3>5. Alterações</h3>
+                <p>Podemos atualizar esta política de privacidade periodicamente para refletir mudanças em nossas práticas ou por outros motivos operacionais, legais ou regulatórios.</p>
+            </div>
+            <button class="save-profile-btn" id="closePrivacyBtn">Fechar</button>
+        </div>
+    </div>
+
+    <div class="login-modal" id="contentPolicyModal">
+        <div class="login-container">
+            <div class="login-header">
+                <h2>Política de Conteúdo</h2>
+            </div>
+            <div style="max-height: 400px; overflow-y: auto; margin-bottom: 20px;">
+                <p>Esta Política de Conteúdo estabelece diretrizes para o tipo de conteúdo permitido no AnimeBlog.</p>
+                
+                <h3>1. Conteúdo Proibido</h3>
+                <p>Não é permitido conteúdo que seja ilegal, ofensivo, difamatório, obsceno, ameaçador, pornográfico ou que viole direitos de propriedade intelectual.</p>
+                
+                <h3>2. Precisão das Informações</h3>
+                <p>Nos esforçamos para fornecer informações precisas sobre animes, mas não garantimos a exatidão, integridade ou atualidade de todas as informações.</p>
+                
+                <h3>3. Conteúdo de Terceiros</h3>
+                <p>Nosso serviço pode conter links para sites de terceiros que não são de propriedade ou controlados por nós. Não temos controle e não assumimos responsabilidade pelo conteúdo, políticas de privacidade ou práticas de sites de terceiros.</p>
+                
+                <h3>4. Classificação Etária</h3>
+                <p>Fornecemos informações sobre a classificação etária dos animes para ajudar os usuários a fazer escolhas informadas sobre o conteúdo que desejam acessar.</p>
+                
+                <h3>5. Denúncias</h3>
+                <p>Se você encontrar conteúdo que viole esta política, por favor, entre em contato conosco para que possamos tomar as medidas apropriadas.</p>
+            </div>
+            <button class="save-profile-btn" id="closeContentPolicyBtn">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Incluindo o arquivo JavaScript externo -->
+<script>
+  // Configurações da API
+const API_BASE_URL = "https://api.jikan.moe/v4"
+
+// Função para adicionar delay entre as requisições (para evitar rate limiting)
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+// Classe para tradução automática
+class Translator {
+  constructor() {
+    // Dicionário de termos comuns em inglês para português
+    this.dictionary = {
+      // Termos gerais
+      episodes: "episódios",
+      episode: "episódio",
+      season: "temporada",
+      winter: "inverno",
+      spring: "primavera",
+      summer: "verão",
+      fall: "outono",
+      rating: "classificação",
+      status: "status",
+      ongoing: "em andamento",
+      "currently airing": "em exibição",
+      "finished airing": "finalizado",
+      "not yet aired": "ainda não exibido",
+      completed: "completo",
+      synopsis: "sinopse",
+      type: "tipo",
+      tv: "TV",
+      movie: "filme",
+      ova: "OVA",
+      special: "especial",
+      genres: "gêneros",
+      characters: "personagens",
+      staff: "equipe",
+      reviews: "avaliações",
+      recommendations: "recomendações",
+      related: "relacionados",
+      sequel: "sequência",
+      prequel: "prequel",
+      adaptation: "adaptação",
+      "alternative version": "versão alternativa",
+      "side story": "história paralela",
+      summary: "resumo",
+      "parent story": "história principal",
+      "spin-off": "spin-off",
+      character: "personagem",
+      main: "principal",
+      supporting: "secundário",
+      background: "fundo",
+
+      // Gêneros
+      action: "ação",
+      adventure: "aventura",
+      comedy: "comédia",
+      drama: "drama",
+      fantasy: "fantasia",
+      horror: "terror",
+      mystery: "mistério",
+      romance: "romance",
+      "sci-fi": "ficção científica",
+      "slice of life": "cotidiano",
+      sports: "esportes",
+      supernatural: "sobrenatural",
+      thriller: "suspense",
+      psychological: "psicológico",
+      seinen: "seinen",
+      shoujo: "shoujo",
+      shounen: "shounen",
+      music: "música",
+      game: "jogo",
+      harem: "harém",
+      historical: "histórico",
+      "martial arts": "artes marciais",
+      military: "militar",
+      school: "escolar",
+      "super power": "super poder",
+      vampire: "vampiro",
+      magic: "magia",
+      demons: "demônios",
+      mecha: "mecha",
+      samurai: "samurai",
+      space: "espaço",
+      cars: "carros",
+
+      // Dias da semana
+      monday: "segunda-feira",
+      tuesday: "terça-feira",
+      wednesday: "quarta-feira",
+      thursday: "quinta-feira",
+      friday: "sexta-feira",
+      saturday: "sábado",
+      sunday: "domingo",
+
+      // Meses
+      january: "janeiro",
+      february: "fevereiro",
+      march: "março",
+      april: "abril",
+      may: "maio",
+      june: "junho",
+      july: "julho",
+      august: "agosto",
+      september: "setembro",
+      october: "outubro",
+      november: "novembro",
+      december: "dezembro",
+
+      // Frases comuns
+      "no synopsis available": "sinopse não disponível",
+      "no information": "sem informações",
+      unknown: "desconhecido",
+      "not available": "não disponível",
+      "no episodes available": "nenhum episódio disponível",
+      "no characters available": "nenhum personagem disponível",
+      "no reviews available": "nenhuma avaliação disponível",
+      "no related anime available": "nenhum anime relacionado disponível",
+      "no recommendations available": "nenhuma recomendação disponível",
+      "no results found": "nenhum resultado encontrado",
+      "search results for": "resultados da pesquisa para",
+      loading: "carregando",
+      error: "erro",
+      "try again": "tentar novamente",
+      back: "voltar",
+      next: "próximo",
+      previous: "anterior",
+      page: "página",
+      of: "de",
+      "add to favorites": "adicionar aos favoritos",
+      "remove from favorites": "remover dos favoritos",
+      login: "entrar",
+      logout: "sair",
+      register: "registrar",
+      username: "nome de usuário",
+      password: "senha",
+      email: "email",
+      "confirm password": "confirmar senha",
+      "forgot password": "esqueceu a senha",
+      "remember me": "lembrar de mim",
+      "sign in": "entrar",
+      "sign up": "cadastrar",
+      "sign in with google": "entrar com google",
+      "sign up with google": "cadastrar com google",
+      "already have an account": "já tem uma conta",
+      "don't have an account": "não tem uma conta",
+      "create account": "criar conta",
+      settings: "configurações",
+      profile: "perfil",
+      help: "ajuda",
+      about: "sobre",
+      contact: "contato",
+      terms: "termos",
+      privacy: "privacidade",
+      "dark mode": "modo escuro",
+      "light mode": "modo claro",
+      language: "idioma",
+      notifications: "notificações",
+      account: "conta",
+      appearance: "aparência",
+      save: "salvar",
+      cancel: "cancelar",
+      delete: "excluir",
+      edit: "editar",
+      update: "atualizar",
+      search: "pesquisar",
+      filter: "filtrar",
+      sort: "ordenar",
+      ascending: "crescente",
+      descending: "decrescente",
+      by: "por",
+      name: "nome",
+      date: "data",
+      score: "pontuação",
+      popularity: "popularidade",
+      rank: "classificação",
+      favorites: "favoritos",
+      trending: "em alta",
+      new: "novo",
+      old: "antigo",
+      all: "todos",
+      none: "nenhum",
+      select: "selecionar",
+      clear: "limpar",
+      apply: "aplicar",
+      reset: "redefinir",
+      "show more": "mostrar mais",
+      "show less": "mostrar menos",
+      "read more": "ler mais",
+      "read less": "ler menos",
+      "see more": "ver mais",
+      "see less": "ver menos",
+      "view all": "ver todos",
+      "view less": "ver menos",
+      "view more": "ver mais",
+      "load more": "carregar mais",
+      "load less": "carregar menos",
+      "loading more": "carregando mais",
+      "no more results": "não há mais resultados",
+      "end of results": "fim dos resultados",
+      "end of list": "fim da lista",
+      "end of page": "fim da página",
+      top: "topo",
+      bottom: "rodapé",
+      start: "início",
+      end: "fim",
+      first: "primeiro",
+      last: "último",
+      more: "mais",
+      less: "menos",
+      yes: "sim",
+      no: "não",
+      ok: "ok",
+      done: "concluído",
+      finish: "finalizar",
+      complete: "completar",
+      incomplete: "incompleto",
+      success: "sucesso",
+      failure: "falha",
+      warning: "aviso",
+      info: "informação",
+      error: "erro",
+      debug: "depuração",
+      log: "registro",
+      trace: "rastreamento",
+      verbose: "detalhado",
+      silent: "silencioso",
+      on: "ligado",
+      off: "desligado",
+      enable: "habilitar",
+      disable: "desabilitar",
+      enabled: "habilitado",
+      disabled: "desabilitado",
+      active: "ativo",
+      inactive: "inativo",
+      activated: "ativado",
+      deactivated: "desativado",
+      open: "abrir",
+      close: "fechar",
+      opened: "aberto",
+      closed: "fechado",
+      show: "mostrar",
+      hide: "ocultar",
+      visible: "visível",
+      invisible: "invisível",
+      hidden: "oculto",
+      shown: "mostrado",
+      expand: "expandir",
+      collapse: "recolher",
+      expanded: "expandido",
+      collapsed: "recolhido",
+      increase: "aumentar",
+      decrease: "diminuir",
+      increased: "aumentado",
+      decreased: "diminuído",
+      add: "adicionar",
+      remove: "remover",
+      added: "adicionado",
+      removed: "removido",
+      create: "criar",
+      delete: "excluir",
+      created: "criado",
+      deleted: "excluído",
+      update: "atualizar",
+      updated: "atualizado",
+      edit: "editar",
+      edited: "editado",
+      save: "salvar",
+      saved: "salvo",
+      load: "carregar",
+      loaded: "carregado",
+      download: "baixar",
+      downloaded: "baixado",
+      upload: "enviar",
+      uploaded: "enviado",
+      share: "compartilhar",
+      shared: "compartilhado",
+      copy: "copiar",
+      copied: "copiado",
+      paste: "colar",
+      pasted: "colado",
+      cut: "recortar",
+      cutted: "recortado",
+      undo: "desfazer",
+      redo: "refazer",
+      undone: "desfeito",
+      redone: "refeito",
+      reset: "redefinir",
+      resetted: "redefinido",
+      restart: "reiniciar",
+      restarted: "reiniciado",
+      refresh: "atualizar",
+      refreshed: "atualizado",
+      reload: "recarregar",
+      reloaded: "recarregado",
+      retry: "tentar novamente",
+      retried: "tentado novamente",
+      skip: "pular",
+      skipped: "pulado",
+      continue: "continuar",
+      continued: "continuado",
+      pause: "pausar",
+      paused: "pausado",
+      play: "reproduzir",
+      played: "reproduzido",
+      stop: "parar",
+      stopped: "parado",
+      start: "iniciar",
+      started: "iniciado",
+      end: "finalizar",
+      ended: "finalizado",
+      finish: "terminar",
+      finished: "terminado",
+      complete: "completar",
+      completed: "completado",
+      incomplete: "incompleto",
+      success: "sucesso",
+      successful: "bem-sucedido",
+      failure: "falha",
+      failed: "falhou",
+      error: "erro",
+      errored: "com erro",
+    }
+  }
+
+  // Traduzir texto para português
+  async translate(text) {
+    if (!text) return ""
+
+    // Converter para minúsculas para facilitar a comparação
+    const lowerText = text.toLowerCase()
+
+    // Substituir palavras conhecidas
+    for (const [en, pt] of Object.entries(this.dictionary)) {
+      const regex = new RegExp("\\b" + en + "\\b", "gi")
+      text = text.replace(regex, pt)
+    }
+
+    // Para textos longos, simular uma tradução mais completa
+    // Isso é uma simulação, em um ambiente real usaríamos uma API de tradução
+    if (text.length > 100) {
+      // Adicionar alguns termos em português para simular uma tradução mais natural
+      text = text
+        .replace(/\bthe\b/gi, "o")
+        .replace(/\ba\b/gi, "um")
+        .replace(/\ban\b/gi, "um")
+        .replace(/\bis\b/gi, "é")
+        .replace(/\bare\b/gi, "são")
+        .replace(/\bwas\b/gi, "foi")
+        .replace(/\bwere\b/gi, "foram")
+        .replace(/\bwill\b/gi, "irá")
+        .replace(/\bhas\b/gi, "tem")
+        .replace(/\bhave\b/gi, "têm")
+        .replace(/\bhad\b/gi, "tinha")
+        .replace(/\bwith\b/gi, "com")
+        .replace(/\bfor\b/gi, "para")
+        .replace(/\bfrom\b/gi, "de")
+        .replace(/\bto\b/gi, "para")
+        .replace(/\bin\b/gi, "em")
+        .replace(/\bon\b/gi, "em")
+        .replace(/\bat\b/gi, "em")
+        .replace(/\bby\b/gi, "por")
+        .replace(/\bof\b/gi, "de")
+        .replace(/\band\b/gi, "e")
+        .replace(/\bor\b/gi, "ou")
+        .replace(/\bbut\b/gi, "mas")
+        .replace(/\bif\b/gi, "se")
+        .replace(/\bthen\b/gi, "então")
+        .replace(/\belse\b/gi, "senão")
+        .replace(/\bwhen\b/gi, "quando")
+        .replace(/\bwhere\b/gi, "onde")
+        .replace(/\bwhy\b/gi, "por que")
+        .replace(/\bhow\b/gi, "como")
+        .replace(/\bwhat\b/gi, "o que")
+        .replace(/\bwho\b/gi, "quem")
+        .replace(/\bwhich\b/gi, "qual")
+        .replace(/\bthis\b/gi, "este")
+        .replace(/\bthat\b/gi, "aquele")
+        .replace(/\bthese\b/gi, "estes")
+        .replace(/\bthose\b/gi, "aqueles")
+        .replace(/\bhere\b/gi, "aqui")
+        .replace(/\bthere\b/gi, "lá")
+        .replace(/\bnow\b/gi, "agora")
+        .replace(/\bthen\b/gi, "então")
+        .replace(/\btoday\b/gi, "hoje")
+        .replace(/\byesterday\b/gi, "ontem")
+        .replace(/\btomorrow\b/gi, "amanhã")
+        .replace(/\bweek\b/gi, "semana")
+        .replace(/\bmonth\b/gi, "mês")
+        .replace(/\byear\b/gi, "ano")
+        .replace(/\btime\b/gi, "tempo")
+        .replace(/\bday\b/gi, "dia")
+        .replace(/\bnight\b/gi, "noite")
+        .replace(/\bmorning\b/gi, "manhã")
+        .replace(/\bevening\b/gi, "tarde")
+        .replace(/\bafternoon\b/gi, "tarde")
+    }
+
+    return text
+  }
+}
+
+// Instanciar o tradutor
+const translator = new Translator()
+
+// Função para lidar com erros de API
+function handleApiError(error) {
+  console.error("Erro na API Jikan:", error)
+  return {
+    error: true,
+    message: "Ocorreu um erro ao buscar dados. Por favor, tente novamente mais tarde.",
+  }
+}
+
+// Buscar animes em destaque (top animes)
+async function buscarAnimesEmDestaque(limite = 10) {
+  try {
+    // Mostrar efeito de carregamento do Blogger
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/top/anime?limit=${limite}`)
+    const data = await response.json()
+
+    // Traduzir dados para português
+    const animesEmPortugues = await Promise.all(
+      data.data.map(async (anime) => {
+        return {
+          ...anime,
+          title_portuguese: anime.title,
+          synopsis_portuguese: await translator.translate(anime.synopsis || ""),
+        }
+      }),
+    )
+
+    // Esconder efeito de carregamento do Blogger
+    stopBloggerLoading()
+
+    return animesEmPortugues
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar animes da temporada atual
+async function buscarAnimesDaTemporada(limite = 10) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/seasons/now?limit=${limite}`)
+    const data = await response.json()
+
+    // Traduzir dados para português
+    const animesEmPortugues = await Promise.all(
+      data.data.map(async (anime) => {
+        return {
+          ...anime,
+          title_portuguese: anime.title,
+          synopsis_portuguese: await translator.translate(anime.synopsis || ""),
+        }
+      }),
+    )
+
+    stopBloggerLoading()
+
+    return animesEmPortugues
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar últimos episódios lançados
+async function buscarUltimosEpisodios(limite = 10) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/watch/episodes?limit=${limite}`)
+    const data = await response.json()
+
+    // Traduzir dados para português
+    const episodiosEmPortugues = await Promise.all(
+      data.data.map(async (episodio) => {
+        return {
+          ...episodio,
+          title_portuguese: episodio.anime.title,
+          episode_title_portuguese: await translator.translate(episodio.title || ""),
+        }
+      }),
+    )
+
+    stopBloggerLoading()
+
+    return episodiosEmPortugues
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar detalhes de um anime específico
+async function buscarDetalhesAnime(animeId) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/anime/${animeId}/full`)
+    const data = await response.json()
+
+    // Traduzir dados para português
+    const animeEmPortugues = {
+      ...data.data,
+      title_portuguese: data.data.title,
+      synopsis_portuguese: await translator.translate(data.data.synopsis || ""),
+      background_portuguese: await translator.translate(data.data.background || ""),
+    }
+
+    stopBloggerLoading()
+
+    return animeEmPortugues
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar episódios de um anime específico
+async function buscarEpisodiosAnime(animeId, pagina = 1) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/anime/${animeId}/episodes?page=${pagina}`)
+    const data = await response.json()
+
+    // Traduzir dados para português
+    const episodiosEmPortugues = await Promise.all(
+      data.data.map(async (episodio) => {
+        return {
+          ...episodio,
+          title_portuguese: await translator.translate(episodio.title || ""),
+        }
+      }),
+    )
+
+    stopBloggerLoading()
+
+    return {
+      episodios: episodiosEmPortugues,
+      paginacao: data.pagination,
+    }
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar personagens de um anime específico
+async function buscarPersonagensAnime(animeId) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/anime/${animeId}/characters`)
+    const data = await response.json()
+
+    // Traduzir dados para português
+    const personagensEmPortugues = await Promise.all(
+      data.data.map(async (personagem) => {
+        return {
+          ...personagem,
+          role_portuguese: await translator.translate(personagem.role || ""),
+          voice_actors: personagem.voice_actors || [],
+        }
+      }),
+    )
+
+    stopBloggerLoading()
+
+    return personagensEmPortugues
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar imagens de um anime específico
+async function buscarImagensAnime(animeId) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/anime/${animeId}/pictures`)
+    const data = await response.json()
+
+    stopBloggerLoading()
+
+    return data.data
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar animes relacionados
+async function buscarAnimesRelacionados(animeId) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/anime/${animeId}/relations`)
+    const data = await response.json()
+
+    stopBloggerLoading()
+
+    return data.data
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar avaliações de um anime
+async function buscarAvaliacoesAnime(animeId, pagina = 1) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/anime/${animeId}/reviews?page=${pagina}`)
+    const data = await response.json()
+
+    // Traduzir dados para português
+    const avaliacoesEmPortugues = await Promise.all(
+      data.data.map(async (avaliacao) => {
+        return {
+          ...avaliacao,
+          review_portuguese: await translator.translate(avaliacao.review || ""),
+        }
+      }),
+    )
+
+    stopBloggerLoading()
+
+    return {
+      avaliacoes: avaliacoesEmPortugues,
+      paginacao: data.pagination,
+    }
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar trailers de um anime específico
+async function buscarTrailersAnime(animeId) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/anime/${animeId}/videos`)
+    const data = await response.json()
+
+    stopBloggerLoading()
+
+    return data.data
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar animes por termo de pesquisa
+async function pesquisarAnimes(termo, pagina = 1, limite = 10) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/anime?q=${encodeURIComponent(termo)}&page=${pagina}&limit=${limite}`)
+    const data = await response.json()
+
+    // Traduzir dados para português
+    const resultadosEmPortugues = await Promise.all(
+      data.data.map(async (anime) => {
+        return {
+          ...anime,
+          title_portuguese: anime.title,
+          synopsis_portuguese: await translator.translate(anime.synopsis || ""),
+        }
+      }),
+    )
+
+    stopBloggerLoading()
+
+    return {
+      resultados: resultadosEmPortugues,
+      paginacao: data.pagination,
+    }
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar animes em alta
+async function buscarAnimesEmAlta(pagina = 1, limite = 20) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/top/anime?page=${pagina}&limit=${limite}`)
+    const data = await response.json()
+
+    // Traduzir dados para português
+    const animesEmPortugues = await Promise.all(
+      data.data.map(async (anime) => {
+        return {
+          ...anime,
+          title_portuguese: anime.title,
+          synopsis_portuguese: await translator.translate(anime.synopsis || ""),
+        }
+      }),
+    )
+
+    stopBloggerLoading()
+
+    return {
+      animes: animesEmPortugues,
+      paginacao: data.pagination,
+    }
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar animes por temporada
+async function buscarAnimesPorTemporada(ano, temporada, pagina = 1, limite = 20) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/seasons/${ano}/${temporada}?page=${pagina}&limit=${limite}`)
+    const data = await response.json()
+
+    // Traduzir dados para português
+    const animesEmPortugues = await Promise.all(
+      data.data.map(async (anime) => {
+        return {
+          ...anime,
+          title_portuguese: anime.title,
+          synopsis_portuguese: await translator.translate(anime.synopsis || ""),
+        }
+      }),
+    )
+
+    stopBloggerLoading()
+
+    return {
+      animes: animesEmPortugues,
+      paginacao: data.pagination,
+    }
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar animes por gênero
+async function buscarAnimesPorGenero(generoId, pagina = 1, limite = 20) {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/anime?genres=${generoId}&page=${pagina}&limit=${limite}`)
+    const data = await response.json()
+
+    // Traduzir dados para português
+    const animesEmPortugues = await Promise.all(
+      data.data.map(async (anime) => {
+        return {
+          ...anime,
+          title_portuguese: anime.title,
+          synopsis_portuguese: await translator.translate(anime.synopsis || ""),
+        }
+      }),
+    )
+
+    stopBloggerLoading()
+
+    return {
+      animes: animesEmPortugues,
+      paginacao: data.pagination,
+    }
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Buscar gêneros de anime
+async function buscarGeneros() {
+  try {
+    startBloggerLoading()
+
+    const response = await fetch(`${API_BASE_URL}/genres/anime`)
+    const data = await response.json()
+
+    // Traduzir dados para português
+    const generosEmPortugues = await Promise.all(
+      data.data.map(async (genero) => {
+        return {
+          ...genero,
+          name_portuguese: await translator.translate(genero.name || ""),
+        }
+      }),
+    )
+
+    stopBloggerLoading()
+
+    return generosEmPortugues
+  } catch (error) {
+    stopBloggerLoading()
+    return handleApiError(error)
+  }
+}
+
+// Efeito de carregamento do Blogger
+function startBloggerLoading() {
+  const loadingBar = document.getElementById("bloggerLoadingBar")
+  const loading = document.getElementById("bloggerLoading")
+
+  loading.style.display = "block"
+  loadingBar.style.width = "0%"
+
+  // Animar a barra de progresso
+  let width = 0
+  const interval = setInterval(() => {
+    if (width >= 90) {
+      clearInterval(interval)
+    } else {
+      width += Math.random() * 10
+      loadingBar.style.width = width + "%"
+    }
+  }, 200)
+
+  return interval
+}
+
+function stopBloggerLoading() {
+  const loadingBar = document.getElementById("bloggerLoadingBar")
+  const loading = document.getElementById("bloggerLoading")
+
+  // Completar a barra de progresso
+  loadingBar.style.width = "100%"
+
+  // Esconder após um pequeno delay
+  setTimeout(() => {
+    loading.style.display = "none"
+    loadingBar.style.width = "0%"
+  }, 300)
+}
+
+// Classe para gerenciar a autenticação
+class AuthManager {
+  constructor() {
+    this.isLoggedIn = false
+    this.currentUser = null
+    this.users = this.loadUsers()
+    this.accounts = this.loadAccounts()
+
+    // Elementos do DOM
+    this.loginModal = document.getElementById("loginModal")
+    this.overlay = document.getElementById("overlay")
+    this.loginForm = document.getElementById("loginForm")
+    this.createAccountBtn = document.getElementById("createAccountBtn")
+    this.loginBtn = document.getElementById("loginBtn")
+    this.googleLoginBtn = document.getElementById("googleLoginBtn")
+    this.userProfileBtn = document.getElementById("userProfileBtn")
+    this.profilePopup = document.getElementById("profilePopup")
+    this.closePopup = document.getElementById("closePopup")
+
+    // Elementos de perfil
+    this.userEmail = document.getElementById("userEmail")
+    this.userName = document.getElementById("userName")
+    this.userAvatar = document.getElementById("userAvatar")
+    this.popupAvatar = document.getElementById("popupAvatar")
+
+    // Elementos de edição de perfil
+    this.editProfileBtn = document.getElementById("editProfileBtn")
+    this.editProfileModal = document.getElementById("editProfileModal")
+    this.profileName = document.getElementById("profileName")
+    this.profileEmail = document.getElementById("profileEmail")
+    this.editAvatarPreview = document.getElementById("editAvatarPreview")
+    this.changeAvatarBtn = document.getElementById("changeAvatarBtn")
+    this.avatarInput = document.getElementById("avatarInput")
+    this.saveProfileBtn = document.getElementById("saveProfileBtn")
+
+    // Elementos para adicionar nova conta
+    this.addAccountBtn = document.getElementById("addAccountBtn")
+    this.addAccountModal = document.getElementById("addAccountModal")
+    this.addAccountForm = document.getElementById("addAccountForm")
+    this.newEmail = document.getElementById("newEmail")
+    this.newPassword = document.getElementById("newPassword")
+    this.newName = document.getElementById("newName")
+    this.addNewAccountBtn = document.getElementById("addNewAccountBtn")
+    this.cancelAddAccountBtn = document.getElementById("cancelAddAccountBtn")
+
+    // Botão de logout
+    this.logoutBtn = document.getElementById("logoutBtn")
+
+    this.init()
+  }
+
+  // Inicializar o gerenciador de autenticação
+  init() {
+    // Verificar se há um usuário logado
+    this.checkLoggedInUser()
+
+    // Adicionar event listeners
+    this.addEventListeners()
+  }
+
+  // Carregar usuários do localStorage
+  loadUsers() {
+    const usersJson = localStorage.getItem("animeblog_users")
+    return usersJson ? JSON.parse(usersJson) : []
+  }
+
+  // Carregar contas do localStorage
+  loadAccounts() {
+    const accountsJson = localStorage.getItem("animeblog_accounts")
+    return accountsJson ? JSON.parse(accountsJson) : []
+  }
+
+  // Salvar usuários no localStorage
+  saveUsers() {
+    localStorage.setItem("animeblog_users", JSON.stringify(this.users))
+  }
+
+  // Salvar contas no localStorage
+  saveAccounts() {
+    localStorage.setItem("animeblog_accounts", JSON.stringify(this.accounts))
+  }
+
+  // Verificar se há um usuário logado
+  checkLoggedInUser() {
+    const loggedUserJson = localStorage.getItem("animeblog_current_user")
+    if (loggedUserJson) {
+      this.currentUser = JSON.parse(loggedUserJson)
+      this.isLoggedIn = true
+      this.updateUIForLoggedInUser()
+    } else {
+      this.showLoginModal()
+    }
+  }
+
+  // Adicionar event listeners
+  addEventListeners() {
+    // Login form
+    this.loginForm.addEventListener("submit", (e) => {
+      e.preventDefault()
+      this.handleLogin()
+    })
+
+    // Create account button
+    this.createAccountBtn.addEventListener("click", () => {
+      this.handleCreateAccount()
+    })
+
+    // Google login button
+    this.googleLoginBtn.addEventListener("click", () => {
+      this.handleGoogleLogin()
+    })
+
+    // User profile button
+    this.userProfileBtn.addEventListener("click", () => {
+      this.toggleProfilePopup()
+    })
+
+    // Close popup button
+    this.closePopup.addEventListener("click", () => {
+      this.hideProfilePopup()
+    })
+
+    // Edit profile button
+    this.editProfileBtn.addEventListener("click", () => {
+      this.showEditProfileModal()
+    })
+
+    // Change avatar button
+    this.changeAvatarBtn.addEventListener("click", () => {
+      this.avatarInput.click()
+    })
+
+    // Avatar input change
+    this.avatarInput.addEventListener("change", (e) => {
+      this.handleAvatarChange(e)
+    })
+
+    // Save profile button
+    this.saveProfileBtn.addEventListener("click", () => {
+      this.saveProfile()
+    })
+
+    // Add account button
+    this.addAccountBtn.addEventListener("click", () => {
+      this.showAddAccountModal()
+    })
+
+    // Add account form
+    this.addAccountForm.addEventListener("submit", (e) => {
+      e.preventDefault()
+      this.addNewAccount()
+    })
+
+    // Cancel add account button
+    this.cancelAddAccountBtn.addEventListener("click", () => {
+      this.hideAddAccountModal()
+    })
+
+    // Logout button
+    this.logoutBtn.addEventListener("click", () => {
+      this.handleLogout()
+    })
+
+    // Click outside to close popup
+    document.addEventListener("click", (e) => {
+      if (
+        this.profilePopup.style.display === "block" &&
+        !this.profilePopup.contains(e.target) &&
+        !this.userProfileBtn.contains(e.target)
+      ) {
+        this.hideProfilePopup()
+      }
+    })
+  }
+
+  // Mostrar modal de login
+  showLoginModal() {
+    this.loginModal.style.display = "block"
+    this.overlay.style.display = "block"
+  }
+
+  // Esconder modal de login
+  hideLoginModal() {
+    this.loginModal.style.display = "none"
+    this.overlay.style.display = "none"
+  }
+
+  // Mostrar popup de perfil
+  showProfilePopup() {
+    this.profilePopup.style.display = "block"
+  }
+
+  // Esconder popup de perfil
+  hideProfilePopup() {
+    this.profilePopup.style.display = "none"
+  }
+
+  // Alternar exibição do popup de perfil
+  toggleProfilePopup() {
+    if (this.profilePopup.style.display === "block") {
+      this.hideProfilePopup()
+    } else {
+      this.showProfilePopup()
+    }
+  }
+
+  // Mostrar modal de edição de perfil
+  showEditProfileModal() {
+    // Preencher campos com dados do usuário atual
+    this.profileName.value = this.currentUser.name || ""
+    this.profileEmail.value = this.currentUser.email || ""
+    this.editAvatarPreview.src =
+      this.currentUser.avatar ||
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png"
+
+    this.editProfileModal.style.display = "block"
+    this.overlay.style.display = "block"
+    this.hideProfilePopup()
+  }
+
+  // Esconder modal de edição de perfil
+  hideEditProfileModal() {
+    this.editProfileModal.style.display = "none"
+    this.overlay.style.display = "none"
+  }
+
+  // Mostrar modal para adicionar nova conta
+  showAddAccountModal() {
+    this.addAccountModal.style.display = "block"
+    this.overlay.style.display = "block"
+    this.hideProfilePopup()
+
+    // Limpar campos
+    this.newEmail.value = ""
+    this.newPassword.value = ""
+    this.newName.value = ""
+  }
+
+  // Esconder modal para adicionar nova conta
+  hideAddAccountModal() {
+    this.addAccountModal.style.display = "none"
+    this.overlay.style.display = "none"
+  }
+
+  // Lidar com mudança de avatar
+  handleAvatarChange(e) {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (event) => {
+        this.editAvatarPreview.src = event.target.result
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  // Salvar perfil
+  saveProfile() {
+    if (!this.currentUser) return
+
+    // Atualizar dados do usuário
+    this.currentUser.name = this.profileName.value
+    this.currentUser.avatar = this.editAvatarPreview.src
+
+    // Atualizar usuário no localStorage
+    localStorage.setItem("animeblog_current_user", JSON.stringify(this.currentUser))
+
+    // Atualizar usuário na lista de usuários
+    const userIndex = this.users.findIndex((u) => u.id === this.currentUser.id)
+    if (userIndex !== -1) {
+      this.users[userIndex] = this.currentUser
+      this.saveUsers()
+    }
+
+    // Atualizar UI
+    this.updateUIForLoggedInUser()
+
+    // Esconder modal
+    this.hideEditProfileModal()
+
+    // Mostrar mensagem de sucesso
+    alert("Perfil atualizado com sucesso!")
+  }
+
+  // Adicionar nova conta
+  addNewAccount() {
+    const email = this.newEmail.value
+    const password = this.newPassword.value
+    const name = this.newName.value || email.split("@")[0]
+
+    if (!email || !password) {
+      alert("Por favor, preencha todos os campos obrigatórios.")
+      return
+    }
+
+    // Verificar se o email já está em uso
+    if (this.users.some((u) => u.email === email)) {
+      alert("Este email já está em uso. Tente outro.")
+      return
+    }
+
+    // Criar nova conta
+    const newAccount = {
+      id: Date.now().toString(),
+      email: email,
+      password: password,
+      name: name,
+      avatar:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png",
+      createdAt: new Date().toISOString(),
+      favorites: [],
+    }
+
+    // Adicionar conta à lista de usuários
+    this.users.push(newAccount)
+    this.saveUsers()
+
+    // Adicionar à lista de contas do usuário atual
+    if (!this.accounts.some((a) => a.userId === this.currentUser.id)) {
+      this.accounts.push({
+        userId: this.currentUser.id,
+        linkedAccounts: [],
+      })
+    }
+
+    const accountIndex = this.accounts.findIndex((a) => a.userId === this.currentUser.id)
+    if (accountIndex !== -1) {
+      this.accounts[accountIndex].linkedAccounts.push(newAccount.id)
+      this.saveAccounts()
+    }
+
+    // Esconder modal
+    this.hideAddAccountModal()
+
+    // Mostrar mensagem de sucesso
+    alert("Conta adicionada com sucesso!")
+  }
+
+  // Atualizar UI para usuário logado
+  updateUIForLoggedInUser() {
+    if (this.currentUser) {
+      // Atualizar avatar e informações do usuário
+      this.userAvatar.src =
+        this.currentUser.avatar ||
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png"
+      this.popupAvatar.src =
+        this.currentUser.avatar ||
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png"
+      this.userEmail.textContent = this.currentUser.email
+      this.userName.textContent = this.currentUser.name || this.currentUser.email.split("@")[0]
+
+      // Esconder modal de login
+      this.hideLoginModal()
+    }
+  }
+
+  // Lidar com login
+  handleLogin() {
+    const email = document.getElementById("email").value
+    const password = document.getElementById("password").value
+
+    // Verificar se o usuário existe
+    const user = this.users.find((u) => u.email === email && u.password === password)
+
+    if (user) {
+      this.currentUser = user
+      this.isLoggedIn = true
+
+      // Salvar usuário logado no localStorage
+      localStorage.setItem("animeblog_current_user", JSON.stringify(this.currentUser))
+
+      // Atualizar UI
+      this.updateUIForLoggedInUser()
+    } else {
+      alert("Email ou senha incorretos. Tente novamente.")
+    }
+  }
+
+  // Lidar com criação de conta
+  handleCreateAccount() {
+    const email = document.getElementById("email").value
+    const password = document.getElementById("password").value
+
+    if (!email || !password) {
+      alert("Por favor, preencha todos os campos.")
+      return
+    }
+
+    // Verificar se o usuário já existe
+    if (this.users.some((u) => u.email === email)) {
+      alert("Este email já está em uso. Tente outro.")
+      return
+    }
+
+    // Criar novo usuário
+    const newUser = {
+      id: Date.now().toString(),
+      email: email,
+      password: password,
+      name: email.split("@")[0],
+      avatar:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png",
+      createdAt: new Date().toISOString(),
+      favorites: [],
+    }
+
+    // Adicionar usuário à lista
+    this.users.push(newUser)
+    this.saveUsers()
+
+    // Fazer login com o novo usuário
+    this.currentUser = newUser
+    this.isLoggedIn = true
+
+    // Salvar usuário logado no localStorage
+    localStorage.setItem("animeblog_current_user", JSON.stringify(this.currentUser))
+
+    // Atualizar UI
+    this.updateUIForLoggedInUser()
+
+    alert("Conta criada com sucesso!")
+  }
+
+  // Lidar com login do Google
+  handleGoogleLogin() {
+    // Simular login com o Google
+    const googleUser = {
+      id: "google_" + Date.now().toString(),
+      email: "usuario.google@gmail.com",
+      name: "Usuário Google",
+      avatar:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png",
+      createdAt: new Date().toISOString(),
+      favorites: [],
+    }
+
+    // Verificar se o usuário já existe
+    let existingUser = this.users.find((u) => u.email === googleUser.email)
+
+    if (!existingUser) {
+      // Adicionar usuário à lista
+      this.users.push(googleUser)
+      this.saveUsers()
+      existingUser = googleUser
+    }
+
+    // Fazer login com o usuário
+    this.currentUser = existingUser
+    this.isLoggedIn = true
+
+    // Salvar usuário logado no localStorage
+    localStorage.setItem("animeblog_current_user", JSON.stringify(this.currentUser))
+
+    // Atualizar UI
+    this.updateUIForLoggedInUser()
+  }
+
+  // Lidar com logout
+  handleLogout() {
+    this.currentUser = null
+    this.isLoggedIn = false
+
+    // Remover usuário logado do localStorage
+    localStorage.removeItem("animeblog_current_user")
+
+    // Atualizar UI
+    this.hideProfilePopup()
+    this.showLoginModal()
+  }
+
+  // Verificar se um anime está nos favoritos
+  isFavorite(animeId) {
+    if (!this.currentUser || !this.currentUser.favorites) return false
+    return this.currentUser.favorites.some((fav) => fav.id === animeId)
+  }
+
+  // Adicionar anime aos favoritos
+  addToFavorites(anime) {
+    if (!this.currentUser) return false
+
+    if (!this.currentUser.favorites) {
+      this.currentUser.favorites = []
+    }
+
+    // Verificar se o anime já está nos favoritos
+    if (this.isFavorite(anime.mal_id)) return false
+
+    // Adicionar anime aos favoritos
+    const favoriteAnime = {
+      id: anime.mal_id,
+      title: anime.title_portuguese || anime.title,
+      image: anime.images.jpg.large_image_url,
+      type: anime.type,
+      score: anime.score,
+      addedAt: new Date().toISOString(),
+    }
+
+    this.currentUser.favorites.push(favoriteAnime)
+
+    // Atualizar usuário no localStorage
+    localStorage.setItem("animeblog_current_user", JSON.stringify(this.currentUser))
+
+    // Atualizar usuário na lista de usuários
+    const userIndex = this.users.findIndex((u) => u.id === this.currentUser.id)
+    if (userIndex !== -1) {
+      this.users[userIndex] = this.currentUser
+      this.saveUsers()
+    }
+
+    return true
+  }
+
+  // Remover anime dos favoritos
+  removeFromFavorites(animeId) {
+    if (!this.currentUser || !this.currentUser.favorites) return false
+
+    // Verificar se o anime está nos favoritos
+    if (!this.isFavorite(animeId)) return false
+
+    // Remover anime dos favoritos
+    this.currentUser.favorites = this.currentUser.favorites.filter((fav) => fav.id !== animeId)
+
+    // Atualizar usuário no localStorage
+    localStorage.setItem("animeblog_current_user", JSON.stringify(this.currentUser))
+
+    // Atualizar usuário na lista de usuários
+    const userIndex = this.users.findIndex((u) => u.id === this.currentUser.id)
+    if (userIndex !== -1) {
+      this.users[userIndex] = this.currentUser
+      this.saveUsers()
+    }
+
+    return true
+  }
+
+  // Obter favoritos do usuário
+  getFavorites() {
+    if (!this.currentUser || !this.currentUser.favorites) return []
+    return this.currentUser.favorites
+  }
+}
+
+// Função para formatar data
+function formatarData(dataString) {
+  if (!dataString) return "Data desconhecida"
+
+  const data = new Date(dataString)
+
+  if (isNaN(data.getTime())) return "Data desconhecida"
+
+  return data.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  })
+}
+
+// Função para renderizar paginação
+function renderizarPaginacao(container, paginacao, paginaAtual, callback) {
+  if (!paginacao || !paginacao.last_visible_page) {
+    container.innerHTML = ""
+    return
+  }
+
+  const totalPaginas = paginacao.last_visible_page
+
+  if (totalPaginas <= 1) {
+    container.innerHTML = ""
+    return
+  }
+
+  let html = ""
+
+  // Botão anterior
+  html += `
+        <button class="pagination-button ${paginaAtual === 1 ? "disabled" : ""}" 
+            ${paginaAtual === 1 ? "disabled" : ""} data-page="${paginaAtual - 1}">
+            Anterior
+        </button>
+    `
+
+  // Páginas
+  const maxPaginas = 5
+  let inicio = Math.max(1, paginaAtual - Math.floor(maxPaginas / 2))
+  const fim = Math.min(totalPaginas, inicio + maxPaginas - 1)
+
+  if (fim - inicio + 1 < maxPaginas) {
+    inicio = Math.max(1, fim - maxPaginas + 1)
+  }
+
+  for (let i = inicio; i <= fim; i++) {
+    html += `
+            <button class="pagination-button ${i === paginaAtual ? "active" : ""}" data-page="${i}">
+                ${i}
+            </button>
+        `
+  }
+
+  // Botão próximo
+  html += `
+        <button class="pagination-button ${paginaAtual === totalPaginas ? "disabled" : ""}" 
+            ${paginaAtual === totalPaginas ? "disabled" : ""} data-page="${paginaAtual + 1}">
+            Próximo
+        </button>
+    `
+
+  container.innerHTML = html
+
+  // Adicionar event listeners
+  container.querySelectorAll(".pagination-button:not(.disabled)").forEach((button) => {
+    button.addEventListener("click", () => {
+      const pagina = Number.parseInt(button.dataset.page)
+      callback(pagina)
+    })
+  })
+}
+
+// Gerenciador de páginas
+class PageManager {
+  constructor() {
+    this.currentPage = "home"
+    this.currentAnimeId = null
+    this.currentSearchTerm = null
+    this.currentGenreId = null
+    this.currentYear = new Date().getFullYear()
+    this.currentSeason = this.getCurrentSeason()
+
+    // Páginas
+    this.homePage = document.getElementById("homePage")
+    this.trendingPage = document.getElementById("trendingPage")
+    this.seasonsPage = document.getElementById("seasonsPage")
+    this.genresPage = document.getElementById("genresPage")
+    this.favoritesPage = document.getElementById("favoritesPage")
+    this.settingsPage = document.getElementById("settingsPage")
+    this.helpPage = document.getElementById("helpPage")
+    this.animeDetailsPage = document.getElementById("animeDetailsPage")
+    this.searchResultsPage = document.getElementById("searchResultsPage")
+
+    // Botões de navegação
+    this.backToHome = document.getElementById("backToHome")
+    this.backFromSearch = document.getElementById("backFromSearch")
+
+    // Barra de pesquisa
+    this.searchInput = document.getElementById("searchInput")
+    this.searchSuggestions = document.getElementById("searchSuggestions")
+
+    // Menu lateral
+    this.menuItems = document.querySelectorAll(".menu-item")
+
+    // Seletores de temporada
+    this.seasonYear = document.getElementById("seasonYear")
+    this.seasonName = document.getElementById("seasonName")
+
+    // Modal de imagem
+    this.imageModal = document.getElementById("imageModal")
+    this.modalImage = document.getElementById("modalImage")
+    this.closeImageModal = document.getElementById("closeImageModal")
+
+    // Botão salvar nas configurações
+    this.saveSettingsBtn = document.getElementById("saveSettingsBtn")
+
+    // Modais de políticas
+    this.termsLink = document.getElementById("termsLink")
+    this.privacyLink = document.getElementById("privacyLink")
+    this.contentPolicyLink = document.getElementById("contentPolicyLink")
+    this.popupTermsLink = document.getElementById("popupTermsLink")
+    this.popupPrivacyLink = document.getElementById("popupPrivacyLink")
+    this.termsModal = document.getElementById("termsModal")
+    this.privacyModal = document.getElementById("privacyModal")
+    this.contentPolicyModal = document.getElementById("contentPolicyModal")
+    this.closeTermsBtn = document.getElementById("closeTermsBtn")
+    this.closePrivacyBtn = document.getElementById("closePrivacyBtn")
+    this.closeContentPolicyBtn = document.getElementById("closeContentPolicyBtn")
+
+    // Overlay para modais
+    this.overlay = document.getElementById("overlay")
+
+    this.init()
+  }
+
+  // Obter temporada atual
+  getCurrentSeason() {
+    const month = new Date().getMonth() + 1 // Janeiro é 0
+
+    if (month >= 1 && month <= 3) return "winter"
+    if (month >= 4 && month <= 6) return "spring"
+    if (month >= 7 && month <= 9) return "summer"
+    return "fall"
+  }
+
+  init() {
+    // Adicionar event listeners
+    this.addEventListeners()
+
+    // Mostrar página inicial
+    this.showPage("home")
+
+    // Carregar dados iniciais
+    this.loadInitialData()
+
+    // Preencher seletor de ano
+    this.fillYearSelector()
+  }
+
+  fillYearSelector() {
+    const currentYear = new Date().getFullYear()
+    let html = ""
+
+    // Adicionar anos de 1990 até o ano atual
+    for (let year = currentYear; year >= 1990; year--) {
+      html += `<option value="${year}" ${year === currentYear ? "selected" : ""}>${year}</option>`
+    }
+
+    this.seasonYear.innerHTML = html
+  }
+
+  addEventListeners() {
+    // Botões de voltar
+    this.backToHome.addEventListener("click", () => {
+      this.showPage(this.previousPage || "home")
+    })
+
+    this.backFromSearch.addEventListener("click", () => {
+      this.showPage(this.previousPage || "home")
+    })
+
+    // Pesquisa
+    this.searchInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        const termo = this.searchInput.value.trim()
+        if (termo) {
+          this.searchAnimes(termo)
+        }
+      }
+    })
+
+    // Sugestões de pesquisa (estilo Blogger)
+    this.searchInput.addEventListener("input", () => {
+      this.handleSearchSuggestions()
+    })
+
+    // Menu lateral
+    this.menuItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const section = item.dataset.section
+        if (section) {
+          this.handleMenuClick(section)
+        }
+      })
+    })
+
+    // Seletores de temporada
+    this.seasonYear.addEventListener("change", () => {
+      this.currentYear = Number.parseInt(this.seasonYear.value)
+      this.loadSeasonalAnimes()
+    })
+
+    this.seasonName.addEventListener("change", () => {
+      this.currentSeason = this.seasonName.value
+      this.loadSeasonalAnimes()
+    })
+
+    // Modal de imagem
+    this.closeImageModal.addEventListener("click", () => {
+      this.hideImageModal()
+    })
+
+    // Fechar modal de imagem ao clicar fora
+    this.imageModal.addEventListener("click", (e) => {
+      if (e.target === this.imageModal) {
+        this.hideImageModal()
+      }
+    })
+
+    // Fechar modal de imagem com ESC
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && this.imageModal.style.display === "flex") {
+        this.hideImageModal()
+      }
+    })
+
+    // Botão salvar nas configurações
+    this.saveSettingsBtn.addEventListener("click", () => {
+      this.saveSettings()
+    })
+
+    // Links de políticas
+    this.termsLink.addEventListener("click", (e) => {
+      e.preventDefault()
+      this.showTermsModal()
+    })
+
+    this.privacyLink.addEventListener("click", (e) => {
+      e.preventDefault()
+      this.showPrivacyModal()
+    })
+
+    this.contentPolicyLink.addEventListener("click", (e) => {
+      e.preventDefault()
+      this.showContentPolicyModal()
+    })
+
+    this.popupTermsLink.addEventListener("click", (e) => {
+      e.preventDefault()
+      this.showTermsModal()
+    })
+
+    this.popupPrivacyLink.addEventListener("click", (e) => {
+      e.preventDefault()
+      this.showPrivacyModal()
+    })
+
+    // Botões para fechar modais de políticas
+    this.closeTermsBtn.addEventListener("click", () => {
+      this.hideTermsModal()
+    })
+
+    this.closePrivacyBtn.addEventListener("click", () => {
+      this.hidePrivacyModal()
+    })
+
+    this.closeContentPolicyBtn.addEventListener("click", () => {
+      this.hideContentPolicyModal()
+    })
+  }
+
+  // Mostrar modal de termos
+  showTermsModal() {
+    this.termsModal.style.display = "block"
+    this.overlay.style.display = "block"
+  }
+
+  // Esconder modal de termos
+  hideTermsModal() {
+    this.termsModal.style.display = "none"
+    this.overlay.style.display = "none"
+  }
+
+  // Mostrar modal de privacidade
+  showPrivacyModal() {
+    this.privacyModal.style.display = "block"
+    this.overlay.style.display = "block"
+  }
+
+  // Esconder modal de privacidade
+  hidePrivacyModal() {
+    this.privacyModal.style.display = "none"
+    this.overlay.style.display = "none"
+  }
+
+  // Mostrar modal de política de conteúdo
+  showContentPolicyModal() {
+    this.contentPolicyModal.style.display = "block"
+    this.overlay.style.display = "block"
+  }
+
+  // Esconder modal de política de conteúdo
+  hideContentPolicyModal() {
+    this.contentPolicyModal.style.display = "none"
+    this.overlay.style.display = "none"
+  }
+
+  // Salvar configurações
+  saveSettings() {
+    // Obter valores das configurações
+    const darkMode = document.getElementById("darkMode").checked
+    const language = document.querySelector('input[name="language"]:checked').id
+    const notifyNewEpisodes = document.getElementById("notifyNewEpisodes").checked
+    const notifyNewAnimes = document.getElementById("notifyNewAnimes").checked
+
+    // Salvar configurações no localStorage
+    const settings = {
+      darkMode,
+      language,
+      notifications: {
+        newEpisodes: notifyNewEpisodes,
+        newAnimes: notifyNewAnimes,
+      },
+    }
+
+    localStorage.setItem("animeblog_settings", JSON.stringify(settings))
+
+    // Aplicar modo escuro, se necessário
+    if (darkMode) {
+      document.body.classList.add("dark-mode")
+    } else {
+      document.body.classList.remove("dark-mode")
+    }
+
+    // Mostrar mensagem de sucesso
+    alert("Configurações salvas com sucesso!")
+  }
+
+  // Lidar com clique no menu
+  handleMenuClick(section) {
+    this.showPage(section)
+  }
+
+  // Lidar com sugestões de pesquisa (estilo Blogger)
+  async handleSearchSuggestions() {
+    const termo = this.searchInput.value.trim()
+
+    if (termo.length < 2) {
+      this.searchSuggestions.style.display = "none"
+      return
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/anime?q=${encodeURIComponent(termo)}&limit=5`)
+      const data = await response.json()
+
+      if (data.data && data.data.length > 0) {
+        let html = ""
+
+        data.data.forEach((anime) => {
+          // Destacar o termo pesquisado
+          const title = anime.title.replace(
+            new RegExp(termo, "gi"),
+            (match) => `<span class="search-highlight">${match}</span>`,
+          )
+
+          html += `
+                        <div class="suggestion-item" data-id="${anime.mal_id}">
+                            ${title}
+                        </div>
+                    `
+        })
+
+        this.searchSuggestions.innerHTML = html
+        this.searchSuggestions.style.display = "block"
+
+        // Adicionar event listeners para as sugestões
+        this.searchSuggestions.querySelectorAll(".suggestion-item").forEach((item) => {
+          item.addEventListener("click", () => {
+            const animeId = item.dataset.id
+            this.showAnimeDetails(animeId)
+            this.searchSuggestions.style.display = "none"
+            this.searchInput.value = item.textContent.trim()
+          })
+        })
+      } else {
+        this.searchSuggestions.style.display = "none"
+      }
+    } catch (error) {
+      console.error("Erro ao buscar sugestões:", error)
+      this.searchSuggestions.style.display = "none"
+    }
+  }
+
+  // Pesquisar animes
+  async searchAnimes(termo) {
+    this.currentSearchTerm = termo
+    this.showPage("searchResults")
+
+    const searchTerm = document.getElementById("searchTerm")
+    const searchResults = document.getElementById("searchResults")
+    const searchPagination = document.getElementById("searchPagination")
+
+    searchTerm.textContent = termo
+    searchResults.innerHTML = '<div class="loading">Carregando resultados...</div>'
+
+    try {
+      const resultado = await pesquisarAnimes(termo)
+
+      if (!resultado || resultado.error) {
+        searchResults.innerHTML = '<div class="error">Erro ao buscar resultados.</div>'
+        return
+      }
+
+      const { resultados, paginacao } = resultado
+
+      if (resultados.length === 0) {
+        searchResults.innerHTML = '<div class="no-results">Nenhum resultado encontrado para sua pesquisa.</div>'
+        return
+      }
+
+      let html = ""
+
+      resultados.forEach((anime) => {
+        html += `
+                    <div class="anime-card" data-id="${anime.mal_id}">
+                        <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
+                        <div class="anime-info">
+                            <h3 class="anime-title">${anime.title_portuguese}</h3>
+                            <div class="anime-details">
+                                <span>${anime.type || "TV"}</span>
+                                <span>${anime.score ? anime.score + "★" : "N/A"}</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+      })
+
+      searchResults.innerHTML = html
+
+      // Adicionar event listeners para os cards
+      searchResults.querySelectorAll(".anime-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const animeId = card.dataset.id
+          this.showAnimeDetails(animeId)
+        })
+      })
+
+      // Renderizar paginação
+      renderizarPaginacao(searchPagination, paginacao, 1, (novaPagina) => {
+        this.searchAnimesPage(termo, novaPagina)
+      })
+    } catch (error) {
+      console.error("Erro ao pesquisar animes:", error)
+      searchResults.innerHTML = '<div class="error">Ocorreu um erro ao buscar resultados.</div>'
+    }
+  }
+
+  // Pesquisar animes (paginação)
+  async searchAnimesPage(termo, pagina) {
+    const searchResults = document.getElementById("searchResults")
+    const searchPagination = document.getElementById("searchPagination")
+
+    searchResults.innerHTML = '<div class="loading">Carregando resultados...</div>'
+
+    try {
+      const resultado = await pesquisarAnimes(termo, pagina)
+
+      if (!resultado || resultado.error) {
+        searchResults.innerHTML = '<div class="error">Erro ao buscar resultados.</div>'
+        return
+      }
+
+      const { resultados, paginacao } = resultado
+
+      if (resultados.length === 0) {
+        searchResults.innerHTML = '<div class="no-results">Nenhum resultado encontrado para sua pesquisa.</div>'
+        return
+      }
+
+      let html = ""
+
+      resultados.forEach((anime) => {
+        html += `
+                    <div class="anime-card" data-id="${anime.mal_id}">
+                        <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
+                        <div class="anime-info">
+                            <h3 class="anime-title">${anime.title_portuguese}</h3>
+                            <div class="anime-details">
+                                <span>${anime.type || "TV"}</span>
+                                <span>${anime.score ? anime.score + "★" : "N/A"}</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+      })
+
+      searchResults.innerHTML = html
+
+      // Adicionar event listeners para os cards
+      searchResults.querySelectorAll(".anime-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const animeId = card.dataset.id
+          this.showAnimeDetails(animeId)
+        })
+      })
+
+      // Renderizar paginação
+      renderizarPaginacao(searchPagination, paginacao, pagina, (novaPagina) => {
+        this.searchAnimesPage(termo, novaPagina)
+      })
+    } catch (error) {
+      console.error("Erro ao pesquisar animes:", error)
+      searchResults.innerHTML = '<div class="error">Ocorreu um erro ao buscar resultados.</div>'
+    }
+  }
+
+  showPage(page) {
+    // Salvar página anterior
+    if (this.currentPage !== page) {
+      this.previousPage = this.currentPage
+    }
+
+    // Esconder todas as páginas
+    this.homePage.style.display = "none"
+    this.trendingPage.style.display = "none"
+    this.seasonsPage.style.display = "none"
+    this.genresPage.style.display = "none"
+    this.favoritesPage.style.display = "none"
+    this.settingsPage.style.display = "none"
+    this.helpPage.style.display = "none"
+    this.animeDetailsPage.style.display = "none"
+    this.searchResultsPage.style.display = "none"
+
+    // Mostrar a página selecionada
+    if (page === "home") {
+      this.homePage.style.display = "block"
+      this.currentPage = "home"
+    } else if (page === "trending") {
+      this.trendingPage.style.display = "block"
+      this.currentPage = "trending"
+      this.loadTrendingAnimes()
+    } else if (page === "seasons") {
+      this.seasonsPage.style.display = "block"
+      this.currentPage = "seasons"
+      this.loadSeasonalAnimes()
+    } else if (page === "genres") {
+      this.genresPage.style.display = "block"
+      this.currentPage = "genres"
+      this.loadGenres()
+    } else if (page === "favorites") {
+      this.favoritesPage.style.display = "block"
+      this.currentPage = "favorites"
+      this.loadFavorites()
+    } else if (page === "settings") {
+      this.settingsPage.style.display = "block"
+      this.currentPage = "settings"
+    } else if (page === "help") {
+      this.helpPage.style.display = "block"
+      this.currentPage = "help"
+    } else if (page === "animeDetails") {
+      this.animeDetailsPage.style.display = "block"
+      this.currentPage = "animeDetails"
+    } else if (page === "searchResults") {
+      this.searchResultsPage.style.display = "block"
+      this.currentPage = "searchResults"
+    }
+
+    // Atualizar menu
+    this.updateMenu()
+  }
+
+  updateMenu() {
+    // Remover classe active de todos os itens do menu
+    this.menuItems.forEach((item) => {
+      item.classList.remove("active")
+    })
+
+    // Adicionar classe active ao item correspondente à página atual
+    const activeItem = document.querySelector(`.menu-item[data-section="${this.currentPage}"]`)
+    if (activeItem) {
+      activeItem.classList.add("active")
+    }
+  }
+
+  async loadInitialData() {
+    // Carregar animes em destaque
+    const animesDestaque = await buscarAnimesEmDestaque(12)
+    this.renderizarAnimesDestaque(animesDestaque)
+
+    // Aguardar um pouco para evitar rate limiting
+    await delay(1000)
+
+    // Carregar últimos episódios
+    const ultimosEpisodios = await buscarUltimosEpisodios(8)
+    this.renderizarUltimosEpisodios(ultimosEpisodios)
+
+    // Aguardar um pouco para evitar rate limiting
+    await delay(1000)
+
+    // Carregar animes da temporada
+    const animesDaTemporada = await buscarAnimesDaTemporada(12)
+    this.renderizarAnimesDaTemporada(animesDaTemporada)
+  }
+
+  renderizarAnimesDestaque(animes) {
+    const container = document.getElementById("featuredAnimes")
+
+    if (!animes || animes.error) {
+      container.innerHTML = `<div class="error">Erro ao carregar animes em destaque.</div>`
+      return
+    }
+
+    let html = ""
+
+    animes.forEach((anime) => {
+      html += `
+                <div class="anime-card" data-id="${anime.mal_id}">
+                    <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
+                    <div class="anime-info">
+                        <h3 class="anime-title">${anime.title_portuguese}</h3>
+                        <div class="anime-details">
+                            <span>${anime.type || "TV"}</span>
+                            <span>${anime.score ? anime.score + "★" : "N/A"}</span>
+                        </div>
+                    </div>
+                </div>
+            `
+    })
+
+    container.innerHTML = html
+
+    // Adicionar event listeners para os cards
+    container.querySelectorAll(".anime-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const animeId = card.dataset.id
+        this.showAnimeDetails(animeId)
+      })
+    })
+  }
+
+  renderizarUltimosEpisodios(episodios) {
+    const container = document.getElementById("latestEpisodes")
+
+    if (!episodios || episodios.error) {
+      container.innerHTML = `<div class="error">Erro ao carregar últimos episódios.</div>`
+      return
+    }
+
+    let html = ""
+
+    episodios.forEach((episodio) => {
+      html += `
+                <div class="episode-card" data-id="${episodio.entry.mal_id}" data-episode="${episodio.episode}">
+                    <img src="${episodio.entry.images.jpg.large_image_url}" alt="${episodio.title_portuguese}" class="episode-image">
+                    <div class="episode-info">
+                        <h3 class="episode-title">${episodio.title_portuguese}</h3>
+                        <div class="episode-number">Episódio ${episodio.episode}</div>
+                    </div>
+                </div>
+            `
+    })
+
+    container.innerHTML = html
+
+    // Adicionar event listeners para os cards de episódios
+    container.querySelectorAll(".episode-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const animeId = card.dataset.id
+        this.showAnimeDetails(animeId)
+      })
+    })
+  }
+
+  renderizarAnimesDaTemporada(animes) {
+    const container = document.getElementById("seasonAnimes")
+
+    if (!animes || animes.error) {
+      container.innerHTML = `<div class="error">Erro ao carregar animes da temporada.</div>`
+      return
+    }
+
+    let html = ""
+
+    animes.forEach((anime) => {
+      html += `
+                <div class="anime-card" data-id="${anime.mal_id}">
+                    <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
+                    <div class="anime-info">
+                        <h3 class="anime-title">${anime.title_portuguese}</h3>
+                        <div class="anime-details">
+                            <span>${anime.type || "TV"}</span>
+                            <span>${anime.score ? anime.score + "★" : "N/A"}</span>
+                        </div>
+                    </div>
+                </div>
+            `
+    })
+
+    container.innerHTML = html
+
+    // Adicionar event listeners para os cards
+    container.querySelectorAll(".anime-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const animeId = card.dataset.id
+        this.showAnimeDetails(animeId)
+      })
+    })
+  }
+
+  async showAnimeDetails(animeId) {
+    this.currentAnimeId = animeId
+    this.showPage("animeDetails")
+
+    // Elementos do DOM
+    const loadingAnime = document.querySelector(".loading-anime")
+    const animeHeader = document.getElementById("animeHeader")
+    const animeCover = document.getElementById("animeCover")
+    const animeTitle = document.getElementById("animeTitle")
+    const animeType = document.getElementById("animeType")
+    const animeYear = document.getElementById("animeYear")
+    const animeStatus = document.getElementById("animeStatus")
+    const animeScore = document.getElementById("animeScore")
+    const animeGenres = document.getElementById("animeGenres")
+    const animeSynopsis = document.getElementById("animeSynopsis")
+    const favoriteButton = document.getElementById("favoriteButton")
+
+    // Elementos para informações detalhadas
+    const animeTitlesAlt = document.getElementById("animeTitlesAlt")
+    const animeAired = document.getElementById("animeAired")
+    const animeStatusDetailed = document.getElementById("animeStatusDetailed")
+    const animeBroadcast = document.getElementById("animeBroadcast")
+    const animePremiered = document.getElementById("animePremiered")
+    const animeThemes = document.getElementById("animeThemes")
+    const animeDuration = document.getElementById("animeDuration")
+    const animeRating = document.getElementById("animeRating")
+    const animeScoreDetailed = document.getElementById("animeScoreDetailed")
+    const animePopularity = document.getElementById("animePopularity")
+    const animeMembers = document.getElementById("animeMembers")
+    const animeFavorites = document.getElementById("animeFavorites")
+    const animeProducers = document.getElementById("animeProducers")
+    const animeStreaming = document.getElementById("animeStreaming")
+
+    // Mostrar loading e esconder conteúdo
+    loadingAnime.style.display = "block"
+    animeHeader.style.display = "none"
+
+    try {
+      const anime = await buscarDetalhesAnime(animeId)
+
+      if (!anime || anime.error) {
+        loadingAnime.textContent = "Erro ao carregar detalhes do anime."
+        return
+      }
+
+      // Preencher dados do anime
+      animeCover.src = anime.images.jpg.large_image_url
+      animeCover.alt = anime.title_portuguese
+      animeTitle.textContent = anime.title_portuguese
+      animeType.textContent = anime.type || "TV"
+      animeYear.textContent = anime.year || "N/A"
+      animeStatus.textContent = (await translator.translate(anime.status)) || "N/A"
+      animeScore.textContent = anime.score ? anime.score + "★" : "N/A"
+
+      // Preencher gêneros
+      let generosHTML = ""
+      if (anime.genres && anime.genres.length > 0) {
+        for (const genero of anime.genres) {
+          const generoTraduzido = await translator.translate(genero.name)
+          generosHTML += `<span>${generoTraduzido}</span>`
+        }
+        animeGenres.innerHTML = generosHTML
+      }
+
+      // Preencher sinopse
+      animeSynopsis.textContent = anime.synopsis_portuguese || "Sem sinopse disponível."
+
+      // Preencher informações detalhadas
+      // Títulos alternativos
+      let titulosAlt = ""
+      if (anime.title_english) titulosAlt += `Inglês: ${anime.title_english}<br>`
+      if (anime.title_japanese) titulosAlt += `Japonês: ${anime.title_japanese}<br>`
+      if (anime.title_synonyms && anime.title_synonyms.length > 0) {
+        titulosAlt += `Sinônimos: ${anime.title_synonyms.join(", ")}`
+      }
+      animeTitlesAlt.innerHTML = titulosAlt || "N/A"
+
+      // Exibição
+      animeAired.innerHTML = anime.aired
+        ? `${formatarData(anime.aired.from)} até ${anime.aired.to ? formatarData(anime.aired.to) : "Presente"}`
+        : "N/A"
+
+      // Status detalhado
+      animeStatusDetailed.textContent = (await translator.translate(anime.status)) || "N/A"
+
+      // Transmissão
+      animeBroadcast.textContent = anime.broadcast ? await translator.translate(anime.broadcast.string) : "N/A"
+
+      // Estreia
+      animePremiered.textContent =
+        anime.season && anime.year ? `${await translator.translate(anime.season)} ${anime.year}` : "N/A"
+
+      // Temas
+      let temasHTML = ""
+      if (anime.themes && anime.themes.length > 0) {
+        const temas = await Promise.all(anime.themes.map(async (tema) => await translator.translate(tema.name)))
+        temasHTML = temas.join(", ")
+      }
+      animeThemes.textContent = temasHTML || "N/A"
+
+      // Duração
+      animeDuration.textContent = anime.duration || "N/A"
+
+      // Classificação
+      animeRating.textContent = (await translator.translate(anime.rating)) || "N/A"
+
+      // Pontuação detalhada
+      animeScoreDetailed.textContent = anime.score
+        ? `${anime.score} (${anime.scored_by.toLocaleString()} votos)`
+        : "N/A"
+
+      // Popularidade
+      animePopularity.textContent = anime.popularity ? `#${anime.popularity}` : "N/A"
+
+      // Membros
+      animeMembers.textContent = anime.members ? anime.members.toLocaleString() : "N/A"
+
+      // Favoritos
+      animeFavorites.textContent = anime.favorites ? anime.favorites.toLocaleString() : "N/A"
+
+      // Produtores
+      let produtoresHTML = ""
+      if (anime.producers && anime.producers.length > 0) {
+        produtoresHTML = anime.producers.map((produtor) => produtor.name).join(", ")
+      }
+      animeProducers.textContent = produtoresHTML || "N/A"
+
+      // Plataformas de streaming
+      let streamingHTML = ""
+      if (anime.streaming && anime.streaming.length > 0) {
+        anime.streaming.forEach((plataforma) => {
+          streamingHTML += `<div class="platform-item">${plataforma.name}</div>`
+        })
+      }
+      animeStreaming.innerHTML = streamingHTML || "Não disponível"
+
+      // Atualizar botão de favoritos
+      this.updateFavoriteButton(anime)
+
+      // Esconder loading e mostrar conteúdo
+      loadingAnime.style.display = "none"
+      animeHeader.style.display = "flex"
+
+      // Carregar episódios por padrão
+      this.carregarEpisodios(animeId)
+
+      // Adicionar event listeners para as tabs
+      document.querySelectorAll(".tab-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          // Remover classe active de todas as tabs
+          document.querySelectorAll(".tab-button").forEach((btn) => {
+            btn.classList.remove("active")
+          })
+
+          // Adicionar classe active à tab clicada
+          button.classList.add("active")
+
+          // Esconder todos os painéis de conteúdo
+          document.querySelectorAll(".tab-pane").forEach((pane) => {
+            pane.classList.remove("active")
+          })
+
+          // Mostrar o painel de conteúdo correspondente
+          const tabId = button.dataset.tab + "Tab"
+          document.getElementById(tabId).classList.add("active")
+
+          // Carregar dados específicos da tab, se necessário
+          const tabName = button.dataset.tab
+          if (tabName === "episodes") {
+            this.carregarEpisodios(animeId)
+          } else if (tabName === "characters") {
+            this.carregarPersonagens(animeId)
+          } else if (tabName === "images") {
+            this.carregarImagens(animeId)
+          } else if (tabName === "related") {
+            this.carregarAnimesRelacionados(animeId)
+          } else if (tabName === "reviews") {
+            this.carregarAvaliacoes(animeId)
+          } else if (tabName === "trailers") {
+            this.carregarTrailers(animeId)
+          }
+        })
+      })
+
+      // Adicionar event listener para o botão de favoritos
+      favoriteButton.addEventListener("click", () => {
+        this.toggleFavorite(anime)
+      })
+    } catch (error) {
+      console.error("Erro ao carregar detalhes do anime:", error)
+      loadingAnime.textContent = "Ocorreu um erro ao carregar os detalhes do anime."
+    }
+  }
+
+  updateFavoriteButton(anime) {
+    const favoriteButton = document.getElementById("favoriteButton")
+    const isFavorite = window.authManager.isFavorite(anime.mal_id)
+
+    if (isFavorite) {
+      favoriteButton.innerHTML = '<i class="material-icons">favorite</i> Remover dos Favoritos'
+      favoriteButton.classList.add("active")
+    } else {
+      favoriteButton.innerHTML = '<i class="material-icons">favorite_border</i> Adicionar aos Favoritos'
+      favoriteButton.classList.remove("active")
+    }
+  }
+
+  toggleFavorite(anime) {
+    const isFavorite = window.authManager.isFavorite(anime.mal_id)
+
+    if (isFavorite) {
+      window.authManager.removeFromFavorites(anime.mal_id)
+    } else {
+      window.authManager.addToFavorites(anime)
+    }
+
+    this.updateFavoriteButton(anime)
+  }
+
+  async carregarEpisodios(animeId, pagina = 1) {
+    const episodesList = document.getElementById("episodesList")
+    const episodesPagination = document.getElementById("episodesPagination")
+
+    episodesList.innerHTML = '<div class="loading">Carregando episódios...</div>'
+
+    try {
+      const resultado = await buscarEpisodiosAnime(animeId, pagina)
+
+      if (!resultado || resultado.error) {
+        episodesList.innerHTML = '<div class="error">Erro ao carregar episódios.</div>'
+        return
+      }
+
+      const { episodios, paginacao } = resultado
+
+      if (episodios.length === 0) {
+        episodesList.innerHTML = '<div class="no-data">Nenhum episódio disponível.</div>'
+        return
+      }
+
+      let html = ""
+
+      episodios.forEach((episodio) => {
+        html += `
+                    <div class="episode-item">
+                        <div class="episode-number">${episodio.mal_id}</div>
+                        <div class="episode-title">${episodio.title_portuguese || "Sem título"}</div>
+                        <div class="episode-date">${formatarData(episodio.aired)}</div>
+                    </div>
+                `
+      })
+
+      episodesList.innerHTML = html
+
+      // Renderizar paginação
+      renderizarPaginacao(episodesPagination, paginacao, pagina, (novaPagina) => {
+        this.carregarEpisodios(animeId, novaPagina)
+      })
+    } catch (error) {
+      console.error("Erro ao carregar episódios:", error)
+      episodesList.innerHTML = '<div class="error">Ocorreu um erro ao carregar os episódios.</div>'
+    }
+  }
+
+  async carregarPersonagens(animeId) {
+    const charactersGrid = document.getElementById("charactersGrid")
+
+    charactersGrid.innerHTML = '<div class="loading">Carregando personagens...</div>'
+
+    try {
+      const personagens = await buscarPersonagensAnime(animeId)
+
+      if (!personagens || personagens.error) {
+        charactersGrid.innerHTML = '<div class="error">Erro ao carregar personagens.</div>'
+        return
+      }
+
+      if (personagens.length === 0) {
+        charactersGrid.innerHTML = '<div class="no-data">Nenhum personagem disponível.</div>'
+        return
+      }
+
+      let html = ""
+
+      personagens.forEach((personagem) => {
+        html += `
+                    <div class="character-card">
+                        <img src="${personagem.character.images.jpg.image_url}" alt="${personagem.character.name}" class="character-image">
+                        <div class="character-info">
+                            <h3 class="character-name">${personagem.character.name}</h3>
+                            <div class="character-role">${personagem.role_portuguese}</div>
+                        </div>
+                    </div>
+                `
+      })
+
+      charactersGrid.innerHTML = html
+    } catch (error) {
+      console.error("Erro ao carregar personagens:", error)
+      charactersGrid.innerHTML = '<div class="error">Ocorreu um erro ao carregar os personagens.</div>'
+    }
+  }
+
+  async carregarImagens(animeId) {
+    const imagesGrid = document.getElementById("imagesGrid")
+
+    imagesGrid.innerHTML = '<div class="loading">Carregando imagens...</div>'
+
+    try {
+      const imagens = await buscarImagensAnime(animeId)
+
+      if (!imagens || imagens.error) {
+        imagesGrid.innerHTML = '<div class="error">Erro ao carregar imagens.</div>'
+        return
+      }
+
+      if (imagens.length === 0) {
+        imagesGrid.innerHTML = '<div class="no-data">Nenhuma imagem disponível.</div>'
+        return
+      }
+
+      let html = ""
+
+      imagens.forEach((imagem) => {
+        html += `
+                    <div class="image-card">
+                        <img src="${imagem.jpg.image_url}" alt="Imagem do anime" class="anime-gallery-image" data-full="${imagem.jpg.large_image_url}">
+                    </div>
+                `
+      })
+
+      imagesGrid.innerHTML = html
+
+      // Adicionar event listeners para as imagens
+      imagesGrid.querySelectorAll(".anime-gallery-image").forEach((img) => {
+        img.addEventListener("click", () => {
+          this.showImageModal(img.dataset.full)
+        })
+      })
+    } catch (error) {
+      console.error("Erro ao carregar imagens:", error)
+      imagesGrid.innerHTML = '<div class="error">Ocorreu um erro ao carregar as imagens.</div>'
+    }
+  }
+
+  async carregarAnimesRelacionados(animeId) {
+    const relatedAnime = document.getElementById("relatedAnime")
+
+    relatedAnime.innerHTML = '<div class="loading">Carregando animes relacionados...</div>'
+
+    try {
+      const relacionados = await buscarAnimesRelacionados(animeId)
+
+      if (!relacionados || relacionados.error) {
+        relatedAnime.innerHTML = '<div class="error">Erro ao carregar animes relacionados.</div>'
+        return
+      }
+
+      if (relacionados.length === 0) {
+        relatedAnime.innerHTML = '<div class="no-data">Nenhum anime relacionado disponível.</div>'
+        return
+      }
+
+      let html = ""
+      let animesAdicionados = 0
+
+      for (const relacao of relacionados) {
+        if (relacao.entry && relacao.entry.length > 0) {
+          for (const anime of relacao.entry) {
+            if (anime.type === "anime") {
+              html += `
+                                <div class="anime-card" data-id="${anime.mal_id}">
+                                    <img src="${anime.images?.jpg?.large_image_url || "/placeholder.svg?height=280&width=200"}" alt="${anime.name}" class="anime-image">
+                                    <div class="anime-info">
+                                        <h3 class="anime-title">${anime.name}</h3>
+                                        <div class="anime-details">
+                                            <span>${anime.type || "Anime"}</span>
+                                            <span>${(await translator.translate(relacao.relation)) || relacao.relation}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `
+              animesAdicionados++
+            }
+          }
+        }
+      }
+
+      if (animesAdicionados === 0) {
+        relatedAnime.innerHTML = '<div class="no-data">Nenhum anime relacionado disponível.</div>'
+        return
+      }
+
+      relatedAnime.innerHTML = html
+
+      // Adicionar event listeners para os cards
+      relatedAnime.querySelectorAll(".anime-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const animeId = card.dataset.id
+          this.showAnimeDetails(animeId)
+        })
+      })
+    } catch (error) {
+      console.error("Erro ao carregar animes relacionados:", error)
+      relatedAnime.innerHTML = '<div class="error">Ocorreu um erro ao carregar os animes relacionados.</div>'
+    }
+  }
+
+  async carregarAvaliacoes(animeId, pagina = 1) {
+    const reviewsList = document.getElementById("reviewsList")
+
+    reviewsList.innerHTML = '<div class="loading">Carregando avaliações...</div>'
+
+    try {
+      const resultado = await buscarAvaliacoesAnime(animeId, pagina)
+
+      if (!resultado || resultado.error) {
+        reviewsList.innerHTML = '<div class="error">Erro ao carregar avaliações.</div>'
+        return
+      }
+
+      const { avaliacoes, paginacao } = resultado
+
+      if (avaliacoes.length === 0) {
+        reviewsList.innerHTML = '<div class="no-data">Nenhuma avaliação disponível.</div>'
+        return
+      }
+
+      let html = ""
+
+      avaliacoes.forEach((avaliacao) => {
+        html += `
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="reviewer">${avaliacao.user.username}</div>
+                            <div class="review-score">${avaliacao.score} / 10</div>
+                        </div>
+                        <div class="review-content">${avaliacao.review_portuguese}</div>
+                    </div>
+                `
+      })
+
+      reviewsList.innerHTML = html
+    } catch (error) {
+      console.error("Erro ao carregar avaliações:", error)
+      reviewsList.innerHTML = '<div class="error">Ocorreu um erro ao carregar as avaliações.</div>'
+    }
+  }
+
+  async carregarTrailers(animeId) {
+    const trailersContainer = document.getElementById("trailersContainer")
+
+    trailersContainer.innerHTML = '<div class="loading">Carregando trailers...</div>'
+
+    try {
+      const trailers = await buscarTrailersAnime(animeId)
+
+      if (!trailers || trailers.error || !trailers.promo || trailers.promo.length === 0) {
+        trailersContainer.innerHTML = '<div class="no-data">Nenhum trailer disponível.</div>'
+        return
+      }
+
+      let html = ""
+
+      trailers.promo.forEach((trailer) => {
+        html += `
+                    <div class="trailer-item">
+                        <h3>${trailer.title}</h3>
+                        <div class="trailer-video">
+                            <iframe width="100%" height="315" src="https://www.youtube.com/embed/${trailer.trailer.youtube_id}" 
+                                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                `
+      })
+
+      trailersContainer.innerHTML = html
+    } catch (error) {
+      console.error("Erro ao carregar trailers:", error)
+      trailersContainer.innerHTML = '<div class="error">Ocorreu um erro ao carregar os trailers.</div>'
+    }
+  }
+
+  showImageModal(imageUrl) {
+    this.modalImage.src = imageUrl
+    this.imageModal.style.display = "flex"
+  }
+
+  hideImageModal() {
+    this.modalImage.style.display = "none"
+    this.imageModal.style.display = "none"
+  }
+
+  async loadTrendingAnimes(pagina = 1) {
+    const trendingAnimes = document.getElementById("trendingAnimes")
+    const trendingPagination = document.getElementById("trendingPagination")
+
+    trendingAnimes.innerHTML = '<div class="loading">Carregando animes em alta...</div>'
+
+    try {
+      const resultado = await buscarAnimesEmAlta(pagina)
+
+      if (!resultado || resultado.error) {
+        trendingAnimes.innerHTML = '<div class="error">Erro ao carregar animes em alta.</div>'
+        return
+      }
+
+      const { animes, paginacao } = resultado
+
+      if (animes.length === 0) {
+        trendingAnimes.innerHTML = '<div class="no-data">Nenhum anime em alta disponível.</div>'
+        return
+      }
+
+      let html = ""
+
+      animes.forEach((anime) => {
+        html += `
+                    <div class="anime-card" data-id="${anime.mal_id}">
+                        <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
+                        <div class="anime-info">
+                            <h3 class="anime-title">${anime.title_portuguese}</h3>
+                            <div class="anime-details">
+                                <span>${anime.type || "TV"}</span>
+                                <span>${anime.score ? anime.score + "★" : "N/A"}</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+      })
+
+      trendingAnimes.innerHTML = html
+
+      // Adicionar event listeners para os cards
+      trendingAnimes.querySelectorAll(".anime-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const animeId = card.dataset.id
+          this.showAnimeDetails(animeId)
+        })
+      })
+
+      // Renderizar paginação
+      renderizarPaginacao(trendingPagination, paginacao, pagina, (novaPagina) => {
+        this.loadTrendingAnimes(novaPagina)
+      })
+    } catch (error) {
+      console.error("Erro ao carregar animes em alta:", error)
+      trendingAnimes.innerHTML = '<div class="error">Ocorreu um erro ao carregar os animes em alta.</div>'
+    }
+  }
+
+  async loadSeasonalAnimes(pagina = 1) {
+    const seasonalAnimes = document.getElementById("seasonalAnimes")
+    const seasonalPagination = document.getElementById("seasonalPagination")
+
+    seasonalAnimes.innerHTML = '<div class="loading">Carregando animes da temporada...</div>'
+
+    try {
+      const resultado = await buscarAnimesPorTemporada(this.currentYear, this.currentSeason, pagina)
+
+      if (!resultado || resultado.error) {
+        seasonalAnimes.innerHTML = '<div class="error">Erro ao carregar animes da temporada.</div>'
+        return
+      }
+
+      const { animes, paginacao } = resultado
+
+      if (animes.length === 0) {
+        seasonalAnimes.innerHTML = '<div class="no-data">Nenhum anime disponível para esta temporada.</div>'
+        return
+      }
+
+      let html = ""
+
+      animes.forEach((anime) => {
+        html += `
+                    <div class="anime-card" data-id="${anime.mal_id}">
+                        <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
+                        <div class="anime-info">
+                            <h3 class="anime-title">${anime.title_portuguese}</h3>
+                            <div class="anime-details">
+                                <span>${anime.type || "TV"}</span>
+                                <span>${anime.score ? anime.score + "★" : "N/A"}</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+      })
+
+      seasonalAnimes.innerHTML = html
+
+      // Adicionar event listeners para os cards
+      seasonalAnimes.querySelectorAll(".anime-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const animeId = card.dataset.id
+          this.showAnimeDetails(animeId)
+        })
+      })
+
+      // Renderizar paginação
+      renderizarPaginacao(seasonalPagination, paginacao, pagina, (novaPagina) => {
+        this.loadSeasonalAnimes(novaPagina)
+      })
+    } catch (error) {
+      console.error("Erro ao carregar animes da temporada:", error)
+      seasonalAnimes.innerHTML = '<div class="error">Ocorreu um erro ao carregar os animes da temporada.</div>'
+    }
+  }
+
+  async loadGenres() {
+    const genreFilters = document.getElementById("genreFilters")
+
+    genreFilters.innerHTML = '<div class="loading">Carregando gêneros...</div>'
+
+    try {
+      const generos = await buscarGeneros()
+
+      if (!generos || generos.error) {
+        genreFilters.innerHTML = '<div class="error">Erro ao carregar gêneros.</div>'
+        return
+      }
+
+      if (generos.length === 0) {
+        genreFilters.innerHTML = '<div class="no-data">Nenhum gênero disponível.</div>'
+        return
+      }
+
+      let html = ""
+
+      generos.forEach((genero) => {
+        html += `
+                    <div class="genre-filter" data-id="${genero.mal_id}">
+                        ${genero.name_portuguese || genero.name}
+                    </div>
+                `
+      })
+
+      genreFilters.innerHTML = html
+
+      // Adicionar event listeners para os filtros
+      genreFilters.querySelectorAll(".genre-filter").forEach((filter) => {
+        filter.addEventListener("click", () => {
+          // Remover classe active de todos os filtros
+          genreFilters.querySelectorAll(".genre-filter").forEach((f) => {
+            f.classList.remove("active")
+          })
+
+          // Adicionar classe active ao filtro clicado
+          filter.classList.add("active")
+
+          // Carregar animes do gênero selecionado
+          const generoId = filter.dataset.id
+          this.loadGenreAnimes(generoId)
+        })
+      })
+    } catch (error) {
+      console.error("Erro ao carregar gêneros:", error)
+      genreFilters.innerHTML = '<div class="error">Ocorreu um erro ao carregar os gêneros.</div>'
+    }
+  }
+
+  async loadGenreAnimes(generoId, pagina = 1) {
+    this.currentGenreId = generoId
+
+    const genreAnimes = document.getElementById("genreAnimes")
+    const genrePagination = document.getElementById("genrePagination")
+
+    genreAnimes.innerHTML = '<div class="loading">Carregando animes...</div>'
+
+    try {
+      const resultado = await buscarAnimesPorGenero(generoId, pagina)
+
+      if (!resultado || resultado.error) {
+        genreAnimes.innerHTML = '<div class="error">Erro ao carregar animes.</div>'
+        return
+      }
+
+      const { animes, paginacao } = resultado
+
+      if (animes.length === 0) {
+        genreAnimes.innerHTML = '<div class="no-data">Nenhum anime disponível para este gênero.</div>'
+        return
+      }
+
+      let html = ""
+
+      animes.forEach((anime) => {
+        html += `
+                    <div class="anime-card" data-id="${anime.mal_id}">
+                        <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
+                        <div class="anime-info">
+                            <h3 class="anime-title">${anime.title_portuguese}</h3>
+                            <div class="anime-details">
+                                <span>${anime.type || "TV"}</span>
+                                <span>${anime.score ? anime.score + "★" : "N/A"}</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+      })
+
+      genreAnimes.innerHTML = html
+
+      // Adicionar event listeners para os cards
+      genreAnimes.querySelectorAll(".anime-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const animeId = card.dataset.id
+          this.showAnimeDetails(animeId)
+        })
+      })
+
+      // Renderizar paginação
+      renderizarPaginacao(genrePagination, paginacao, pagina, (novaPagina) => {
+        this.loadGenreAnimes(generoId, novaPagina)
+      })
+    } catch (error) {
+      console.error("Erro ao carregar animes por gênero:", error)
+      genreAnimes.innerHTML = '<div class="error">Ocorreu um erro ao carregar os animes.</div>'
+    }
+  }
+
+  loadFavorites() {
+    const favoriteAnimes = document.getElementById("favoriteAnimes")
+
+    const favorites = window.authManager.getFavorites()
+
+    if (!favorites || favorites.length === 0) {
+      favoriteAnimes.innerHTML =
+        '<div class="favorites-empty">Você ainda não adicionou nenhum anime aos favoritos.</div>'
+      return
+    }
+
+    let html = ""
+
+    favorites.forEach((anime) => {
+      html += `
+                <div class="anime-card" data-id="${anime.id}">
+                    <img src="${anime.image}" alt="${anime.title}" class="anime-image">
+                    <div class="anime-info">
+                        <h3 class="anime-title">${anime.title}</h3>
+                        <div class="anime-details">
+                            <span>${anime.type || "TV"}</span>
+                            <span>${anime.score ? anime.score + "★" : "N/A"}</span>
+                        </div>
+                    </div>
+                </div>
+            `
+    })
+
+    favoriteAnimes.innerHTML = html
+
+    // Adicionar event listeners para os cards
+    favoriteAnimes.querySelectorAll(".anime-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const animeId = card.dataset.id
+        this.showAnimeDetails(animeId)
+      })
+    })
+  }
+}
+
+// Inicializar gerenciadores
+window.authManager = new AuthManager()
+window.pageManager = new PageManager()
+
+// Carregar configurações salvas
+const savedSettings = JSON.parse(localStorage.getItem("animeblog_settings") || "{}")
+if (savedSettings.darkMode) {
+  document.body.classList.add("dark-mode")
+  document.getElementById("darkMode").checked = true
+}
+
+if (savedSettings.language) {
+  document.getElementById(savedSettings.language).checked = true
+}
+
+if (savedSettings.notifications) {
+  document.getElementById("notifyNewEpisodes").checked = savedSettings.notifications.newEpisodes || false
+  document.getElementById("notifyNewAnimes").checked = savedSettings.notifications.newAnimes || false
+}
+
+
+  </script>
+  </body>
+</html>
