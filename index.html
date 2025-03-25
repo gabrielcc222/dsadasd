@@ -1618,6 +1618,9 @@
                     <input type="text" placeholder="Pesquisar animes..." id="searchInput">
                     <div class="search-suggestions" id="searchSuggestions"></div>
                 </div>
+   
+);
+
                 <div class="header-right">
                     <!-- Botão de alternância de tema -->
                     <div class="theme-toggle-header" id="themeToggle">
@@ -3251,6 +3254,12 @@ class AuthManager {
     this.saveProfileBtn.addEventListener("click", () => {
       this.saveProfile()
     })
+    console.log(
+  "%c Criador do Template: SuspiroDev\n%c - Obrigado por comprar o template !",
+  "color: #3498db; font-size: 16px; font-weight: bold; text-shadow: 1px 1px 3px #000;",
+  "color: #2ecc71; font-size: 14px; font-weight: bold; text-shadow: 1px 1px 3px #000;"
+);
+
 
     // Add account button
     this.addAccountBtn.addEventListener("click", () => {
@@ -4527,12 +4536,18 @@ const formattedAnimeTitle = animeTitle
   .toLowerCase()
   .split(' ')
   .map((word, index) => lowercaseWords.includes(word) && index !== 0 ? word : word.charAt(0).toUpperCase() + word.slice(1))
-  .join('%20'); // Substitui espaços por %20
+  .join(' ') // Mantemos espaços temporariamente
+  .replace(/,/g, '%2C') // Substitui vírgulas por %2C
+  .replace(/\s/g, '%20'); // Substitui espaços por %20
 
-// Create the video URL according to the specified format
-const videoUrl = `https://animeflix.blog/Animes/Letra-${animeInitial}/${formattedAnimeTitle}/${formattedEpisodeNumber}.mp4`;
+// Adicionar um espaço codificado antes do título do anime
+const formattedAnimeTitleWithSpace = `%20${formattedAnimeTitle}`;
+
+// Criar a URL do vídeo no formato correto
+const videoUrl = `https://animeflix.blog/Animes/Letra-${animeInitial}/${formattedAnimeTitleWithSpace}/${formattedEpisodeNumber}.mp4`;
 
 console.log(videoUrl); // Para verificar se o URL está correto
+
 
 
 
@@ -4556,7 +4571,7 @@ videoElement.innerHTML = ''; // Limpar qualquer source existente
 // Criar novo elemento source
 const sourceElement = document.createElement("source");
 sourceElement.src = videoUrl;
-sourceElement.type = "video/mp4"; // Alterado para o formato correto
+sourceElement.type = "video/mp4"; // Mantemos o formato correto
 videoElement.appendChild(sourceElement);
 
 // Inicializar Video.js
