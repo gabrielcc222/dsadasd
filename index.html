@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="light-theme">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,90 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #fff;
+            --text-primary: #333;
+            --text-secondary: #5f6368;
+            --border-color: #eee;
+            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --hover-bg: #f5f5f5;
+            --accent-color: #1a73e8;
+            --accent-secondary: #ff6d00;
+            --input-bg: #fff;
+            --divider-color: #eee;
+            --card-bg: #fff;
+            --modal-bg: #fff;
+            --modal-overlay: rgba(0, 0, 0, 0.5);
+            --image-modal-bg: rgba(0, 0, 0, 0.9);
+            --genre-bg: #e0e0e0;
+            --genre-active-bg: #1a73e8;
+            --genre-active-text: #fff;
+            --tab-active-color: #1a73e8;
+            --tab-active-border: #1a73e8;
+            --favorite-icon-color: #ff6d00;
+            --pagination-active-bg: #1a73e8;
+            --pagination-active-text: #fff;
+            --loading-bg: #f5f5f5;
+            --loading-bar: #1a73e8;
+            --button-primary-bg: #1a73e8;
+            --button-primary-text: #fff;
+            --button-secondary-bg: transparent;
+            --button-secondary-text: #5f6368;
+            --button-secondary-border: #dadce0;
+            --anime-meta-bg: #e0e0e0;
+            --anime-meta-text: #5f6368;
+            --review-bg: #f5f5f5;
+            --platform-bg: #f5f5f5;
+            --platform-text: #5f6368;
+            --header-bg: #f5f5f5;
+        }
+
+        /* Variáveis de tema - Dark */
+        .dark-theme {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --border-color: #333;
+            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --hover-bg: #2c2c2c;
+            --accent-color: #4285f4;
+            --accent-secondary: #ff9800;
+            --input-bg: #2c2c2c;
+            --divider-color: #333;
+            --card-bg: #1e1e1e;
+            --modal-bg: #1e1e1e;
+            --modal-overlay: rgba(0, 0, 0, 0.7);
+            --image-modal-bg: rgba(0, 0, 0, 0.95);
+            --genre-bg: #2c2c2c;
+            --genre-active-bg: #4285f4;
+            --genre-active-text: #fff;
+            --tab-active-color: #4285f4;
+            --tab-active-border: #4285f4;
+            --favorite-icon-color: #ff9800;
+            --pagination-active-bg: #4285f4;
+            --pagination-active-text: #fff;
+            --loading-bg: #2c2c2c;
+            --loading-bar: #4285f4;
+            --button-primary-bg: #4285f4;
+            --button-primary-text: #fff;
+            --button-secondary-bg: transparent;
+            --button-secondary-text: #a0a0a0;
+            --button-secondary-border: #444;
+            --anime-meta-bg: #2c2c2c;
+            --anime-meta-text: #a0a0a0;
+            --review-bg: #2c2c2c;
+            --platform-bg: #2c2c2c;
+            --platform-text: #a0a0a0;
+            --header-bg: #1e1e1e;
+        }
+
+        /* Transição suave para mudança de tema */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
         /* Estilos gerais */
         * {
             margin: 0;
@@ -16,8 +100,8 @@
         }
 
         body {
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
         }
 
         .container {
@@ -28,20 +112,21 @@
         /* Estilos da sidebar (igual ao Blogger) */
         .sidebar {
             width: 250px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: var(--bg-secondary);
+            box-shadow: var(--card-shadow);
             padding: 20px 0;
             height: 100vh;
             position: fixed;
             overflow-y: auto;
             z-index: 100;
+            transition: transform 0.3s ease;
         }
 
         .logo {
             display: flex;
             align-items: center;
             padding: 0 20px 20px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .logo img {
@@ -54,6 +139,7 @@
         .logo span {
             font-size: 18px;
             font-weight: 500;
+            color: var(--text-primary);
         }
 
         .menu {
@@ -64,18 +150,18 @@
             display: flex;
             align-items: center;
             padding: 12px 20px;
-            color: #5f6368;
+            color: var(--text-secondary);
             text-decoration: none;
             transition: background-color 0.3s;
             cursor: pointer;
         }
 
         .menu-item:hover {
-            background-color: #f5f5f5;
+            background-color: var(--hover-bg);
         }
 
         .menu-item.active {
-            color: #ff6d00;
+            color: var(--accent-secondary);
         }
 
         .menu-item i {
@@ -84,25 +170,25 @@
         }
 
         .menu-item.view-blog {
-            color: #1a73e8;
+            color: var(--accent-color);
         }
 
         .divider {
             height: 1px;
-            background-color: #eee;
+            background-color: var(--divider-color);
             margin: 10px 0;
         }
 
         .footer {
             padding: 20px;
             font-size: 12px;
-            color: #5f6368;
-            border-top: 1px solid #eee;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
             margin-top: 20px;
         }
 
         .footer a {
-            color: #5f6368;
+            color: var(--text-secondary);
             text-decoration: none;
         }
 
@@ -111,6 +197,7 @@
             flex: 1;
             margin-left: 250px;
             padding: 20px;
+            transition: margin-left 0.3s ease;
         }
 
         .header {
@@ -121,18 +208,30 @@
             margin-bottom: 30px;
         }
 
+        /* Botão de menu para mobile */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            margin-right: 10px;
+        }
+
         .search-bar {
             display: flex;
             align-items: center;
-            background-color: #fff;
+            background-color: var(--input-bg);
             border-radius: 24px;
             padding: 8px 16px;
             width: 400px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
         }
 
         .search-bar i {
-            color: #5f6368;
+            color: var(--text-secondary);
             margin-right: 10px;
         }
 
@@ -141,6 +240,55 @@
             outline: none;
             width: 100%;
             font-size: 16px;
+            background-color: transparent;
+            color: var(--text-primary);
+        }
+
+        /* Header right section with theme toggle and profile */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Theme toggle button in header */
+        .theme-toggle-header {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--bg-secondary);
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle-header:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .theme-toggle-header svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-secondary);
+        }
+
+        .sun-icon {
+            display: none;
+        }
+
+        .moon-icon {
+            display: block;
+        }
+
+        .dark-theme .sun-icon {
+            display: block;
+        }
+
+        .dark-theme .moon-icon {
+            display: none;
         }
 
         .user-profile {
@@ -159,9 +307,9 @@
             position: absolute;
             top: 70px;
             right: 20px;
-            background-color: #fff;
+            background-color: var(--modal-bg);
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--card-shadow);
             width: 350px;
             z-index: 1000;
             display: none;
@@ -172,17 +320,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .popup-header span {
             font-size: 14px;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         .close-popup {
             cursor: pointer;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         .popup-content {
@@ -207,25 +355,26 @@
             position: absolute;
             bottom: 0;
             right: 0;
-            background-color: #fff;
+            background-color: var(--bg-secondary);
             border-radius: 50%;
             padding: 4px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--card-shadow);
             cursor: pointer;
         }
 
         .greeting {
             font-size: 18px;
             margin-bottom: 20px;
+            color: var(--text-primary);
         }
 
         .manage-account {
             background-color: transparent;
-            border: 1px solid #dadce0;
+            border: 1px solid var(--button-secondary-border);
             border-radius: 24px;
             padding: 10px 20px;
             font-size: 14px;
-            color: #1a73e8;
+            color: var(--accent-color);
             cursor: pointer;
             margin-bottom: 20px;
             width: 100%;
@@ -245,7 +394,7 @@
             border: none;
             padding: 10px;
             font-size: 14px;
-            color: #5f6368;
+            color: var(--text-secondary);
             cursor: pointer;
             flex: 1;
         }
@@ -256,26 +405,26 @@
 
         .popup-footer {
             font-size: 12px;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         .popup-footer a {
-            color: #5f6368;
+            color: var(--text-secondary);
             text-decoration: none;
         }
 
         /* Conteúdo dos animes */
         .content {
-            background-color: #fff;
+            background-color: var(--card-bg);
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
             margin-bottom: 30px;
         }
 
         h1, h2 {
             margin-bottom: 20px;
-            color: #202124;
+            color: var(--text-primary);
         }
 
         .anime-grid, .episodes-grid {
@@ -286,10 +435,10 @@
         }
 
         .anime-card {
-            background-color: #fff;
+            background-color: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
@@ -317,21 +466,22 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            color: var(--text-primary);
         }
 
         .anime-details {
             font-size: 14px;
-            color: #5f6368;
+            color: var(--text-secondary);
             display: flex;
             justify-content: space-between;
         }
 
         .episode-card {
             display: flex;
-            background-color: #fff;
+            background-color: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
             cursor: pointer;
         }
 
@@ -359,18 +509,19 @@
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            color: var(--text-primary);
         }
 
         .episode-number {
             font-size: 12px;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         .loading {
             grid-column: 1 / -1;
             text-align: center;
             padding: 20px;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         /* Detalhes do anime */
@@ -381,7 +532,7 @@
         .anime-header {
             display: flex;
             padding: 30px;
-            background-color: #f5f5f5;
+            background-color: var(--header-bg);
             border-radius: 8px 8px 0 0;
         }
 
@@ -392,7 +543,7 @@
             margin-right: 30px;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--card-shadow);
         }
 
         .anime-cover img {
@@ -408,7 +559,7 @@
         .anime-header-info h1 {
             font-size: 28px;
             margin-bottom: 15px;
-            color: #202124;
+            color: var(--text-primary);
         }
 
         .anime-meta {
@@ -420,10 +571,10 @@
         .anime-meta span {
             margin-right: 15px;
             padding: 5px 10px;
-            background-color: #e0e0e0;
+            background-color: var(--anime-meta-bg);
             border-radius: 4px;
             font-size: 14px;
-            color: #5f6368;
+            color: var(--anime-meta-text);
         }
 
         .anime-genres {
@@ -436,7 +587,7 @@
             margin-right: 10px;
             margin-bottom: 10px;
             padding: 5px 10px;
-            background-color: #1a73e8;
+            background-color: var(--accent-color);
             color: #fff;
             border-radius: 20px;
             font-size: 14px;
@@ -445,7 +596,7 @@
         .anime-synopsis {
             font-size: 16px;
             line-height: 1.6;
-            color: #5f6368;
+            color: var(--text-secondary);
             max-height: 150px;
             overflow-y: auto;
         }
@@ -453,8 +604,10 @@
         /* Tabs */
         .anime-tabs {
             display: flex;
-            background-color: #fff;
-            border-bottom: 1px solid #eee;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .tab-button {
@@ -463,18 +616,19 @@
             border: none;
             border-bottom: 2px solid transparent;
             font-size: 16px;
-            color: #5f6368;
+            color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s;
+            white-space: nowrap;
         }
 
         .tab-button:hover {
-            color: #1a73e8;
+            color: var(--accent-color);
         }
 
         .tab-button.active {
-            color: #1a73e8;
-            border-bottom-color: #1a73e8;
+            color: var(--tab-active-color);
+            border-bottom-color: var(--tab-active-border);
         }
 
         /* Conteúdo das tabs */
@@ -499,30 +653,31 @@
             display: flex;
             align-items: center;
             padding: 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
             transition: background-color 0.3s;
             cursor: pointer;
         }
 
         .episode-item:hover {
-            background-color: #f5f5f5;
+            background-color: var(--hover-bg);
         }
 
         .episode-number {
             width: 50px;
             font-size: 18px;
             font-weight: 500;
-            color: #1a73e8;
+            color: var(--accent-color);
         }
 
         .episode-title {
             flex: 1;
             font-size: 16px;
+            color: var(--text-primary);
         }
 
         .episode-date {
             font-size: 14px;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         /* Paginação */
@@ -530,28 +685,30 @@
             display: flex;
             justify-content: center;
             margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 5px;
         }
 
         .pagination-button {
             padding: 8px 15px;
             margin: 0 5px;
-            background-color: #fff;
-            border: 1px solid #dadce0;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--button-secondary-border);
             border-radius: 4px;
             font-size: 14px;
-            color: #5f6368;
+            color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s;
         }
 
         .pagination-button:hover {
-            background-color: #f5f5f5;
+            background-color: var(--hover-bg);
         }
 
         .pagination-button.active {
-            background-color: #1a73e8;
-            color: #fff;
-            border-color: #1a73e8;
+            background-color: var(--pagination-active-bg);
+            color: var(--pagination-active-text);
+            border-color: var(--pagination-active-bg);
         }
 
         .pagination-button.disabled {
@@ -567,10 +724,10 @@
         }
 
         .character-card {
-            background-color: #fff;
+            background-color: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
@@ -593,16 +750,17 @@
             font-size: 14px;
             font-weight: 500;
             margin-bottom: 5px;
+            color: var(--text-primary);
         }
 
         .character-role {
             font-size: 12px;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         .character-voice {
             font-size: 11px;
-            color: #1a73e8;
+            color: var(--accent-color);
             margin-top: 5px;
         }
 
@@ -614,7 +772,7 @@
         .review-item {
             padding: 20px;
             margin-bottom: 20px;
-            background-color: #f5f5f5;
+            background-color: var(--review-bg);
             border-radius: 8px;
         }
 
@@ -626,17 +784,18 @@
 
         .reviewer {
             font-weight: 500;
+            color: var(--text-primary);
         }
 
         .review-score {
-            color: #1a73e8;
+            color: var(--accent-color);
             font-weight: 500;
         }
 
         .review-content {
             font-size: 14px;
             line-height: 1.6;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         /* Pesquisa */
@@ -650,11 +809,11 @@
 
         .search-header h1 {
             font-size: 24px;
-            color: #202124;
+            color: var(--text-primary);
         }
 
         .search-header h1 span {
-            color: #1a73e8;
+            color: var(--accent-color);
         }
 
         .search-results {
@@ -668,8 +827,8 @@
             grid-column: 1 / -1;
             text-align: center;
             padding: 40px;
-            color: #5f6368;
-            background-color: #f5f5f5;
+            color: var(--text-secondary);
+            background-color: var(--bg-primary);
             border-radius: 8px;
         }
 
@@ -682,10 +841,10 @@
             display: inline-flex;
             align-items: center;
             padding: 8px 16px;
-            background-color: #f5f5f5;
+            background-color: var(--bg-primary);
             border: none;
             border-radius: 4px;
-            color: #5f6368;
+            color: var(--text-secondary);
             font-size: 14px;
             cursor: pointer;
             margin-bottom: 20px;
@@ -693,7 +852,7 @@
         }
 
         .back-button:hover {
-            background-color: #e0e0e0;
+            background-color: var(--hover-bg);
         }
 
         .back-button i {
@@ -707,7 +866,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: var(--modal-overlay);
             z-index: 1000;
             display: none;
         }
@@ -717,10 +876,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #fff;
+            background-color: var(--modal-bg);
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--card-shadow);
             width: 400px;
+            max-width: 90%;
             z-index: 1001;
             display: none;
         }
@@ -749,15 +909,17 @@
             display: block;
             margin-bottom: 5px;
             font-size: 14px;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         .form-group input {
             width: 100%;
             padding: 10px;
-            border: 1px solid #dadce0;
+            border: 1px solid var(--button-secondary-border);
             border-radius: 4px;
             font-size: 16px;
+            background-color: var(--input-bg);
+            color: var(--text-primary);
         }
 
         .form-actions {
@@ -769,14 +931,14 @@
         #createAccountBtn {
             background-color: transparent;
             border: none;
-            color: #1a73e8;
+            color: var(--accent-color);
             font-size: 14px;
             cursor: pointer;
         }
 
         #loginBtn {
-            background-color: #1a73e8;
-            color: #fff;
+            background-color: var(--button-primary-bg);
+            color: var(--button-primary-text);
             border: none;
             border-radius: 4px;
             padding: 10px 20px;
@@ -790,11 +952,11 @@
             justify-content: center;
             width: 100%;
             padding: 10px;
-            background-color: #fff;
-            border: 1px solid #dadce0;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--button-secondary-border);
             border-radius: 4px;
             font-size: 14px;
-            color: #5f6368;
+            color: var(--text-secondary);
             cursor: pointer;
             margin-bottom: 20px;
         }
@@ -818,10 +980,10 @@
         }
 
         .image-card {
-            background-color: #fff;
+            background-color: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
@@ -840,7 +1002,7 @@
         .image-type {
             padding: 10px;
             font-size: 14px;
-            color: #5f6368;
+            color: var(--text-secondary);
             text-align: center;
         }
 
@@ -854,23 +1016,23 @@
 
         .genre-filter {
             padding: 8px 16px;
-            background-color: #f5f5f5;
-            border: 1px solid #dadce0;
+            background-color: var(--genre-bg);
+            border: 1px solid var(--button-secondary-border);
             border-radius: 20px;
             font-size: 14px;
-            color: #5f6368;
+            color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s;
         }
 
         .genre-filter:hover {
-            background-color: #e0e0e0;
+            background-color: var(--hover-bg);
         }
 
         .genre-filter.active {
-            background-color: #1a73e8;
-            color: #fff;
-            border-color: #1a73e8;
+            background-color: var(--genre-active-bg);
+            color: var(--genre-active-text);
+            border-color: var(--genre-active-bg);
         }
 
         /* Seletor de temporada */
@@ -878,15 +1040,18 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .season-year, .season-name {
             padding: 10px 20px;
-            background-color: #fff;
-            border: 1px solid #dadce0;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--button-secondary-border);
             border-radius: 4px;
             font-size: 16px;
-            color: #5f6368;
+            color: var(--text-secondary);
+            flex-grow: 1;
         }
 
         /* Configurações */
@@ -896,7 +1061,7 @@
 
         .settings-section h3 {
             margin-bottom: 15px;
-            color: #202124;
+            color: var(--text-primary);
         }
 
         .settings-option {
@@ -908,7 +1073,7 @@
         .settings-option label {
             margin-left: 10px;
             font-size: 16px;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         /* Ajuda */
@@ -918,7 +1083,7 @@
 
         .help-section h3 {
             margin-bottom: 15px;
-            color: #202124;
+            color: var(--text-primary);
         }
 
         .faq-item {
@@ -928,22 +1093,22 @@
         .faq-question {
             font-size: 16px;
             font-weight: 500;
-            color: #202124;
+            color: var(--text-primary);
             margin-bottom: 10px;
         }
 
         .faq-answer {
             font-size: 14px;
             line-height: 1.6;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         /* Favoritos */
         .favorites-empty {
             text-align: center;
             padding: 40px;
-            color: #5f6368;
-            background-color: #f5f5f5;
+            color: var(--text-secondary);
+            background-color: var(--bg-primary);
             border-radius: 8px;
         }
 
@@ -952,10 +1117,10 @@
             align-items: center;
             justify-content: center;
             padding: 8px 16px;
-            background-color: #f5f5f5;
+            background-color: var(--bg-primary);
             border: none;
             border-radius: 4px;
-            color: #5f6368;
+            color: var(--text-secondary);
             font-size: 14px;
             cursor: pointer;
             margin-top: 20px;
@@ -963,61 +1128,160 @@
         }
 
         .favorite-button:hover {
-            background-color: #e0e0e0;
+            background-color: var(--hover-bg);
         }
 
         .favorite-button i {
             margin-right: 5px;
-            color: #ff6d00;
+            color: var(--favorite-icon-color);
         }
 
         .favorite-button.active i {
-            color: #ff6d00;
+            color: var(--favorite-icon-color);
         }
 
         /* Responsividade */
+        @media (max-width: 1024px) {
+            .search-bar {
+                width: 300px;
+            }
+        }
+
         @media (max-width: 768px) {
-            .sidebar {
-                width: 60px;
-                overflow: hidden;
+            .menu-toggle {
+                display: block;
             }
             
-            .sidebar .logo span,
-            .sidebar .menu-item span,
-            .sidebar .footer {
-                display: none;
+            .sidebar {
+                width: 250px;
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
             }
             
             .main-content {
-                margin-left: 60px;
+                margin-left: 0;
+                padding: 15px;
             }
             
             .search-bar {
                 width: 200px;
             }
             
-            .anime-grid, .episodes-grid, .search-results {
+            .anime-grid, .episodes-grid, .search-results, .images-tab {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
 
             .anime-header {
                 flex-direction: column;
+                padding: 20px;
             }
             
             .anime-cover {
                 width: 100%;
+                max-width: 225px;
                 height: auto;
-                margin-right: 0;
-                margin-bottom: 20px;
+                margin: 0 auto 20px;
             }
             
             .anime-tabs {
                 overflow-x: auto;
                 white-space: nowrap;
+                padding-bottom: 5px;
+            }
+            
+            .tab-button {
+                padding: 12px 15px;
+                font-size: 14px;
             }
             
             .characters-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .header {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .header-right {
+                margin-left: auto;
+            }
+            
+            .profile-popup {
+                right: 10px;
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .anime-grid, .episodes-grid, .search-results, .images-tab, .characters-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 15px;
+            }
+            
+            .anime-image {
+                height: 200px;
+            }
+            
+            .search-bar {
+                width: 100%;
+                margin-top: 10px;
+                order: 3;
+            }
+            
+            .header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .header-left {
+                display: flex;
+                align-items: center;
+            }
+            
+            .episode-item {
+                flex-direction: column;
+            }
+            
+            .episode-date {
+                margin-top: 5px;
+            }
+            
+            .anime-meta, .anime-genres {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            
+            .anime-meta span, .anime-genres span {
+                margin-bottom: 5px;
+            }
+            
+            .anime-info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .anime-info-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .anime-info-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            #createAccountBtn, #loginBtn {
+                width: 100%;
+                text-align: center;
             }
         }
 
@@ -1028,9 +1292,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: var(--image-modal-bg);
             z-index: 2000;
-            display: none;
+            display: flex;
             justify-content: center;
             align-items: center;
         }
@@ -1056,10 +1320,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #fff;
+            background-color: var(--modal-bg);
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--card-shadow);
             width: 400px;
+            max-width: 90%;
             z-index: 1001;
             display: none;
         }
@@ -1091,10 +1356,10 @@
             position: absolute;
             bottom: 0;
             right: 0;
-            background-color: #fff;
+            background-color: var(--bg-secondary);
             border-radius: 50%;
             padding: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--card-shadow);
             cursor: pointer;
         }
 
@@ -1103,8 +1368,8 @@
         }
 
         .save-profile-btn {
-            background-color: #1a73e8;
-            color: #fff;
+            background-color: var(--button-primary-bg);
+            color: var(--button-primary-text);
             border: none;
             border-radius: 4px;
             padding: 10px 20px;
@@ -1116,8 +1381,8 @@
 
         /* Botão salvar nas configurações */
         .save-settings-btn {
-            background-color: #1a73e8;
-            color: #fff;
+            background-color: var(--button-primary-bg);
+            color: var(--button-primary-text);
             border: none;
             border-radius: 4px;
             padding: 10px 20px;
@@ -1129,7 +1394,7 @@
         /* Informações detalhadas do anime */
         .anime-detailed-info {
             margin-top: 20px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--border-color);
             padding-top: 20px;
         }
 
@@ -1147,11 +1412,12 @@
         .anime-info-label {
             font-weight: 500;
             width: 150px;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         .anime-info-value {
             flex: 1;
+            color: var(--text-primary);
         }
 
         /* Trailers */
@@ -1179,10 +1445,10 @@
 
         .platform-item {
             padding: 5px 10px;
-            background-color: #f5f5f5;
+            background-color: var(--platform-bg);
             border-radius: 4px;
             font-size: 14px;
-            color: #5f6368;
+            color: var(--platform-text);
         }
 
         /* Modal para adicionar nova conta */
@@ -1191,10 +1457,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #fff;
+            background-color: var(--modal-bg);
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--card-shadow);
             width: 400px;
+            max-width: 90%;
             z-index: 1001;
             display: none;
         }
@@ -1215,14 +1482,14 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background-color: #f5f5f5;
+            background-color: var(--loading-bg);
             z-index: 2000;
         }
 
         .blogger-loading-bar {
             height: 100%;
             width: 0;
-            background-color: #1a73e8;
+            background-color: var(--loading-bar);
             transition: width 0.3s ease-in-out;
         }
 
@@ -1232,9 +1499,9 @@
             top: 100%;
             left: 0;
             right: 0;
-            background-color: #fff;
+            background-color: var(--bg-secondary);
             border-radius: 0 0 8px 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
             z-index: 100;
             display: none;
             max-height: 300px;
@@ -1245,15 +1512,45 @@
             padding: 10px 15px;
             cursor: pointer;
             transition: background-color 0.2s;
+            color: var(--text-primary);
         }
 
         .suggestion-item:hover {
-            background-color: #f5f5f5;
+            background-color: var(--hover-bg);
         }
 
         .search-highlight {
-            color: #1a73e8;
+            color: var(--accent-color);
             font-weight: 500;
+        }
+
+        /* Add styles for video player */
+        .video-player-container {
+            display: none;
+            margin-bottom: 20px;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .video-player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #000;
+        }
+        
+        .video-title {
+            padding: 15px;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .episode-item.active {
+            background-color: var(--hover-bg);
+            border-left: 3px solid var(--accent-color);
         }
     </style>
 </head>
@@ -1311,14 +1608,30 @@
             </div>
 
             <div class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="material-icons">menu</i>
+                    </button>
+                </div>
                 <div class="search-bar">
                     <i class="material-icons">search</i>
                     <input type="text" placeholder="Pesquisar animes..." id="searchInput">
                     <div class="search-suggestions" id="searchSuggestions"></div>
                 </div>
-                <div class="user-profile" id="userProfileBtn">
-                    <div class="avatar">
-                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png" alt="Avatar" id="userAvatar">
+                <div class="header-right">
+                    <!-- Botão de alternância de tema -->
+                    <div class="theme-toggle-header" id="themeToggle">
+                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.65 0-3 1.35-3 3s1.35 3 3 3 3-1.35 3-3-1.35-3-3-3zm0-3c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1zm0 14c-.55 0-1 .45-1 1v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1zm7-7c0-.55-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1h2c.55 0 1-.45 1-1zm-14 0c0 .55.45 1 1 1h2c.55 0 1-.45 1-1s-.45-1-1-1H6c-.55 0-1 .45-1 1zm12.95 4.55c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41l1.41 1.41c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41l-1.41-1.41zm-9.9-9.9l-1.41-1.41c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L5.64 7.05c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41zm9.9 0c-.39-.39-1.02-.39-1.41 0L16.95 7.05c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.41-1.41c.39-.39.39-1.02 0-1.41zM5.64 16.95l-1.41 1.41c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.41-1.41c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0z"/>
+                        </svg>
+                        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+                        </svg>
+                    </div>
+                    <div class="user-profile" id="userProfileBtn">
+                        <div class="avatar">
+                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png" alt="Avatar" id="userAvatar">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1445,14 +1758,6 @@
                     <h1>Configurações</h1>
                     
                     <div class="settings-section">
-                        <h3>Aparência</h3>
-                        <div class="settings-option">
-                            <input type="checkbox" id="darkMode">
-                            <label for="darkMode">Modo escuro</label>
-                        </div>
-                    </div>
-                    
-                    <div class="settings-section">
                         <h3>Idioma</h3>
                         <div class="settings-option">
                             <input type="radio" name="language" id="langPt" checked>
@@ -1506,6 +1811,11 @@
                         <div class="faq-item">
                             <div class="faq-question">Como criar uma conta?</div>
                             <div class="faq-answer">Clique no botão "Criar conta" na tela de login e preencha os campos solicitados, ou use a opção "Entrar com Google".</div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Como alternar entre os temas claro e escuro?</div>
+                            <div class="faq-answer">Clique no ícone de sol/lua ao lado da sua foto de perfil no canto superior direito para alternar entre os temas claro e escuro.</div>
                         </div>
                     </div>
                     
@@ -1853,9 +2163,104 @@
         </div>
     </div>
 
-    <!-- Incluindo o arquivo JavaScript externo -->
-<script>
-  // Configurações da API
+    <!-- JavaScript para funcionalidade responsiva -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+        // Função para alternar o menu lateral em dispositivos móveis
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            // Alternar menu lateral
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                if (sidebar.classList.contains('active')) {
+                    overlay.style.display = 'block';
+                } else {
+                    overlay.style.display = 'none';
+                }
+            });
+            
+            // Fechar menu ao clicar no overlay
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                overlay.style.display = 'none';
+            });
+            
+            // Alternar tema claro/escuro
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', function() {
+                document.documentElement.classList.toggle('dark-theme');
+            });
+            
+            // Fechar menu ao selecionar um item em dispositivos móveis
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
+                        overlay.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Ajustar layout em caso de redimensionamento da janela
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('active');
+                    overlay.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    <!-- Add video.js library for better video playback -->
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+
+    <!-- JavaScript para funcionalidade do tema -->
+    <script>
+        // Função para definir o tema
+        function setTheme(isDark) {
+            if (isDark) {
+                document.documentElement.classList.add('dark-theme');
+                document.documentElement.classList.remove('light-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.add('light-theme');
+                document.documentElement.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Verificar preferência salva no localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Aplicar tema salvo ou preferência do sistema
+            if (savedTheme === 'dark' || (savedTheme === null && prefersDark)) {
+                setTheme(true);
+            } else {
+                setTheme(false);
+            }
+
+            // Adicionar evento de clique ao botão de alternância de tema
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', function() {
+                const isDark = document.documentElement.classList.contains('dark-theme');
+                setTheme(!isDark);
+            });
+        });
+
+        // Atualizar tema quando a preferência do sistema mudar
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (localStorage.getItem('theme') === null) {
+                setTheme(e.matches);
+            }
+        });
+
+          // Configurações da API
 const API_BASE_URL = "https://api.jikan.moe/v4"
 
 // Função para adicionar delay entre as requisições (para evitar rate limiting)
@@ -2913,9 +3318,7 @@ class AuthManager {
     }
   }
 
-  // Mostrar modal de edição de perfil
   showEditProfileModal() {
-    // Preencher campos com dados do usuário atual
     this.profileName.value = this.currentUser.name || ""
     this.profileEmail.value = this.currentUser.email || ""
     this.editAvatarPreview.src =
@@ -2927,31 +3330,26 @@ class AuthManager {
     this.hideProfilePopup()
   }
 
-  // Esconder modal de edição de perfil
   hideEditProfileModal() {
     this.editProfileModal.style.display = "none"
     this.overlay.style.display = "none"
   }
 
-  // Mostrar modal para adicionar nova conta
   showAddAccountModal() {
     this.addAccountModal.style.display = "block"
     this.overlay.style.display = "block"
     this.hideProfilePopup()
 
-    // Limpar campos
     this.newEmail.value = ""
     this.newPassword.value = ""
     this.newName.value = ""
   }
 
-  // Esconder modal para adicionar nova conta
   hideAddAccountModal() {
     this.addAccountModal.style.display = "none"
     this.overlay.style.display = "none"
   }
 
-  // Lidar com mudança de avatar
   handleAvatarChange(e) {
     const file = e.target.files[0]
     if (file) {
@@ -2963,35 +3361,27 @@ class AuthManager {
     }
   }
 
-  // Salvar perfil
   saveProfile() {
     if (!this.currentUser) return
 
-    // Atualizar dados do usuário
     this.currentUser.name = this.profileName.value
     this.currentUser.avatar = this.editAvatarPreview.src
 
-    // Atualizar usuário no localStorage
     localStorage.setItem("animeblog_current_user", JSON.stringify(this.currentUser))
 
-    // Atualizar usuário na lista de usuários
     const userIndex = this.users.findIndex((u) => u.id === this.currentUser.id)
     if (userIndex !== -1) {
       this.users[userIndex] = this.currentUser
       this.saveUsers()
     }
 
-    // Atualizar UI
     this.updateUIForLoggedInUser()
 
-    // Esconder modal
     this.hideEditProfileModal()
 
-    // Mostrar mensagem de sucesso
     alert("Perfil atualizado com sucesso!")
   }
 
-  // Adicionar nova conta
   addNewAccount() {
     const email = this.newEmail.value
     const password = this.newPassword.value
@@ -3002,13 +3392,11 @@ class AuthManager {
       return
     }
 
-    // Verificar se o email já está em uso
     if (this.users.some((u) => u.email === email)) {
       alert("Este email já está em uso. Tente outro.")
       return
     }
 
-    // Criar nova conta
     const newAccount = {
       id: Date.now().toString(),
       email: email,
@@ -3020,11 +3408,9 @@ class AuthManager {
       favorites: [],
     }
 
-    // Adicionar conta à lista de usuários
     this.users.push(newAccount)
     this.saveUsers()
 
-    // Adicionar à lista de contas do usuário atual
     if (!this.accounts.some((a) => a.userId === this.currentUser.id)) {
       this.accounts.push({
         userId: this.currentUser.id,
@@ -3038,17 +3424,13 @@ class AuthManager {
       this.saveAccounts()
     }
 
-    // Esconder modal
     this.hideAddAccountModal()
 
-    // Mostrar mensagem de sucesso
     alert("Conta adicionada com sucesso!")
   }
 
-  // Atualizar UI para usuário logado
   updateUIForLoggedInUser() {
     if (this.currentUser) {
-      // Atualizar avatar e informações do usuário
       this.userAvatar.src =
         this.currentUser.avatar ||
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-24%20213027-TNmCDRAGaD4bMH7QEX5mc4craQCPnw.png"
@@ -3058,34 +3440,28 @@ class AuthManager {
       this.userEmail.textContent = this.currentUser.email
       this.userName.textContent = this.currentUser.name || this.currentUser.email.split("@")[0]
 
-      // Esconder modal de login
       this.hideLoginModal()
     }
   }
 
-  // Lidar com login
   handleLogin() {
     const email = document.getElementById("email").value
     const password = document.getElementById("password").value
 
-    // Verificar se o usuário existe
     const user = this.users.find((u) => u.email === email && u.password === password)
 
     if (user) {
       this.currentUser = user
       this.isLoggedIn = true
 
-      // Salvar usuário logado no localStorage
       localStorage.setItem("animeblog_current_user", JSON.stringify(this.currentUser))
 
-      // Atualizar UI
       this.updateUIForLoggedInUser()
     } else {
       alert("Email ou senha incorretos. Tente novamente.")
     }
   }
 
-  // Lidar com criação de conta
   handleCreateAccount() {
     const email = document.getElementById("email").value
     const password = document.getElementById("password").value
@@ -3095,13 +3471,11 @@ class AuthManager {
       return
     }
 
-    // Verificar se o usuário já existe
     if (this.users.some((u) => u.email === email)) {
       alert("Este email já está em uso. Tente outro.")
       return
     }
 
-    // Criar novo usuário
     const newUser = {
       id: Date.now().toString(),
       email: email,
@@ -3113,26 +3487,20 @@ class AuthManager {
       favorites: [],
     }
 
-    // Adicionar usuário à lista
     this.users.push(newUser)
     this.saveUsers()
 
-    // Fazer login com o novo usuário
     this.currentUser = newUser
     this.isLoggedIn = true
 
-    // Salvar usuário logado no localStorage
     localStorage.setItem("animeblog_current_user", JSON.stringify(this.currentUser))
 
-    // Atualizar UI
     this.updateUIForLoggedInUser()
 
     alert("Conta criada com sucesso!")
   }
 
-  // Lidar com login do Google
   handleGoogleLogin() {
-    // Simular login com o Google
     const googleUser = {
       id: "google_" + Date.now().toString(),
       email: "usuario.google@gmail.com",
@@ -3143,47 +3511,37 @@ class AuthManager {
       favorites: [],
     }
 
-    // Verificar se o usuário já existe
     let existingUser = this.users.find((u) => u.email === googleUser.email)
 
     if (!existingUser) {
-      // Adicionar usuário à lista
       this.users.push(googleUser)
       this.saveUsers()
       existingUser = googleUser
     }
 
-    // Fazer login com o usuário
     this.currentUser = existingUser
     this.isLoggedIn = true
 
-    // Salvar usuário logado no localStorage
     localStorage.setItem("animeblog_current_user", JSON.stringify(this.currentUser))
 
-    // Atualizar UI
     this.updateUIForLoggedInUser()
   }
 
-  // Lidar com logout
   handleLogout() {
     this.currentUser = null
     this.isLoggedIn = false
 
-    // Remover usuário logado do localStorage
     localStorage.removeItem("animeblog_current_user")
 
-    // Atualizar UI
     this.hideProfilePopup()
     this.showLoginModal()
   }
 
-  // Verificar se um anime está nos favoritos
   isFavorite(animeId) {
     if (!this.currentUser || !this.currentUser.favorites) return false
     return this.currentUser.favorites.some((fav) => fav.id === animeId)
   }
 
-  // Adicionar anime aos favoritos
   addToFavorites(anime) {
     if (!this.currentUser) return false
 
@@ -3191,10 +3549,8 @@ class AuthManager {
       this.currentUser.favorites = []
     }
 
-    // Verificar se o anime já está nos favoritos
     if (this.isFavorite(anime.mal_id)) return false
 
-    // Adicionar anime aos favoritos
     const favoriteAnime = {
       id: anime.mal_id,
       title: anime.title_portuguese || anime.title,
@@ -3206,10 +3562,8 @@ class AuthManager {
 
     this.currentUser.favorites.push(favoriteAnime)
 
-    // Atualizar usuário no localStorage
     localStorage.setItem("animeblog_current_user", JSON.stringify(this.currentUser))
 
-    // Atualizar usuário na lista de usuários
     const userIndex = this.users.findIndex((u) => u.id === this.currentUser.id)
     if (userIndex !== -1) {
       this.users[userIndex] = this.currentUser
@@ -3219,20 +3573,15 @@ class AuthManager {
     return true
   }
 
-  // Remover anime dos favoritos
   removeFromFavorites(animeId) {
     if (!this.currentUser || !this.currentUser.favorites) return false
 
-    // Verificar se o anime está nos favoritos
     if (!this.isFavorite(animeId)) return false
 
-    // Remover anime dos favoritos
     this.currentUser.favorites = this.currentUser.favorites.filter((fav) => fav.id !== animeId)
 
-    // Atualizar usuário no localStorage
     localStorage.setItem("animeblog_current_user", JSON.stringify(this.currentUser))
 
-    // Atualizar usuário na lista de usuários
     const userIndex = this.users.findIndex((u) => u.id === this.currentUser.id)
     if (userIndex !== -1) {
       this.users[userIndex] = this.currentUser
@@ -3242,14 +3591,12 @@ class AuthManager {
     return true
   }
 
-  // Obter favoritos do usuário
   getFavorites() {
     if (!this.currentUser || !this.currentUser.favorites) return []
     return this.currentUser.favorites
   }
 }
 
-// Função para formatar data
 function formatarData(dataString) {
   if (!dataString) return "Data desconhecida"
 
@@ -3264,7 +3611,6 @@ function formatarData(dataString) {
   })
 }
 
-// Função para renderizar paginação
 function renderizarPaginacao(container, paginacao, paginaAtual, callback) {
   if (!paginacao || !paginacao.last_visible_page) {
     container.innerHTML = ""
@@ -3280,7 +3626,6 @@ function renderizarPaginacao(container, paginacao, paginaAtual, callback) {
 
   let html = ""
 
-  // Botão anterior
   html += `
         <button class="pagination-button ${paginaAtual === 1 ? "disabled" : ""}" 
             ${paginaAtual === 1 ? "disabled" : ""} data-page="${paginaAtual - 1}">
@@ -3288,7 +3633,6 @@ function renderizarPaginacao(container, paginacao, paginaAtual, callback) {
         </button>
     `
 
-  // Páginas
   const maxPaginas = 5
   let inicio = Math.max(1, paginaAtual - Math.floor(maxPaginas / 2))
   const fim = Math.min(totalPaginas, inicio + maxPaginas - 1)
@@ -3305,7 +3649,6 @@ function renderizarPaginacao(container, paginacao, paginaAtual, callback) {
         `
   }
 
-  // Botão próximo
   html += `
         <button class="pagination-button ${paginaAtual === totalPaginas ? "disabled" : ""}" 
             ${paginaAtual === totalPaginas ? "disabled" : ""} data-page="${paginaAtual + 1}">
@@ -3315,7 +3658,6 @@ function renderizarPaginacao(container, paginacao, paginaAtual, callback) {
 
   container.innerHTML = html
 
-  // Adicionar event listeners
   container.querySelectorAll(".pagination-button:not(.disabled)").forEach((button) => {
     button.addEventListener("click", () => {
       const pagina = Number.parseInt(button.dataset.page)
@@ -3324,7 +3666,6 @@ function renderizarPaginacao(container, paginacao, paginaAtual, callback) {
   })
 }
 
-// Gerenciador de páginas
 class PageManager {
   constructor() {
     this.currentPage = "home"
@@ -3333,8 +3674,6 @@ class PageManager {
     this.currentGenreId = null
     this.currentYear = new Date().getFullYear()
     this.currentSeason = this.getCurrentSeason()
-
-    // Páginas
     this.homePage = document.getElementById("homePage")
     this.trendingPage = document.getElementById("trendingPage")
     this.seasonsPage = document.getElementById("seasonsPage")
@@ -3344,31 +3683,17 @@ class PageManager {
     this.helpPage = document.getElementById("helpPage")
     this.animeDetailsPage = document.getElementById("animeDetailsPage")
     this.searchResultsPage = document.getElementById("searchResultsPage")
-
-    // Botões de navegação
     this.backToHome = document.getElementById("backToHome")
     this.backFromSearch = document.getElementById("backFromSearch")
-
-    // Barra de pesquisa
     this.searchInput = document.getElementById("searchInput")
     this.searchSuggestions = document.getElementById("searchSuggestions")
-
-    // Menu lateral
     this.menuItems = document.querySelectorAll(".menu-item")
-
-    // Seletores de temporada
     this.seasonYear = document.getElementById("seasonYear")
     this.seasonName = document.getElementById("seasonName")
-
-    // Modal de imagem
     this.imageModal = document.getElementById("imageModal")
     this.modalImage = document.getElementById("modalImage")
     this.closeImageModal = document.getElementById("closeImageModal")
-
-    // Botão salvar nas configurações
     this.saveSettingsBtn = document.getElementById("saveSettingsBtn")
-
-    // Modais de políticas
     this.termsLink = document.getElementById("termsLink")
     this.privacyLink = document.getElementById("privacyLink")
     this.contentPolicyLink = document.getElementById("contentPolicyLink")
@@ -3381,15 +3706,13 @@ class PageManager {
     this.closePrivacyBtn = document.getElementById("closePrivacyBtn")
     this.closeContentPolicyBtn = document.getElementById("closeContentPolicyBtn")
 
-    // Overlay para modais
     this.overlay = document.getElementById("overlay")
 
     this.init()
   }
 
-  // Obter temporada atual
   getCurrentSeason() {
-    const month = new Date().getMonth() + 1 // Janeiro é 0
+    const month = new Date().getMonth() + 1 
 
     if (month >= 1 && month <= 3) return "winter"
     if (month >= 4 && month <= 6) return "spring"
@@ -3398,16 +3721,12 @@ class PageManager {
   }
 
   init() {
-    // Adicionar event listeners
     this.addEventListeners()
 
-    // Mostrar página inicial
     this.showPage("home")
 
-    // Carregar dados iniciais
     this.loadInitialData()
 
-    // Preencher seletor de ano
     this.fillYearSelector()
   }
 
@@ -3415,7 +3734,6 @@ class PageManager {
     const currentYear = new Date().getFullYear()
     let html = ""
 
-    // Adicionar anos de 1990 até o ano atual
     for (let year = currentYear; year >= 1990; year--) {
       html += `<option value="${year}" ${year === currentYear ? "selected" : ""}>${year}</option>`
     }
@@ -3424,7 +3742,6 @@ class PageManager {
   }
 
   addEventListeners() {
-    // Botões de voltar
     this.backToHome.addEventListener("click", () => {
       this.showPage(this.previousPage || "home")
     })
@@ -3433,7 +3750,6 @@ class PageManager {
       this.showPage(this.previousPage || "home")
     })
 
-    // Pesquisa
     this.searchInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
         const termo = this.searchInput.value.trim()
@@ -3443,12 +3759,10 @@ class PageManager {
       }
     })
 
-    // Sugestões de pesquisa (estilo Blogger)
     this.searchInput.addEventListener("input", () => {
       this.handleSearchSuggestions()
     })
 
-    // Menu lateral
     this.menuItems.forEach((item) => {
       item.addEventListener("click", () => {
         const section = item.dataset.section
@@ -3458,7 +3772,6 @@ class PageManager {
       })
     })
 
-    // Seletores de temporada
     this.seasonYear.addEventListener("change", () => {
       this.currentYear = Number.parseInt(this.seasonYear.value)
       this.loadSeasonalAnimes()
@@ -3469,31 +3782,26 @@ class PageManager {
       this.loadSeasonalAnimes()
     })
 
-    // Modal de imagem
     this.closeImageModal.addEventListener("click", () => {
       this.hideImageModal()
     })
 
-    // Fechar modal de imagem ao clicar fora
     this.imageModal.addEventListener("click", (e) => {
       if (e.target === this.imageModal) {
         this.hideImageModal()
       }
     })
 
-    // Fechar modal de imagem com ESC
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && this.imageModal.style.display === "flex") {
         this.hideImageModal()
       }
     })
 
-    // Botão salvar nas configurações
     this.saveSettingsBtn.addEventListener("click", () => {
       this.saveSettings()
     })
 
-    // Links de políticas
     this.termsLink.addEventListener("click", (e) => {
       e.preventDefault()
       this.showTermsModal()
@@ -3519,7 +3827,6 @@ class PageManager {
       this.showPrivacyModal()
     })
 
-    // Botões para fechar modais de políticas
     this.closeTermsBtn.addEventListener("click", () => {
       this.hideTermsModal()
     })
@@ -3533,51 +3840,42 @@ class PageManager {
     })
   }
 
-  // Mostrar modal de termos
   showTermsModal() {
     this.termsModal.style.display = "block"
     this.overlay.style.display = "block"
   }
 
-  // Esconder modal de termos
   hideTermsModal() {
     this.termsModal.style.display = "none"
     this.overlay.style.display = "none"
   }
 
-  // Mostrar modal de privacidade
   showPrivacyModal() {
     this.privacyModal.style.display = "block"
     this.overlay.style.display = "block"
   }
 
-  // Esconder modal de privacidade
   hidePrivacyModal() {
     this.privacyModal.style.display = "none"
     this.overlay.style.display = "none"
   }
 
-  // Mostrar modal de política de conteúdo
   showContentPolicyModal() {
     this.contentPolicyModal.style.display = "block"
     this.overlay.style.display = "block"
   }
 
-  // Esconder modal de política de conteúdo
   hideContentPolicyModal() {
     this.contentPolicyModal.style.display = "none"
     this.overlay.style.display = "none"
   }
 
-  // Salvar configurações
   saveSettings() {
-    // Obter valores das configurações
     const darkMode = document.getElementById("darkMode").checked
     const language = document.querySelector('input[name="language"]:checked').id
     const notifyNewEpisodes = document.getElementById("notifyNewEpisodes").checked
     const notifyNewAnimes = document.getElementById("notifyNewAnimes").checked
 
-    // Salvar configurações no localStorage
     const settings = {
       darkMode,
       language,
@@ -3589,30 +3887,27 @@ class PageManager {
 
     localStorage.setItem("animeblog_settings", JSON.stringify(settings))
 
-    // Aplicar modo escuro, se necessário
     if (darkMode) {
       document.body.classList.add("dark-mode")
     } else {
       document.body.classList.remove("dark-mode")
     }
 
-    // Mostrar mensagem de sucesso
     alert("Configurações salvas com sucesso!")
   }
 
-  // Lidar com clique no menu
   handleMenuClick(section) {
     this.showPage(section)
   }
 
-  // Lidar com sugestões de pesquisa (estilo Blogger)
   async handleSearchSuggestions() {
     const termo = this.searchInput.value.trim()
 
     if (termo.length < 2) {
-      this.searchSuggestions.style.display = "none"
-      return
-    }
+  this.searchSuggestions.style.display = "none";
+  return;
+}
+
 
     try {
       const response = await fetch(`${API_BASE_URL}/anime?q=${encodeURIComponent(termo)}&limit=5`)
@@ -3622,7 +3917,6 @@ class PageManager {
         let html = ""
 
         data.data.forEach((anime) => {
-          // Destacar o termo pesquisado
           const title = anime.title.replace(
             new RegExp(termo, "gi"),
             (match) => `<span class="search-highlight">${match}</span>`,
@@ -3638,7 +3932,6 @@ class PageManager {
         this.searchSuggestions.innerHTML = html
         this.searchSuggestions.style.display = "block"
 
-        // Adicionar event listeners para as sugestões
         this.searchSuggestions.querySelectorAll(".suggestion-item").forEach((item) => {
           item.addEventListener("click", () => {
             const animeId = item.dataset.id
@@ -3656,7 +3949,6 @@ class PageManager {
     }
   }
 
-  // Pesquisar animes
   async searchAnimes(termo) {
     this.currentSearchTerm = termo
     this.showPage("searchResults")
@@ -3702,7 +3994,6 @@ class PageManager {
 
       searchResults.innerHTML = html
 
-      // Adicionar event listeners para os cards
       searchResults.querySelectorAll(".anime-card").forEach((card) => {
         card.addEventListener("click", () => {
           const animeId = card.dataset.id
@@ -3710,7 +4001,6 @@ class PageManager {
         })
       })
 
-      // Renderizar paginação
       renderizarPaginacao(searchPagination, paginacao, 1, (novaPagina) => {
         this.searchAnimesPage(termo, novaPagina)
       })
@@ -3720,7 +4010,6 @@ class PageManager {
     }
   }
 
-  // Pesquisar animes (paginação)
   async searchAnimesPage(termo, pagina) {
     const searchResults = document.getElementById("searchResults")
     const searchPagination = document.getElementById("searchPagination")
@@ -3761,7 +4050,6 @@ class PageManager {
 
       searchResults.innerHTML = html
 
-      // Adicionar event listeners para os cards
       searchResults.querySelectorAll(".anime-card").forEach((card) => {
         card.addEventListener("click", () => {
           const animeId = card.dataset.id
@@ -3769,7 +4057,6 @@ class PageManager {
         })
       })
 
-      // Renderizar paginação
       renderizarPaginacao(searchPagination, paginacao, pagina, (novaPagina) => {
         this.searchAnimesPage(termo, novaPagina)
       })
@@ -3780,12 +4067,10 @@ class PageManager {
   }
 
   showPage(page) {
-    // Salvar página anterior
     if (this.currentPage !== page) {
       this.previousPage = this.currentPage
     }
 
-    // Esconder todas as páginas
     this.homePage.style.display = "none"
     this.trendingPage.style.display = "none"
     this.seasonsPage.style.display = "none"
@@ -3796,7 +4081,6 @@ class PageManager {
     this.animeDetailsPage.style.display = "none"
     this.searchResultsPage.style.display = "none"
 
-    // Mostrar a página selecionada
     if (page === "home") {
       this.homePage.style.display = "block"
       this.currentPage = "home"
@@ -3830,17 +4114,14 @@ class PageManager {
       this.currentPage = "searchResults"
     }
 
-    // Atualizar menu
     this.updateMenu()
   }
 
   updateMenu() {
-    // Remover classe active de todos os itens do menu
     this.menuItems.forEach((item) => {
       item.classList.remove("active")
     })
 
-    // Adicionar classe active ao item correspondente à página atual
     const activeItem = document.querySelector(`.menu-item[data-section="${this.currentPage}"]`)
     if (activeItem) {
       activeItem.classList.add("active")
@@ -3848,21 +4129,16 @@ class PageManager {
   }
 
   async loadInitialData() {
-    // Carregar animes em destaque
     const animesDestaque = await buscarAnimesEmDestaque(12)
     this.renderizarAnimesDestaque(animesDestaque)
 
-    // Aguardar um pouco para evitar rate limiting
     await delay(1000)
 
-    // Carregar últimos episódios
     const ultimosEpisodios = await buscarUltimosEpisodios(8)
     this.renderizarUltimosEpisodios(ultimosEpisodios)
 
-    // Aguardar um pouco para evitar rate limiting
     await delay(1000)
 
-    // Carregar animes da temporada
     const animesDaTemporada = await buscarAnimesDaTemporada(12)
     this.renderizarAnimesDaTemporada(animesDaTemporada)
   }
@@ -3894,7 +4170,6 @@ class PageManager {
 
     container.innerHTML = html
 
-    // Adicionar event listeners para os cards
     container.querySelectorAll(".anime-card").forEach((card) => {
       card.addEventListener("click", () => {
         const animeId = card.dataset.id
@@ -3927,7 +4202,6 @@ class PageManager {
 
     container.innerHTML = html
 
-    // Adicionar event listeners para os cards de episódios
     container.querySelectorAll(".episode-card").forEach((card) => {
       card.addEventListener("click", () => {
         const animeId = card.dataset.id
@@ -3963,7 +4237,6 @@ class PageManager {
 
     container.innerHTML = html
 
-    // Adicionar event listeners para os cards
     container.querySelectorAll(".anime-card").forEach((card) => {
       card.addEventListener("click", () => {
         const animeId = card.dataset.id
@@ -3976,7 +4249,6 @@ class PageManager {
     this.currentAnimeId = animeId
     this.showPage("animeDetails")
 
-    // Elementos do DOM
     const loadingAnime = document.querySelector(".loading-anime")
     const animeHeader = document.getElementById("animeHeader")
     const animeCover = document.getElementById("animeCover")
@@ -3988,8 +4260,6 @@ class PageManager {
     const animeGenres = document.getElementById("animeGenres")
     const animeSynopsis = document.getElementById("animeSynopsis")
     const favoriteButton = document.getElementById("favoriteButton")
-
-    // Elementos para informações detalhadas
     const animeTitlesAlt = document.getElementById("animeTitlesAlt")
     const animeAired = document.getElementById("animeAired")
     const animeStatusDetailed = document.getElementById("animeStatusDetailed")
@@ -4005,7 +4275,6 @@ class PageManager {
     const animeProducers = document.getElementById("animeProducers")
     const animeStreaming = document.getElementById("animeStreaming")
 
-    // Mostrar loading e esconder conteúdo
     loadingAnime.style.display = "block"
     animeHeader.style.display = "none"
 
@@ -4017,7 +4286,6 @@ class PageManager {
         return
       }
 
-      // Preencher dados do anime
       animeCover.src = anime.images.jpg.large_image_url
       animeCover.alt = anime.title_portuguese
       animeTitle.textContent = anime.title_portuguese
@@ -4026,7 +4294,6 @@ class PageManager {
       animeStatus.textContent = (await translator.translate(anime.status)) || "N/A"
       animeScore.textContent = anime.score ? anime.score + "★" : "N/A"
 
-      // Preencher gêneros
       let generosHTML = ""
       if (anime.genres && anime.genres.length > 0) {
         for (const genero of anime.genres) {
@@ -4036,11 +4303,8 @@ class PageManager {
         animeGenres.innerHTML = generosHTML
       }
 
-      // Preencher sinopse
       animeSynopsis.textContent = anime.synopsis_portuguese || "Sem sinopse disponível."
 
-      // Preencher informações detalhadas
-      // Títulos alternativos
       let titulosAlt = ""
       if (anime.title_english) titulosAlt += `Inglês: ${anime.title_english}<br>`
       if (anime.title_japanese) titulosAlt += `Japonês: ${anime.title_japanese}<br>`
@@ -4049,22 +4313,17 @@ class PageManager {
       }
       animeTitlesAlt.innerHTML = titulosAlt || "N/A"
 
-      // Exibição
       animeAired.innerHTML = anime.aired
         ? `${formatarData(anime.aired.from)} até ${anime.aired.to ? formatarData(anime.aired.to) : "Presente"}`
         : "N/A"
 
-      // Status detalhado
       animeStatusDetailed.textContent = (await translator.translate(anime.status)) || "N/A"
 
-      // Transmissão
       animeBroadcast.textContent = anime.broadcast ? await translator.translate(anime.broadcast.string) : "N/A"
 
-      // Estreia
       animePremiered.textContent =
         anime.season && anime.year ? `${await translator.translate(anime.season)} ${anime.year}` : "N/A"
 
-      // Temas
       let temasHTML = ""
       if (anime.themes && anime.themes.length > 0) {
         const temas = await Promise.all(anime.themes.map(async (tema) => await translator.translate(tema.name)))
@@ -4072,34 +4331,26 @@ class PageManager {
       }
       animeThemes.textContent = temasHTML || "N/A"
 
-      // Duração
       animeDuration.textContent = anime.duration || "N/A"
 
-      // Classificação
       animeRating.textContent = (await translator.translate(anime.rating)) || "N/A"
 
-      // Pontuação detalhada
       animeScoreDetailed.textContent = anime.score
         ? `${anime.score} (${anime.scored_by.toLocaleString()} votos)`
         : "N/A"
 
-      // Popularidade
       animePopularity.textContent = anime.popularity ? `#${anime.popularity}` : "N/A"
 
-      // Membros
       animeMembers.textContent = anime.members ? anime.members.toLocaleString() : "N/A"
 
-      // Favoritos
       animeFavorites.textContent = anime.favorites ? anime.favorites.toLocaleString() : "N/A"
 
-      // Produtores
       let produtoresHTML = ""
       if (anime.producers && anime.producers.length > 0) {
         produtoresHTML = anime.producers.map((produtor) => produtor.name).join(", ")
       }
       animeProducers.textContent = produtoresHTML || "N/A"
 
-      // Plataformas de streaming
       let streamingHTML = ""
       if (anime.streaming && anime.streaming.length > 0) {
         anime.streaming.forEach((plataforma) => {
@@ -4108,37 +4359,28 @@ class PageManager {
       }
       animeStreaming.innerHTML = streamingHTML || "Não disponível"
 
-      // Atualizar botão de favoritos
       this.updateFavoriteButton(anime)
 
-      // Esconder loading e mostrar conteúdo
       loadingAnime.style.display = "none"
       animeHeader.style.display = "flex"
 
-      // Carregar episódios por padrão
       this.carregarEpisodios(animeId)
 
-      // Adicionar event listeners para as tabs
       document.querySelectorAll(".tab-button").forEach((button) => {
         button.addEventListener("click", () => {
-          // Remover classe active de todas as tabs
           document.querySelectorAll(".tab-button").forEach((btn) => {
             btn.classList.remove("active")
           })
 
-          // Adicionar classe active à tab clicada
           button.classList.add("active")
 
-          // Esconder todos os painéis de conteúdo
           document.querySelectorAll(".tab-pane").forEach((pane) => {
             pane.classList.remove("active")
           })
 
-          // Mostrar o painel de conteúdo correspondente
           const tabId = button.dataset.tab + "Tab"
           document.getElementById(tabId).classList.add("active")
 
-          // Carregar dados específicos da tab, se necessário
           const tabName = button.dataset.tab
           if (tabName === "episodes") {
             this.carregarEpisodios(animeId)
@@ -4156,7 +4398,6 @@ class PageManager {
         })
       })
 
-      // Adicionar event listener para o botão de favoritos
       favoriteButton.addEventListener("click", () => {
         this.toggleFavorite(anime)
       })
@@ -4192,569 +4433,639 @@ class PageManager {
   }
 
   async carregarEpisodios(animeId, pagina = 1) {
-    const episodesList = document.getElementById("episodesList")
-    const episodesPagination = document.getElementById("episodesPagination")
-
-    episodesList.innerHTML = '<div class="loading">Carregando episódios...</div>'
-
-    try {
-      const resultado = await buscarEpisodiosAnime(animeId, pagina)
-
-      if (!resultado || resultado.error) {
-        episodesList.innerHTML = '<div class="error">Erro ao carregar episódios.</div>'
-        return
-      }
-
-      const { episodios, paginacao } = resultado
-
-      if (episodios.length === 0) {
-        episodesList.innerHTML = '<div class="no-data">Nenhum episódio disponível.</div>'
-        return
-      }
-
-      let html = ""
-
-      episodios.forEach((episodio) => {
-        html += `
-                    <div class="episode-item">
-                        <div class="episode-number">${episodio.mal_id}</div>
-                        <div class="episode-title">${episodio.title_portuguese || "Sem título"}</div>
-                        <div class="episode-date">${formatarData(episodio.aired)}</div>
-                    </div>
-                `
-      })
-
-      episodesList.innerHTML = html
-
-      // Renderizar paginação
-      renderizarPaginacao(episodesPagination, paginacao, pagina, (novaPagina) => {
-        this.carregarEpisodios(animeId, novaPagina)
-      })
-    } catch (error) {
-      console.error("Erro ao carregar episódios:", error)
-      episodesList.innerHTML = '<div class="error">Ocorreu um erro ao carregar os episódios.</div>'
-    }
-  }
-
-  async carregarPersonagens(animeId) {
-    const charactersGrid = document.getElementById("charactersGrid")
-
-    charactersGrid.innerHTML = '<div class="loading">Carregando personagens...</div>'
-
-    try {
-      const personagens = await buscarPersonagensAnime(animeId)
-
-      if (!personagens || personagens.error) {
-        charactersGrid.innerHTML = '<div class="error">Erro ao carregar personagens.</div>'
-        return
-      }
-
-      if (personagens.length === 0) {
-        charactersGrid.innerHTML = '<div class="no-data">Nenhum personagem disponível.</div>'
-        return
-      }
-
-      let html = ""
-
-      personagens.forEach((personagem) => {
-        html += `
-                    <div class="character-card">
-                        <img src="${personagem.character.images.jpg.image_url}" alt="${personagem.character.name}" class="character-image">
-                        <div class="character-info">
-                            <h3 class="character-name">${personagem.character.name}</h3>
-                            <div class="character-role">${personagem.role_portuguese}</div>
-                        </div>
-                    </div>
-                `
-      })
-
-      charactersGrid.innerHTML = html
-    } catch (error) {
-      console.error("Erro ao carregar personagens:", error)
-      charactersGrid.innerHTML = '<div class="error">Ocorreu um erro ao carregar os personagens.</div>'
-    }
-  }
-
-  async carregarImagens(animeId) {
-    const imagesGrid = document.getElementById("imagesGrid")
-
-    imagesGrid.innerHTML = '<div class="loading">Carregando imagens...</div>'
-
-    try {
-      const imagens = await buscarImagensAnime(animeId)
-
-      if (!imagens || imagens.error) {
-        imagesGrid.innerHTML = '<div class="error">Erro ao carregar imagens.</div>'
-        return
-      }
-
-      if (imagens.length === 0) {
-        imagesGrid.innerHTML = '<div class="no-data">Nenhuma imagem disponível.</div>'
-        return
-      }
-
-      let html = ""
-
-      imagens.forEach((imagem) => {
-        html += `
-                    <div class="image-card">
-                        <img src="${imagem.jpg.image_url}" alt="Imagem do anime" class="anime-gallery-image" data-full="${imagem.jpg.large_image_url}">
-                    </div>
-                `
-      })
-
-      imagesGrid.innerHTML = html
-
-      // Adicionar event listeners para as imagens
-      imagesGrid.querySelectorAll(".anime-gallery-image").forEach((img) => {
-        img.addEventListener("click", () => {
-          this.showImageModal(img.dataset.full)
-        })
-      })
-    } catch (error) {
-      console.error("Erro ao carregar imagens:", error)
-      imagesGrid.innerHTML = '<div class="error">Ocorreu um erro ao carregar as imagens.</div>'
-    }
-  }
-
-  async carregarAnimesRelacionados(animeId) {
-    const relatedAnime = document.getElementById("relatedAnime")
-
-    relatedAnime.innerHTML = '<div class="loading">Carregando animes relacionados...</div>'
-
-    try {
-      const relacionados = await buscarAnimesRelacionados(animeId)
-
-      if (!relacionados || relacionados.error) {
-        relatedAnime.innerHTML = '<div class="error">Erro ao carregar animes relacionados.</div>'
-        return
-      }
-
-      if (relacionados.length === 0) {
-        relatedAnime.innerHTML = '<div class="no-data">Nenhum anime relacionado disponível.</div>'
-        return
-      }
-
-      let html = ""
-      let animesAdicionados = 0
-
-      for (const relacao of relacionados) {
-        if (relacao.entry && relacao.entry.length > 0) {
-          for (const anime of relacao.entry) {
-            if (anime.type === "anime") {
-              html += `
-                                <div class="anime-card" data-id="${anime.mal_id}">
-                                    <img src="${anime.images?.jpg?.large_image_url || "/placeholder.svg?height=280&width=200"}" alt="${anime.name}" class="anime-image">
-                                    <div class="anime-info">
-                                        <h3 class="anime-title">${anime.name}</h3>
-                                        <div class="anime-details">
-                                            <span>${anime.type || "Anime"}</span>
-                                            <span>${(await translator.translate(relacao.relation)) || relacao.relation}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            `
-              animesAdicionados++
+            const episodesList = document.getElementById("episodesList");
+            const episodesPagination = document.getElementById("episodesPagination");
+            
+            // Check if video player container exists, if not create it
+            let videoPlayerContainer = document.getElementById("videoPlayerContainer");
+            if (!videoPlayerContainer) {
+                videoPlayerContainer = document.createElement("div");
+                videoPlayerContainer.id = "videoPlayerContainer";
+                videoPlayerContainer.className = "video-player-container";
+                
+                const videoTitle = document.createElement("div");
+                videoTitle.id = "videoTitle";
+                videoTitle.className = "video-title";
+                videoPlayerContainer.appendChild(videoTitle);
+                
+                const videoPlayer = document.createElement("video");
+                videoPlayer.id = "videoPlayer";
+                videoPlayer.className = "video-js vjs-default-skin video-player";
+                videoPlayer.controls = true;
+                videoPlayer.preload = "auto";
+                videoPlayerContainer.appendChild(videoPlayer);
+                
+                // Insert video player at the top of episodes tab
+                const episodesTab = document.getElementById("episodesTab");
+                episodesTab.insertBefore(videoPlayerContainer, episodesTab.firstChild);
             }
-          }
+
+            episodesList.innerHTML = '<div class="loading">Carregando episódios...</div>';
+
+            try {
+                // Get anime details to get the title
+                const anime = await buscarDetalhesAnime(animeId);
+                if (!anime || anime.error) {
+                    episodesList.innerHTML = '<div class="error">Erro ao carregar detalhes do anime.</div>';
+                    return;
+                }
+                
+                const animeTitle = anime.title;
+                // Store anime title for later use
+                episodesList.dataset.animeTitle = animeTitle;
+                
+                const resultado = await buscarEpisodiosAnime(animeId, pagina);
+
+                if (!resultado || resultado.error) {
+                    episodesList.innerHTML = '<div class="error">Erro ao carregar episódios.</div>';
+                    return;
+                }
+
+                const { episodios, paginacao } = resultado;
+
+                if (episodios.length === 0) {
+                    episodesList.innerHTML = '<div class="no-data">Nenhum episódio disponível.</div>';
+                    return;
+                }
+
+                let html = "";
+
+                episodios.forEach((episodio) => {
+                    html += `
+                        <div class="episode-item" data-episode="${episodio.mal_id}" data-title="${episodio.title_portuguese || 'Episódio ' + episodio.mal_id}">
+                            <div class="episode-number">${episodio.mal_id}</div>
+                            <div class="episode-title">${episodio.title_portuguese || "Sem título"}</div>
+                            <div class="episode-date">${formatarData(episodio.aired)}</div>
+                        </div>
+                    `;
+                });
+
+                episodesList.innerHTML = html;
+
+                // Add click event to each episode
+                episodesList.querySelectorAll(".episode-item").forEach((item) => {
+                    item.addEventListener("click", function() {
+                        // Remove active class from all episodes
+                        episodesList.querySelectorAll(".episode-item").forEach(ep => ep.classList.remove("active"));
+                        
+                        // Add active class to clicked episode
+                        this.classList.add("active");
+                        
+                        const episodeNumber = this.dataset.episode;
+                        const episodeTitle = this.dataset.title;
+                        const animeTitle = episodesList.dataset.animeTitle;
+                        
+                        // Format episode number with leading zero if needed
+                        const formattedEpisodeNumber = episodeNumber.toString().padStart(2, '0');
+                        
+                        // Get the first letter/initial of anime title for the URL
+                        const animeInitial = animeTitle.charAt(0).toLowerCase();
+                        
+                        // Format anime name for URL (lowercase, replace spaces with hyphens)
+                        const formattedAnimeTitle = animeTitle.toLowerCase().replace(/\s+/g, '-');
+                        
+                        // Create the video URL according to the specified format
+                      
+                         const videoUrl = `https://api.anivideo.net/videohls.php?d=https://cdn-s01.mywallpaper-4k-image.net/stream/${animeInitial}/${formattedAnimeTitle}/${formattedEpisodeNumber}.mp4/index.m3u8`;
+         
+                        // Update video title
+                        document.getElementById("videoTitle").textContent = `${animeTitle} - ${episodeTitle}`;
+                        
+                        // Show video player container
+                        videoPlayerContainer.style.display = "block";
+                        
+                        // Initialize or update video player
+                        if (window.videoJS) {
+                            window.videoJS.dispose();
+                        }
+                        
+                        const videoElement = document.getElementById("videoPlayer");
+                        videoElement.innerHTML = ''; // Clear any existing source elements
+                        
+                        // Create source element
+                        const sourceElement = document.createElement("source");
+                        sourceElement.src = videoUrl;
+                        sourceElement.type = "application/x-mpegURL";
+                        videoElement.appendChild(sourceElement);
+                        
+                        // Initialize video.js
+                        window.videoJS = videojs("videoPlayer", {
+                            controls: true,
+                            autoplay: false,
+                            preload: "auto",
+                            fluid: true,
+                            responsive: true,
+                            playbackRates: [0.5, 1, 1.5, 2]
+                        });
+                        
+                        // Scroll to video player
+                        videoPlayerContainer.scrollIntoView({ behavior: "smooth" });
+                    });
+                });
+
+                renderizarPaginacao(episodesPagination, paginacao, pagina, (novaPagina) => {
+                    carregarEpisodios(animeId, novaPagina);
+                });
+            } catch (error) {
+                console.error("Erro ao carregar episódios:", error);
+                episodesList.innerHTML = '<div class="error">Ocorreu um erro ao carregar os episódios.</div>';
+            }
         }
-      }
 
-      if (animesAdicionados === 0) {
-        relatedAnime.innerHTML = '<div class="no-data">Nenhum anime relacionado disponível.</div>'
-        return
-      }
+        async carregarPersonagens(animeId) {
+  const charactersGrid = document.getElementById("charactersGrid")
 
-      relatedAnime.innerHTML = html
+  charactersGrid.innerHTML = '<div class="loading">Carregando personagens...</div>'
 
-      // Adicionar event listeners para os cards
-      relatedAnime.querySelectorAll(".anime-card").forEach((card) => {
-        card.addEventListener("click", () => {
-          const animeId = card.dataset.id
-          this.showAnimeDetails(animeId)
-        })
-      })
-    } catch (error) {
-      console.error("Erro ao carregar animes relacionados:", error)
-      relatedAnime.innerHTML = '<div class="error">Ocorreu um erro ao carregar os animes relacionados.</div>'
+  try {
+    const personagens = await buscarPersonagensAnime(animeId)
+
+    if (!personagens || personagens.error) {
+      charactersGrid.innerHTML = '<div class="error">Erro ao carregar personagens.</div>'
+      return
     }
-  }
 
-  async carregarAvaliacoes(animeId, pagina = 1) {
-    const reviewsList = document.getElementById("reviewsList")
-
-    reviewsList.innerHTML = '<div class="loading">Carregando avaliações...</div>'
-
-    try {
-      const resultado = await buscarAvaliacoesAnime(animeId, pagina)
-
-      if (!resultado || resultado.error) {
-        reviewsList.innerHTML = '<div class="error">Erro ao carregar avaliações.</div>'
-        return
-      }
-
-      const { avaliacoes, paginacao } = resultado
-
-      if (avaliacoes.length === 0) {
-        reviewsList.innerHTML = '<div class="no-data">Nenhuma avaliação disponível.</div>'
-        return
-      }
-
-      let html = ""
-
-      avaliacoes.forEach((avaliacao) => {
-        html += `
-                    <div class="review-item">
-                        <div class="review-header">
-                            <div class="reviewer">${avaliacao.user.username}</div>
-                            <div class="review-score">${avaliacao.score} / 10</div>
-                        </div>
-                        <div class="review-content">${avaliacao.review_portuguese}</div>
-                    </div>
-                `
-      })
-
-      reviewsList.innerHTML = html
-    } catch (error) {
-      console.error("Erro ao carregar avaliações:", error)
-      reviewsList.innerHTML = '<div class="error">Ocorreu um erro ao carregar as avaliações.</div>'
-    }
-  }
-
-  async carregarTrailers(animeId) {
-    const trailersContainer = document.getElementById("trailersContainer")
-
-    trailersContainer.innerHTML = '<div class="loading">Carregando trailers...</div>'
-
-    try {
-      const trailers = await buscarTrailersAnime(animeId)
-
-      if (!trailers || trailers.error || !trailers.promo || trailers.promo.length === 0) {
-        trailersContainer.innerHTML = '<div class="no-data">Nenhum trailer disponível.</div>'
-        return
-      }
-
-      let html = ""
-
-      trailers.promo.forEach((trailer) => {
-        html += `
-                    <div class="trailer-item">
-                        <h3>${trailer.title}</h3>
-                        <div class="trailer-video">
-                            <iframe width="100%" height="315" src="https://www.youtube.com/embed/${trailer.trailer.youtube_id}" 
-                                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen></iframe>
-                        </div>
-                    </div>
-                `
-      })
-
-      trailersContainer.innerHTML = html
-    } catch (error) {
-      console.error("Erro ao carregar trailers:", error)
-      trailersContainer.innerHTML = '<div class="error">Ocorreu um erro ao carregar os trailers.</div>'
-    }
-  }
-
-  showImageModal(imageUrl) {
-    this.modalImage.src = imageUrl
-    this.imageModal.style.display = "flex"
-  }
-
-  hideImageModal() {
-    this.modalImage.style.display = "none"
-    this.imageModal.style.display = "none"
-  }
-
-  async loadTrendingAnimes(pagina = 1) {
-    const trendingAnimes = document.getElementById("trendingAnimes")
-    const trendingPagination = document.getElementById("trendingPagination")
-
-    trendingAnimes.innerHTML = '<div class="loading">Carregando animes em alta...</div>'
-
-    try {
-      const resultado = await buscarAnimesEmAlta(pagina)
-
-      if (!resultado || resultado.error) {
-        trendingAnimes.innerHTML = '<div class="error">Erro ao carregar animes em alta.</div>'
-        return
-      }
-
-      const { animes, paginacao } = resultado
-
-      if (animes.length === 0) {
-        trendingAnimes.innerHTML = '<div class="no-data">Nenhum anime em alta disponível.</div>'
-        return
-      }
-
-      let html = ""
-
-      animes.forEach((anime) => {
-        html += `
-                    <div class="anime-card" data-id="${anime.mal_id}">
-                        <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
-                        <div class="anime-info">
-                            <h3 class="anime-title">${anime.title_portuguese}</h3>
-                            <div class="anime-details">
-                                <span>${anime.type || "TV"}</span>
-                                <span>${anime.score ? anime.score + "★" : "N/A"}</span>
-                            </div>
-                        </div>
-                    </div>
-                `
-      })
-
-      trendingAnimes.innerHTML = html
-
-      // Adicionar event listeners para os cards
-      trendingAnimes.querySelectorAll(".anime-card").forEach((card) => {
-        card.addEventListener("click", () => {
-          const animeId = card.dataset.id
-          this.showAnimeDetails(animeId)
-        })
-      })
-
-      // Renderizar paginação
-      renderizarPaginacao(trendingPagination, paginacao, pagina, (novaPagina) => {
-        this.loadTrendingAnimes(novaPagina)
-      })
-    } catch (error) {
-      console.error("Erro ao carregar animes em alta:", error)
-      trendingAnimes.innerHTML = '<div class="error">Ocorreu um erro ao carregar os animes em alta.</div>'
-    }
-  }
-
-  async loadSeasonalAnimes(pagina = 1) {
-    const seasonalAnimes = document.getElementById("seasonalAnimes")
-    const seasonalPagination = document.getElementById("seasonalPagination")
-
-    seasonalAnimes.innerHTML = '<div class="loading">Carregando animes da temporada...</div>'
-
-    try {
-      const resultado = await buscarAnimesPorTemporada(this.currentYear, this.currentSeason, pagina)
-
-      if (!resultado || resultado.error) {
-        seasonalAnimes.innerHTML = '<div class="error">Erro ao carregar animes da temporada.</div>'
-        return
-      }
-
-      const { animes, paginacao } = resultado
-
-      if (animes.length === 0) {
-        seasonalAnimes.innerHTML = '<div class="no-data">Nenhum anime disponível para esta temporada.</div>'
-        return
-      }
-
-      let html = ""
-
-      animes.forEach((anime) => {
-        html += `
-                    <div class="anime-card" data-id="${anime.mal_id}">
-                        <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
-                        <div class="anime-info">
-                            <h3 class="anime-title">${anime.title_portuguese}</h3>
-                            <div class="anime-details">
-                                <span>${anime.type || "TV"}</span>
-                                <span>${anime.score ? anime.score + "★" : "N/A"}</span>
-                            </div>
-                        </div>
-                    </div>
-                `
-      })
-
-      seasonalAnimes.innerHTML = html
-
-      // Adicionar event listeners para os cards
-      seasonalAnimes.querySelectorAll(".anime-card").forEach((card) => {
-        card.addEventListener("click", () => {
-          const animeId = card.dataset.id
-          this.showAnimeDetails(animeId)
-        })
-      })
-
-      // Renderizar paginação
-      renderizarPaginacao(seasonalPagination, paginacao, pagina, (novaPagina) => {
-        this.loadSeasonalAnimes(novaPagina)
-      })
-    } catch (error) {
-      console.error("Erro ao carregar animes da temporada:", error)
-      seasonalAnimes.innerHTML = '<div class="error">Ocorreu um erro ao carregar os animes da temporada.</div>'
-    }
-  }
-
-  async loadGenres() {
-    const genreFilters = document.getElementById("genreFilters")
-
-    genreFilters.innerHTML = '<div class="loading">Carregando gêneros...</div>'
-
-    try {
-      const generos = await buscarGeneros()
-
-      if (!generos || generos.error) {
-        genreFilters.innerHTML = '<div class="error">Erro ao carregar gêneros.</div>'
-        return
-      }
-
-      if (generos.length === 0) {
-        genreFilters.innerHTML = '<div class="no-data">Nenhum gênero disponível.</div>'
-        return
-      }
-
-      let html = ""
-
-      generos.forEach((genero) => {
-        html += `
-                    <div class="genre-filter" data-id="${genero.mal_id}">
-                        ${genero.name_portuguese || genero.name}
-                    </div>
-                `
-      })
-
-      genreFilters.innerHTML = html
-
-      // Adicionar event listeners para os filtros
-      genreFilters.querySelectorAll(".genre-filter").forEach((filter) => {
-        filter.addEventListener("click", () => {
-          // Remover classe active de todos os filtros
-          genreFilters.querySelectorAll(".genre-filter").forEach((f) => {
-            f.classList.remove("active")
-          })
-
-          // Adicionar classe active ao filtro clicado
-          filter.classList.add("active")
-
-          // Carregar animes do gênero selecionado
-          const generoId = filter.dataset.id
-          this.loadGenreAnimes(generoId)
-        })
-      })
-    } catch (error) {
-      console.error("Erro ao carregar gêneros:", error)
-      genreFilters.innerHTML = '<div class="error">Ocorreu um erro ao carregar os gêneros.</div>'
-    }
-  }
-
-  async loadGenreAnimes(generoId, pagina = 1) {
-    this.currentGenreId = generoId
-
-    const genreAnimes = document.getElementById("genreAnimes")
-    const genrePagination = document.getElementById("genrePagination")
-
-    genreAnimes.innerHTML = '<div class="loading">Carregando animes...</div>'
-
-    try {
-      const resultado = await buscarAnimesPorGenero(generoId, pagina)
-
-      if (!resultado || resultado.error) {
-        genreAnimes.innerHTML = '<div class="error">Erro ao carregar animes.</div>'
-        return
-      }
-
-      const { animes, paginacao } = resultado
-
-      if (animes.length === 0) {
-        genreAnimes.innerHTML = '<div class="no-data">Nenhum anime disponível para este gênero.</div>'
-        return
-      }
-
-      let html = ""
-
-      animes.forEach((anime) => {
-        html += `
-                    <div class="anime-card" data-id="${anime.mal_id}">
-                        <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
-                        <div class="anime-info">
-                            <h3 class="anime-title">${anime.title_portuguese}</h3>
-                            <div class="anime-details">
-                                <span>${anime.type || "TV"}</span>
-                                <span>${anime.score ? anime.score + "★" : "N/A"}</span>
-                            </div>
-                        </div>
-                    </div>
-                `
-      })
-
-      genreAnimes.innerHTML = html
-
-      // Adicionar event listeners para os cards
-      genreAnimes.querySelectorAll(".anime-card").forEach((card) => {
-        card.addEventListener("click", () => {
-          const animeId = card.dataset.id
-          this.showAnimeDetails(animeId)
-        })
-      })
-
-      // Renderizar paginação
-      renderizarPaginacao(genrePagination, paginacao, pagina, (novaPagina) => {
-        this.loadGenreAnimes(generoId, novaPagina)
-      })
-    } catch (error) {
-      console.error("Erro ao carregar animes por gênero:", error)
-      genreAnimes.innerHTML = '<div class="error">Ocorreu um erro ao carregar os animes.</div>'
-    }
-  }
-
-  loadFavorites() {
-    const favoriteAnimes = document.getElementById("favoriteAnimes")
-
-    const favorites = window.authManager.getFavorites()
-
-    if (!favorites || favorites.length === 0) {
-      favoriteAnimes.innerHTML =
-        '<div class="favorites-empty">Você ainda não adicionou nenhum anime aos favoritos.</div>'
+    if (personagens.length === 0) {
+      charactersGrid.innerHTML = '<div class="no-data">Nenhum personagem disponível.</div>'
       return
     }
 
     let html = ""
 
-    favorites.forEach((anime) => {
+    personagens.forEach((personagem) => {
+      const voiceActor = personagem.voice_actors && personagem.voice_actors.length > 0 ? personagem.voice_actors[0] : null
+
       html += `
-                <div class="anime-card" data-id="${anime.id}">
-                    <img src="${anime.image}" alt="${anime.title}" class="anime-image">
-                    <div class="anime-info">
-                        <h3 class="anime-title">${anime.title}</h3>
-                        <div class="anime-details">
-                            <span>${anime.type || "TV"}</span>
-                            <span>${anime.score ? anime.score + "★" : "N/A"}</span>
-                        </div>
-                    </div>
-                </div>
-            `
+        <div class="character-card">
+          <img src="${personagem.character.images.jpg.image_url}" alt="${personagem.character.name}" class="character-image">
+          <div class="character-info">
+            <h3 class="character-name">${personagem.character.name}</h3>
+            <div class="character-role">${personagem.role_portuguese || personagem.role}</div>
+            ${voiceActor ? `<div class="character-voice">${voiceActor.person.name}</div>` : ''}
+          </div>
+        </div>
+      `
     })
 
-    favoriteAnimes.innerHTML = html
+    charactersGrid.innerHTML = html
+  } catch (error) {
+    console.error("Erro ao carregar personagens:", error)
+    charactersGrid.innerHTML = '<div class="error">Ocorreu um erro ao carregar os personagens.</div>'
+  }
+}
 
-    // Adicionar event listeners para os cards
-    favoriteAnimes.querySelectorAll(".anime-card").forEach((card) => {
+async carregarImagens(animeId) {
+  const imagesGrid = document.getElementById("imagesGrid")
+
+  imagesGrid.innerHTML = '<div class="loading">Carregando imagens...</div>'
+
+  try {
+    const imagens = await buscarImagensAnime(animeId)
+
+    if (!imagens || imagens.error) {
+      imagesGrid.innerHTML = '<div class="error">Erro ao carregar imagens.</div>'
+      return
+    }
+
+    if (imagens.length === 0) {
+      imagesGrid.innerHTML = '<div class="no-data">Nenhuma imagem disponível.</div>'
+      return
+    }
+
+    let html = ""
+
+    imagens.forEach((imagem) => {
+      html += `
+        <div class="image-card" data-url="${imagem.jpg.large_image_url}">
+          <img src="${imagem.jpg.image_url}" alt="Imagem do anime" class="anime-gallery-image">
+          <div class="image-type">Imagem</div>
+        </div>
+      `
+    })
+
+    imagesGrid.innerHTML = html
+
+    imagesGrid.querySelectorAll(".image-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        this.showImageModal(card.dataset.url)
+      })
+    })
+  } catch (error) {
+    console.error("Erro ao carregar imagens:", error)
+    imagesGrid.innerHTML = '<div class="error">Ocorreu um erro ao carregar as imagens.</div>'
+  }
+}
+
+showImageModal(imageUrl) {
+  const modalImage = document.getElementById("modalImage")
+  const imageModal = document.getElementById("imageModal")
+
+  modalImage.src = imageUrl
+  imageModal.style.display = "flex"
+}
+
+hideImageModal() {
+  const imageModal = document.getElementById("imageModal")
+  imageModal.style.display = "none"
+}
+
+async carregarAnimesRelacionados(animeId) {
+  const relatedAnime = document.getElementById("relatedAnime")
+
+  relatedAnime.innerHTML = '<div class="loading">Carregando animes relacionados...</div>'
+
+  try {
+    const relacionados = await buscarAnimesRelacionados(animeId)
+
+    if (!relacionados || relacionados.error) {
+      relatedAnime.innerHTML = '<div class="error">Erro ao carregar animes relacionados.</div>'
+      return
+    }
+
+    if (relacionados.length === 0) {
+      relatedAnime.innerHTML = '<div class="no-data">Nenhum anime relacionado disponível.</div>'
+      return
+    }
+
+    let html = ""
+
+    relacionados.forEach((relacao) => {
+      relacao.entry.forEach((anime) => {
+        if (anime.type === "anime") {
+          html += `
+            <div class="anime-card" data-id="${anime.mal_id}">
+              <img src="${anime.images.jpg.large_image_url}" alt="${anime.name}" class="anime-image">
+              <div class="anime-info">
+                <h3 class="anime-title">${anime.name}</h3>
+                <div class="anime-details">
+                  <span>${anime.type || "TV"}</span>
+                  <span>${relacao.relation}</span>
+                </div>
+              </div>
+            </div>
+          `
+        }
+      })
+    })
+
+    if (html === "") {
+      relatedAnime.innerHTML = '<div class="no-data">Nenhum anime relacionado disponível.</div>'
+      return
+    }
+
+    relatedAnime.innerHTML = html
+
+    relatedAnime.querySelectorAll(".anime-card").forEach((card) => {
       card.addEventListener("click", () => {
         const animeId = card.dataset.id
         this.showAnimeDetails(animeId)
       })
     })
+  } catch (error) {
+    console.error("Erro ao carregar animes relacionados:", error)
+    relatedAnime.innerHTML = '<div class="error">Ocorreu um erro ao carregar os animes relacionados.</div>'
   }
 }
 
-// Inicializar gerenciadores
+async carregarAvaliacoes(animeId, pagina = 1) {
+  const reviewsList = document.getElementById("reviewsList")
+
+  reviewsList.innerHTML = '<div class="loading">Carregando avaliações...</div>'
+
+  try {
+    const resultado = await buscarAvaliacoesAnime(animeId, pagina)
+
+    if (!resultado || resultado.error) {
+      reviewsList.innerHTML = '<div class="error">Erro ao carregar avaliações.</div>'
+      return
+    }
+
+    const { avaliacoes, paginacao } = resultado
+
+    if (avaliacoes.length === 0) {
+      reviewsList.innerHTML = '<div class="no-data">Nenhuma avaliação disponível.</div>'
+      return
+    }
+
+    let html = ""
+
+    avaliacoes.forEach((avaliacao) => {
+      html += `
+        <div class="review-item">
+          <div class="review-header">
+            <div class="reviewer">${avaliacao.user.username}</div>
+            <div class="review-score">${avaliacao.score} / 10</div>
+          </div>
+          <div class="review-content">${avaliacao.review_portuguese.substring(0, 300)}${
+        avaliacao.review_portuguese.length > 300 ? "..." : ""
+      }</div>
+        </div>
+      `
+    })
+
+    reviewsList.innerHTML = html
+  } catch (error) {
+    console.error("Erro ao carregar avaliações:", error)
+    reviewsList.innerHTML = '<div class="error">Ocorreu um erro ao carregar as avaliações.</div>'
+  }
+}
+
+async carregarTrailers(animeId) {
+  const trailersContainer = document.getElementById("trailersContainer")
+
+  trailersContainer.innerHTML = '<div class="loading">Carregando trailers...</div>'
+
+  try {
+    const trailers = await buscarTrailersAnime(animeId)
+
+    if (!trailers || trailers.error) {
+      trailersContainer.innerHTML = '<div class="error">Erro ao carregar trailers.</div>'
+      return
+    }
+
+    if (!trailers.promo || trailers.promo.length === 0) {
+      trailersContainer.innerHTML = '<div class="no-data">Nenhum trailer disponível.</div>'
+      return
+    }
+
+    let html = ""
+
+    trailers.promo.forEach((trailer) => {
+      html += `
+        <div class="trailer-item">
+          <iframe class="trailer-video" width="100%" height="315" src="https://www.youtube.com/embed/${
+            trailer.trailer.youtube_id
+          }" frameborder="0" allowfullscreen></iframe>
+          <h3>${trailer.title || "Trailer"}</h3>
+        </div>
+      `
+    })
+
+    trailersContainer.innerHTML = html
+  } catch (error) {
+    console.error("Erro ao carregar trailers:", error)
+    trailersContainer.innerHTML = '<div class="error">Ocorreu um erro ao carregar os trailers.</div>'
+  }
+}
+
+async loadTrendingAnimes(pagina = 1) {
+  const trendingAnimes = document.getElementById("trendingAnimes")
+  const trendingPagination = document.getElementById("trendingPagination")
+
+  trendingAnimes.innerHTML = '<div class="loading">Carregando animes em alta...</div>'
+
+  try {
+    const resultado = await buscarAnimesEmAlta(pagina)
+
+    if (!resultado || resultado.error) {
+      trendingAnimes.innerHTML = '<div class="error">Erro ao carregar animes em alta.</div>'
+      return
+    }
+
+    const { animes, paginacao } = resultado
+
+    if (animes.length === 0) {
+      trendingAnimes.innerHTML = '<div class="no-data">Nenhum anime em alta disponível.</div>'
+      return
+    }
+
+    let html = ""
+
+    animes.forEach((anime) => {
+      html += `
+        <div class="anime-card" data-id="${anime.mal_id}">
+          <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
+          <div class="anime-info">
+            <h3 class="anime-title">${anime.title_portuguese}</h3>
+            <div class="anime-details">
+              <span>${anime.type || "TV"}</span>
+              <span>${anime.score ? anime.score + "★" : "N/A"}</span>
+            </div>
+          </div>
+        </div>
+      `
+    })
+
+    trendingAnimes.innerHTML = html
+
+    trendingAnimes.querySelectorAll(".anime-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const animeId = card.dataset.id
+        this.showAnimeDetails(animeId)
+      })
+    })
+
+    renderizarPaginacao(trendingPagination, paginacao, pagina, (novaPagina) => {
+      this.loadTrendingAnimes(novaPagina)
+    })
+  } catch (error) {
+    console.error("Erro ao carregar animes em alta:", error)
+    trendingAnimes.innerHTML = '<div class="error">Ocorreu um erro ao carregar os animes em alta.</div>'
+  }
+}
+
+async loadSeasonalAnimes(pagina = 1) {
+  const seasonalAnimes = document.getElementById("seasonalAnimes")
+  const seasonalPagination = document.getElementById("seasonalPagination")
+
+  seasonalAnimes.innerHTML = '<div class="loading">Carregando animes da temporada...</div>'
+
+  try {
+    const resultado = await buscarAnimesPorTemporada(this.currentYear, this.currentSeason, pagina)
+
+    if (!resultado || resultado.error) {
+      seasonalAnimes.innerHTML = '<div class="error">Erro ao carregar animes da temporada.</div>'
+      return
+    }
+
+    const { animes, paginacao } = resultado
+
+    if (animes.length === 0) {
+      seasonalAnimes.innerHTML = '<div class="no-data">Nenhum anime disponível para esta temporada.</div>'
+      return
+    }
+
+    let html = ""
+
+    animes.forEach((anime) => {
+      html += `
+        <div class="anime-card" data-id="${anime.mal_id}">
+          <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
+          <div class="anime-info">
+            <h3 class="anime-title">${anime.title_portuguese}</h3>
+            <div class="anime-details">
+              <span>${anime.type || "TV"}</span>
+              <span>${anime.score ? anime.score + "★" : "N/A"}</span>
+            </div>
+          </div>
+        </div>
+      `
+    })
+
+    seasonalAnimes.innerHTML = html
+
+    seasonalAnimes.querySelectorAll(".anime-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const animeId = card.dataset.id
+        this.showAnimeDetails(animeId)
+      })
+    })
+
+    renderizarPaginacao(seasonalPagination, paginacao, pagina, (novaPagina) => {
+      this.loadSeasonalAnimes(novaPagina)
+    })
+  } catch (error) {
+    console.error("Erro ao carregar animes da temporada:", error)
+    seasonalAnimes.innerHTML = '<div class="error">Ocorreu um erro ao carregar os animes da temporada.</div>'
+  }
+}
+
+async loadGenres() {
+  const genreFilters = document.getElementById("genreFilters")
+  const genreAnimes = document.getElementById("genreAnimes")
+
+  genreFilters.innerHTML = '<div class="loading">Carregando gêneros...</div>'
+  genreAnimes.innerHTML = '<div class="loading">Selecione um gênero para ver os animes...</div>'
+
+  try {
+    const generos = await buscarGeneros()
+
+    if (!generos || generos.error) {
+      genreFilters.innerHTML = '<div class="error">Erro ao carregar gêneros.</div>'
+      return
+    }
+
+    if (generos.length === 0) {
+      genreFilters.innerHTML = '<div class="no-data">Nenhum gênero disponível.</div>'
+      return
+    }
+
+    let html = ""
+
+    generos.forEach((genero) => {
+      html += `
+        <div class="genre-filter" data-id="${genero.mal_id}">${genero.name_portuguese || genero.name}</div>
+      `
+    })
+
+    genreFilters.innerHTML = html
+
+    genreFilters.querySelectorAll(".genre-filter").forEach((filter) => {
+      filter.addEventListener("click", () => {
+        genreFilters.querySelectorAll(".genre-filter").forEach((f) => {
+          f.classList.remove("active")
+        })
+
+        filter.classList.add("active")
+
+        const generoId = filter.dataset.id
+        this.currentGenreId = generoId
+        this.loadAnimesByGenre(generoId)
+      })
+    })
+  } catch (error) {
+    console.error("Erro ao carregar gêneros:", error)
+    genreFilters.innerHTML = '<div class="error">Ocorreu um erro ao carregar os gêneros.</div>'
+  }
+}
+
+async loadAnimesByGenre(generoId, pagina = 1) {
+  const genreAnimes = document.getElementById("genreAnimes")
+  const genrePagination = document.getElementById("genrePagination")
+
+  genreAnimes.innerHTML = '<div class="loading">Carregando animes...</div>'
+
+  try {
+    const resultado = await buscarAnimesPorGenero(generoId, pagina)
+
+    if (!resultado || resultado.error) {
+      genreAnimes.innerHTML = '<div class="error">Erro ao carregar animes.</div>'
+      return
+    }
+
+    const { animes, paginacao } = resultado
+
+    if (animes.length === 0) {
+      genreAnimes.innerHTML = '<div class="no-data">Nenhum anime disponível para este gênero.</div>'
+      return
+    }
+
+    let html = ""
+
+    animes.forEach((anime) => {
+      html += `
+        <div class="anime-card" data-id="${anime.mal_id}">
+          <img src="${anime.images.jpg.large_image_url}" alt="${anime.title_portuguese}" class="anime-image">
+          <div class="anime-info">
+            <h3 class="anime-title">${anime.title_portuguese}</h3>
+            <div class="anime-details">
+              <span>${anime.type || "TV"}</span>
+              <span>${anime.score ? anime.score + "★" : "N/A"}</span>
+            </div>
+          </div>
+        </div>
+      `
+    })
+
+    genreAnimes.innerHTML = html
+
+    genreAnimes.querySelectorAll(".anime-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const animeId = card.dataset.id
+        this.showAnimeDetails(animeId)
+      })
+    })
+
+    renderizarPaginacao(genrePagination, paginacao, pagina, (novaPagina) => {
+      this.loadAnimesByGenre(generoId, novaPagina)
+    })
+  } catch (error) {
+    console.error("Erro ao carregar animes por gênero:", error)
+    genreAnimes.innerHTML = '<div class="error">Ocorreu um erro ao carregar os animes.</div>'
+  }
+}
+
+loadFavorites() {
+  const favoriteAnimes = document.getElementById("favoriteAnimes")
+
+  const favorites = window.authManager.getFavorites()
+
+  if (!favorites || favorites.length === 0) {
+    favoriteAnimes.innerHTML = '<div class="favorites-empty">Você ainda não adicionou nenhum anime aos favoritos.</div>'
+    return
+  }
+
+  let html = ""
+
+  favorites.forEach((anime) => {
+    html += `
+      <div class="anime-card" data-id="${anime.id}">
+        <img src="${anime.image}" alt="${anime.title}" class="anime-image">
+        <div class="anime-info">
+          <h3 class="anime-title">${anime.title}</h3>
+          <div class="anime-details">
+            <span>${anime.type || "TV"}</span>
+            <span>${anime.score ? anime.score + "★" : "N/A"}</span>
+          </div>
+        </div>
+      </div>
+    `
+  })
+
+  favoriteAnimes.innerHTML = html
+
+  favoriteAnimes.querySelectorAll(".anime-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const animeId = card.dataset.id
+      this.showAnimeDetails(animeId)
+    })
+  })
+}
+}
+
+// Inicializar o gerenciador de autenticação
 window.authManager = new AuthManager()
+
+// Inicializar o gerenciador de páginas
 window.pageManager = new PageManager()
-
-// Carregar configurações salvas
-const savedSettings = JSON.parse(localStorage.getItem("animeblog_settings") || "{}")
-if (savedSettings.darkMode) {
-  document.body.classList.add("dark-mode")
-  document.getElementById("darkMode").checked = true
-}
-
-if (savedSettings.language) {
-  document.getElementById(savedSettings.language).checked = true
-}
-
-if (savedSettings.notifications) {
-  document.getElementById("notifyNewEpisodes").checked = savedSettings.notifications.newEpisodes || false
-  document.getElementById("notifyNewAnimes").checked = savedSettings.notifications.newAnimes || false
-}
-
-
-  </script>
-  </body>
-</html>
+</script>
