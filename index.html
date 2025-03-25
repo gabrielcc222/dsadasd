@@ -2214,9 +2214,7 @@
             });
         });
     </script>
-    <!-- Add video.js library for better video playback -->
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+
 
     <!-- JavaScript para funcionalidade do tema -->
     <script>
@@ -4512,56 +4510,70 @@ class PageManager {
                         this.classList.add("active");
                         
                         const episodeNumber = this.dataset.episode;
-                        const episodeTitle = this.dataset.title;
-                        const animeTitle = episodesList.dataset.animeTitle;
-                        
-                        // Format episode number with leading zero if needed
-                        const formattedEpisodeNumber = episodeNumber.toString().padStart(2, '0');
-                        
-                        // Get the first letter/initial of anime title for the URL
-                        const animeInitial = animeTitle.charAt(0).toLowerCase();
-                        
-                        // Format anime name for URL (lowercase, replace spaces with hyphens)
-                        const formattedAnimeTitle = animeTitle.toLowerCase().replace(/\s+/g, '-');
-                        
-                        // Create the video URL according to the specified format
-                      
-                         const videoUrl = `https://cdn-s01.mywallpaper-4k-image.net/stream/${animeInitial}/${formattedAnimeTitle}/${formattedEpisodeNumber}.mp4/index.m3u8`;
+const episodeTitle = this.dataset.title;
+const animeTitle = episodesList.dataset.animeTitle.trim(); // Remove espaços extras
+
+// Format episode number with leading zero if needed
+const formattedEpisodeNumber = episodeNumber.toString().padStart(2, '0');
+
+// Get the first letter/initial of anime title for the URL
+const animeInitial = animeTitle.charAt(0).toUpperCase();
+
+// Lista de palavras que devem permanecer minúsculas
+const lowercaseWords = ["no", "of", "the", "da", "de", "do", "dos", "das"];
+
+// Format anime name for URL (capitalize first word, lowercase certain words)
+const formattedAnimeTitle = animeTitle
+  .toLowerCase()
+  .split(' ')
+  .map((word, index) => lowercaseWords.includes(word) && index !== 0 ? word : word.charAt(0).toUpperCase() + word.slice(1))
+  .join('%20'); // Substitui espaços por %20
+
+// Create the video URL according to the specified format
+const videoUrl = `https://animeflix.blog/Animes/Letra-${animeInitial}/${formattedAnimeTitle}/${formattedEpisodeNumber}.mp4`;
+
+console.log(videoUrl); // Para verificar se o URL está correto
+
+
+
          
                         // Update video title
                         document.getElementById("videoTitle").textContent = `${animeTitle} - ${episodeTitle}`;
                         
-                        // Show video player container
-                        videoPlayerContainer.style.display = "block";
-                        
-                        // Initialize or update video player
-                        if (window.videoJS) {
-                            window.videoJS.dispose();
-                        }
-                        
-                        const videoElement = document.getElementById("videoPlayer");
-                        videoElement.innerHTML = ''; // Clear any existing source elements
-                        
-                        // Create source element
-                        const sourceElement = document.createElement("source");
-                        sourceElement.src = videoUrl;
-                        sourceElement.type = "application/x-mpegURL";
-                        videoElement.appendChild(sourceElement);
-                        
-                        // Initialize video.js
-                        window.videoJS = videojs("videoPlayer", {
-                            controls: true,
-                            autoplay: false,
-                            preload: "auto",
-                            fluid: true,
-                            responsive: true,
-                            playbackRates: [0.5, 1, 1.5, 2]
-                        });
-                        
-                        // Scroll to video player
-                        videoPlayerContainer.scrollIntoView({ behavior: "smooth" });
+// Mostrar o player de vídeo
+const videoPlayerContainer = document.getElementById("videoPlayerContainer");
+videoPlayerContainer.style.display = "block";
+
+// Remover player antigo, se existir
+if (window.videoJS) {
+    window.videoJS.dispose();
+}
+
+// Pegar o elemento do player
+const videoElement = document.getElementById("videoPlayer");
+videoElement.innerHTML = ''; // Limpar qualquer source existente
+
+// Criar novo elemento source
+const sourceElement = document.createElement("source");
+sourceElement.src = videoUrl;
+sourceElement.type = "video/mp4"; // Alterado para o formato correto
+videoElement.appendChild(sourceElement);
+
+// Inicializar Video.js
+window.videoJS = videojs("videoPlayer", {
+    controls: true,
+    autoplay: false,
+    preload: "auto",
+    fluid: true,
+    responsive: true,
+    playbackRates: [0.5, 1, 1.5, 2]
+});
+
+// Rolar até o player
+videoPlayerContainer.scrollIntoView({ behavior: "smooth" });
                     });
                 });
+
 
                 renderizarPaginacao(episodesPagination, paginacao, pagina, (novaPagina) => {
                     carregarEpisodios(animeId, novaPagina);
